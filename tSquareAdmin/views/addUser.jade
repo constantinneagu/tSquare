@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	form#addUserForm(action='addUser',  method='POST')
+		input#username(type='text', name='username', placeholder='Username')
+		br
+		input#password(type='password', name='password', placeholder='Password')
+		br
+		input#retypePassword(type='password', name='retypePassword', placeholder="Retype Password")
+		br
+		input#submit(type='submit', value='Submit')

@@ -1,0 +1,19 @@
+doctype html
+html
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src="/javascripts/jquery-1.11.3.min.js", type="application/javascript")
+		script(src="/javascripts/hermite.js", type="application/javascript")
+		script(src="/javascripts/tSquareAdmin.js", type="application/javascript")
+		style#resizableElement
+	body
+		a#gallery(href='gallery').
+			Gallery
+		br
+		a#tags(href='tags').
+			Tags
+		br
+		a#users(href='users').
+			Users
+		block content

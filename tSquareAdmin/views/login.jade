@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	form#loginUserForm(action='login',  method='POST')
+		input#username(type='text', name='username', placeholder='Username')
+		br
+		input#password(type='password', name='password', placeholder='Password')
+		br
+		input#submit(type='submit', value='Login')

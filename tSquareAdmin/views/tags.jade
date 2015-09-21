@@ -1,0 +1,17 @@
+extends layout
+
+block content
+	.content.table
+		.row
+			.tagList.table
+				each tag in tags
+					.tagItem.row
+						.tagName.cell
+							p= tag.tag
+						.deleteButton.cell(id=tag.tag, onclick='deleteTag("' + tag.tag + '");')
+							p= 'Delete'
+		.row
+			form#addFileForm(action='tags/insert',  method='POST', enctype='multipart/form-data', accept='video/*,image/*')
+				input#addPictures(type='text', name='tagName')
+				br
+				input#submit(type='submit', value='Submit')
