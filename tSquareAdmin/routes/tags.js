@@ -153,9 +153,7 @@ router.post('/system/set', function (req, res, next) {
 					filename : req.body.pictureName
 				}, {
 					$set : {
-						metadata : {
-							systemTag : tag.tag
-						}
+						'metadata.systemTag' tag.tag
 					}
 				}, function (err, result) {
 					assert.equal(null, err);
