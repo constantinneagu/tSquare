@@ -28,12 +28,12 @@ block content
 					p.
 						concept and beyond...
 			#portfolio.resizable
-				#portfolioExterior.image.portfolioItem.background(onclick='theModule.galleryFilter("portfolioExterior")')
-					.itemShade
+				#portfolioExterior.image.portfolioItem.background
+					.itemShade(onclick='theModule.galleryFilter("portfolioExterior")')
 					h2.portofolioH2.
 						Exterior
-				#portfolioInterior.image.portfolioItem.background(onclick='theModule.galleryFilter("portfolioInterior")')
-					.itemShade
+				#portfolioInterior.image.portfolioItem.background
+					.itemShade(onclick='theModule.galleryFilter("portfolioInterior")')
 					h2.portofolioH2.
 						Interior
 			#aboutUs.content.resizable.background
@@ -74,12 +74,13 @@ block content
 						h3.
 							Comming soon
 			#portfolio.resizable(style={ 'right': "0%"})
-				#portfolioConcepts.image.portfolioItem.background(onclick='theModule.galleryFilter("portfolioConcepts")')
+				#portfolioConcepts.image.portfolioItem.background
 					.itemShade
+					.itemShade(onclick='theModule.galleryFilter("portfolioConcepts")')
 					h2.portofolioH2.
 						Concepts
-				#portfolioPhotography.image.portfolioItem.background(onclick='theModule.galleryFilter("portfolioPhotography")')
-					.itemShade
+				#portfolioPhotography.image.portfolioItem.background
+					.itemShade(onclick='theModule.galleryFilter("portfolioPhotography")')
 					h2.portofolioH2.
 						Photography
 			#frontPage.image.resizable.background.right
