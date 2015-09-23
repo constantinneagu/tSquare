@@ -43,11 +43,11 @@ router.get('/list/:filterTag', function (req, res, next) {
 	var thumbnailsCollection = db.collection('thumbnail.files');
 
 	thumbnailsCollection.find({
-		/* 'metadata.pictureGalleryTags' : {
+		'metadata.pictureGalleryTags' : {
 			$elemMatch : {
 				$eq : req.params.filterTag
 			}
-		} */
+		}
 	}, {
 		_id : false,
 		filename : true,
