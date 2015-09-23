@@ -191,7 +191,7 @@ router.post('/pictures/insert', function (req, res, next) {
 	var GridStore = require('mongodb').GridStore;
 	var collectionTarget,
 	occupiedWidthCells = null,
-	pictureGalleryTags = null;
+	pictureGalleryTags = [];
 	console.log(req.headers);
 
 	var busboy = new Busboy({
@@ -208,7 +208,7 @@ router.post('/pictures/insert', function (req, res, next) {
 				collectionTarget = val;
 			} else {
 				if (fieldname === 'pictureGalleryTags') {
-					pictureGalleryTags = val;
+					pictureGalleryTags = val.split(",");
 				} else {
 					console.log('Unknown parameter in request');
 					res.writeHead(404, {

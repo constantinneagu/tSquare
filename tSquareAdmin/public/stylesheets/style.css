@@ -1,9 +1,7 @@
 body {
-  //padding: 15px;
   max-width: 100%;
   max-height: 100%;
   margin: 1vw;
-  //overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -30,7 +28,6 @@ p {
 	margin-top: 0px;
 	border: 1px solid rgb(129, 140, 158);
 	white-space: nowrap;
-	//box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
 	margin-bottom: 5px;
 	padding: 1px 5px;
 	background-color: rgb(129, 140, 158);
@@ -50,7 +47,6 @@ p {
 	margin-top: 0px;
 	border: 1px solid #00CC00;
 	white-space: nowrap;
-	//box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
 	margin-bottom: 5px;
 	padding: 1px 5px;
 	background-color: #00CC00;
@@ -70,7 +66,6 @@ p {
 	margin-top: 0px;
 	border: 1px solid #FF0000;
 	white-space: nowrap;
-	//box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
 	margin-bottom: 5px;
 	padding: 1px 5px;
 	background-color: #FF0000;
@@ -96,5 +91,5 @@ p {
 .cell {
 	display: table-cell;
 	border-bottom: 1px solid #FF0000;
-	margin: 10%;.
+	margin: 10%;
 }
