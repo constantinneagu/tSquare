@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var assert = require('assert');
-var Busboy = require('busboy');
 
 /* Gallery io logic.
  * ToDo: Single and Bulk upload of pictures.
@@ -36,21 +35,24 @@ var resolutions = [{
 	}
 ], resolutionsNo = 6;
 
-router.get('/pictures/list/:filterTag', function (req, res, next) {
+galleryTags = ['interior', 'exterior', 'concepts', 'photography'];
+
+router.get('/list/:filterTag', function (req, res, next) {
 	assert.notEqual(null, req.params.filterTag);
 	var db = require('../databases/tSquareMongoDB.js').db();
 	var thumbnailsCollection = db.collection('thumbnail.files');
 
 	thumbnailsCollection.find({
-		'metadata.pictureGalleryTags' : {
+		/* 'metadata.pictureGalleryTags' : {
 			$elemMatch : {
 				$eq : req.params.filterTag
 			}
-		}
+		} */
 	}, {
 		_id : false,
 		filename : true,
-		'metadata.occupiedWidthCells' : true
+		'metadata.occupiedWidthCells' : true,
+		'metadata.pictureGalleryTags' : true
 	}).toArray(function (err, thumbnails) {
 		assert.equal(null, err);
 		console.log(thumbnails);
@@ -126,7 +128,7 @@ router.get('/pictures/thumbnail/:thumbnail', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Original retrieve method  */
-router.get('/pictures/original/:original', function (req, res, next) {
+router.get('/original/:original', function (req, res, next) {
 	console.log(req.params.original + ' bla');
 	assert.notEqual(null, req.params.original);
 	req.fileName = req.params.original;
@@ -136,7 +138,7 @@ router.get('/pictures/original/:original', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Xga retrieve method  */
-router.get('/pictures/xga/:xga', function (req, res, next) {
+router.get('/xga/:xga', function (req, res, next) {
 	console.log(req.params.xga + ' bla');
 	assert.notEqual(null, req.params.xga);
 	req.fileName = req.params.xga;
@@ -146,7 +148,7 @@ router.get('/pictures/xga/:xga', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Wxga retrieve method  */
-router.get('/pictures/wxga/:wxga', function (req, res, next) {
+router.get('/wxga/:wxga', function (req, res, next) {
 	console.log(req.params.wxga + ' bla');
 	assert.notEqual(null, req.params.wxga);
 	req.fileName = req.params.wxga;
@@ -156,7 +158,7 @@ router.get('/pictures/wxga/:wxga', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Hd retrieve method  */
-router.get('/pictures/hd/:hd', function (req, res, next) {
+router.get('/hd/:hd', function (req, res, next) {
 	console.log(req.params.hd + ' bla');
 	assert.notEqual(null, req.params.hd);
 	req.fileName = req.params.hd;
@@ -166,7 +168,7 @@ router.get('/pictures/hd/:hd', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* fhd retrieve method  */
-router.get('/pictures/fhd/:fhd', function (req, res, next) {
+router.get('/fhd/:fhd', function (req, res, next) {
 	console.log(req.params.fhd + ' bla');
 	assert.notEqual(null, req.params.fhd);
 	req.fileName = req.params.fhd;

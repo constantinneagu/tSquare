@@ -339,7 +339,7 @@ var tSquareModule = (function () {
 		$.ajax({
 
 			// The URL for the request
-			url : "pictures/list/" + filterTag,
+			url : "gallery/list/" + filterTag,
 
 			// Whether this is a POST or GET request
 			type : "GET",
