@@ -1,5 +1,6 @@
-function initTsquare() {
+var tSquareModule = (function () {
 
+	var theModule = {};
 	var resolutions = [{
 			name : 'thumbnailSystem',
 			width : 260,
@@ -48,7 +49,7 @@ function initTsquare() {
 		$("#content_right").css({
 			'bottom' : (resizeWindowPageHeight + poz) + "px"
 		});
-	}
+	};
 
 	function renderTranslation(timestamp) {
 		var pozY = null;
@@ -70,7 +71,7 @@ function initTsquare() {
 			translationStartTime = null;
 			animationBusy = false;
 		}
-	}
+	};
 
 	function scroll(deltaY) {
 		if (!animationBusy) {
@@ -104,16 +105,16 @@ function initTsquare() {
 			$($(".positionIndicator")[scrollEvents + scrollDirection]).removeClass("currentPosition");
 			$($(".positionIndicator")[scrollEvents]).addClass("currentPosition");
 		}
-	}
+	};
 
 	function resizeDiv() {
 		var tmpResolutionIndex = resizeWindowResolutionIndex;
 		var resizeWindowElementHeight = $(window).height();
 		var resizeWindowElementWidth = $(window).width();
-		
+
 		/* var widthFractionalPart = resizeWindowElementWidth - Math.floor(resizeWindowElementWidth);
 		var heightFractionalPart = resizeWindowElementHeight - Math.floor(resizeWindowElementHeight); */
-		
+
 		var borderThickness = Math.floor((0.015 * resizeWindowElementWidth));
 		borderThickness -= borderThickness % 2;
 
@@ -177,7 +178,7 @@ function initTsquare() {
 					}
 				});
 			});
-		}
+		};
 
 		$(".resizable").css({
 			'height' : resizeWindowElementHeightBc,
@@ -209,124 +210,162 @@ function initTsquare() {
 			'margin-left' : borderThickness,
 			'margin-right' : borderThickness
 		});
-	}
+	};
 
-	// We first want to resize the div to fit the screen.
-	resizeDiv();
+	theModule.init = function () {
 
-	// Setting up the position indicators.
-	var positionIndicatorsContainer = $(".positionIndicatorsContainer");
-	for (var i = 0; i <= 3; i++) {
-		positionIndicatorsContainer.append($("<div class='positionIndicator'>"));
-	}
-	$($(".positionIndicator")[0]).addClass("currentPosition");
-
-	// On window resize, we get the new height. Then we calculate and re-position everything that depends on it.
-	$(window).resize(function () {
+		// We first want to resize the div to fit the screen.
 		resizeDiv();
-		translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
-		translate(translationTo);
-	})
-	// We listen for wheel events and update the scene acordingly.
-	$(window).bind("wheel", function (event) {
-		console.log("wheel");
-		scroll(event.originalEvent.deltaY);
-		return false;
-	})
-	// We listen for key events and update the scene accordingly.
-	$(window).keydown(function (event) {
-		console.log("keydown");
-		switch (event.originalEvent.key) {
-		case "PageDown":
-			scroll(1);
-			return false;
-		case "ArrowDown":
-			scroll(1);
-			return false;
-		case "ArrowUp":
-			scroll(-1);
-			return false;
-		case "PageUp":
-			scroll(-1);
-			return false;
+
+		// Setting up the position indicators.
+		var positionIndicatorsContainer = $(".positionIndicatorsContainer");
+		for (var i = 0; i <= 3; i++) {
+			positionIndicatorsContainer.append($("<div class='positionIndicator'>"));
 		}
-	});
-	// We listen for touch events and update the scene accordingly.
-	$(".resizeable").bind("touchstart", function (event) {
-		console.log("touchstart");
-		console.log(event.originalEvent.changedTouches.length);
-		if (event.originalEvent.changedTouches.length == 1) {
-			touchObj = event.originalEvent.changedTouches[0];
+		$($(".positionIndicator")[0]).addClass("currentPosition");
+
+		// On window resize, we get the new height. Then we calculate and re-position everything that depends on it.
+		$(window).resize(function () {
+			resizeDiv();
+			translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
+			translate(translationTo);
+		})
+		// We listen for wheel events and update the scene acordingly.
+		$(window).bind("wheel", function (event) {
+			console.log("wheel");
+			scroll(event.originalEvent.deltaY);
+			return false;
+		})
+		// We listen for key events and update the scene accordingly.
+		$(window).keydown(function (event) {
+			console.log("keydown");
+			switch (event.originalEvent.key) {
+			case "PageDown":
+				scroll(1);
+				return false;
+			case "ArrowDown":
+				scroll(1);
+				return false;
+			case "ArrowUp":
+				scroll(-1);
+				return false;
+			case "PageUp":
+				scroll(-1);
+				return false;
+			}
+		});
+		// We listen for touch events and update the scene accordingly.
+		$(".resizeable").bind("touchstart", function (event) {
+			console.log("touchstart");
+			console.log(event.originalEvent.changedTouches.length);
+			if (event.originalEvent.changedTouches.length == 1) {
+				touchObj = event.originalEvent.changedTouches[0];
+				touchStartTime = Date.now();
+				touchStartX = touchObj.pageX;
+				touchStartY = touchObj.pageY;
+			}
+		});
+		// We listen for touch events and update the scene accordingly.
+		$(".resizeable").bind("touchend", function (event) {
+			console.log("touchend");
+			if (event.originalEvent.changedTouches.length == 1) {
+				touchObj = event.originalEvent.changedTouches[0];
+				var deltaTouchTime = Date.now() - touchStartTime;
+				var deltaTouchX = touchStartX - touchObj.pageX;
+				var deltaTouchY = touchStartY - touchObj.pageY;
+
+				if (Math.abs(deltaTouchX) < Math.abs(deltaTouchY)) {
+					var touchSpeed = Math.abs(deltaTouchY) / deltaTouchTime;
+					if (touchSpeed >= touchMinSpeed)
+						scroll(deltaTouchY);
+				}
+			}
+		});
+
+		// We listen for mouse events and update the scene accordingly.
+		$(".resizeable").bind("mousedown", function (event) {
+			console.log("mousedown");
+			touchObj = event.originalEvent;
 			touchStartTime = Date.now();
-			touchStartX = touchObj.pageX;
-			touchStartY = touchObj.pageY;
-		}
-	});
-	// We listen for touch events and update the scene accordingly.
-	$(".resizeable").bind("touchend", function (event) {
-		console.log("touchend");
-		if (event.originalEvent.changedTouches.length == 1) {
-			touchObj = event.originalEvent.changedTouches[0];
+			touchStartX = touchObj.clientX;
+			touchStartY = touchObj.clientY;
+		});
+		// We listen for mouse events and update the scene accordingly.
+		$(".resizeable").bind("mouseup", function (event) {
+			console.log("mouseup");
+			touchObj = event.originalEvent;
 			var deltaTouchTime = Date.now() - touchStartTime;
-			var deltaTouchX = touchStartX - touchObj.pageX;
-			var deltaTouchY = touchStartY - touchObj.pageY;
+			var deltaTouchX = touchStartX - touchObj.clientX; ;
+			var deltaTouchY = touchStartY - touchObj.clientY;
 
 			if (Math.abs(deltaTouchX) < Math.abs(deltaTouchY)) {
 				var touchSpeed = Math.abs(deltaTouchY) / deltaTouchTime;
 				if (touchSpeed >= touchMinSpeed)
 					scroll(deltaTouchY);
 			}
-		}
-	});
+		});
 
-	// We listen for mouse events and update the scene accordingly.
-	$(".resizeable").bind("mousedown", function (event) {
-		console.log("mousedown");
-		touchObj = event.originalEvent;
-		touchStartTime = Date.now();
-		touchStartX = touchObj.clientX;
-		touchStartY = touchObj.clientY;
-	});
-	// We listen for mouse events and update the scene accordingly.
-	$(".resizeable").bind("mouseup", function (event) {
-		console.log("mouseup");
-		touchObj = event.originalEvent;
-		var deltaTouchTime = Date.now() - touchStartTime;
-		var deltaTouchX = touchStartX - touchObj.clientX; ;
-		var deltaTouchY = touchStartY - touchObj.clientY;
+		// We listen for events for test purposes.
+		$(".resizeable").bind("mousemove", function (event) {
+			event.preventDefault();
+			console.log("mousemove");
+		});
 
-		if (Math.abs(deltaTouchX) < Math.abs(deltaTouchY)) {
-			var touchSpeed = Math.abs(deltaTouchY) / deltaTouchTime;
-			if (touchSpeed >= touchMinSpeed)
-				scroll(deltaTouchY);
-		}
-	});
+		// We listen for events for test purposes.
+		$(".resizeable").bind("drag", function (event) {
+			console.log("drag");
+		});
 
-	// We listen for events for test purposes.
-	$(".resizeable").bind("mousemove", function (event) {
-		event.preventDefault();
-		console.log("mousemove");
-	});
+		// We listen for events for test purposes.
+		$(".resizeable").bind("touchmove", function (event) {
+			event.preventDefault();
+			console.log("touchmove");
+		});
 
-	// We listen for events for test purposes.
-	$(".resizeable").bind("drag", function (event) {
-		console.log("drag");
-	});
+		// We listen for events for test purposes.
+		$(".resizeable").bind("scroll", function (event) {
+			event.preventDefault();
+			console.log("scroll");
+		});
 
-	// We listen for events for test purposes.
-	$(".resizeable").bind("touchmove", function (event) {
-		event.preventDefault();
-		console.log("touchmove");
-	});
+		// We listen for events for test purposes.
+		$(".resizeable").bind("MSPointerMove", function (event) {
+			console.log("MSPointerMove");
+		});
+	};
 
-	// We listen for events for test purposes.
-	$(".resizeable").bind("scroll", function (event) {
-		event.preventDefault();
-		console.log("scroll");
-	});
+	theModule.galleryFilter = function (filterTag) {
+		// Using the core $.ajax() method
+		$.ajax({
 
-	// We listen for events for test purposes.
-	$(".resizeable").bind("MSPointerMove", function (event) {
-		console.log("MSPointerMove");
-	});
+			// The URL for the request
+			url : "pictures/list/" + filterTag,
+
+			// Whether this is a POST or GET request
+			type : "GET",
+
+			// The type of data we expect back
+			dataType : "json",
+
+			cache : true,
+
+			// Set process data to false
+			processData : false,
+
+			// Code to run if the request succeeds;
+			// the response is passed to the function
+			success : function (response) {
+				console.log(response);
+			},
+
+			// Code to run if the request fails; the raw request and
+			// status codes are passed to the function
+			error : function (xhr, status, errorThrown) {
+				console.log("Error : " + errorThrown);
+			}
+		});
+	};
+
+	return theModule;
 }
+	());

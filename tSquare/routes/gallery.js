@@ -12,8 +12,6 @@ var Busboy = require('busboy');
  */
 
 var resolutions = [{
-		name : 'original'
-	}, {
 		name : 'thumbnail',
 		width : 260,
 		height : 130
@@ -33,32 +31,26 @@ var resolutions = [{
 		name : 'fhd',
 		width : 1920,
 		height : 1080
+	}, {
+		name : 'original'
 	}
 ], resolutionsNo = 6;
 
-router.get('/', function (req, res, next) {
-	var db = require('../databases/tSquareMongoDB.js').db();
-	var systemTags = db.collection('systemTags');
-
-	systemTags.find({}, {
-		_id : false
-	}).toArray(function (err, tags) {
-		assert.equal(null, err);
-		console.log(tags);
-		res.render('gallery', {
-			tags : tags
-		});
-	});
-});
-
-router.get('/pictures', function (req, res, next) {
+router.get('/pictures/list/:filterTag', function (req, res, next) {
+	assert.notEqual(null, req.params.filterTag);
 	var db = require('../databases/tSquareMongoDB.js').db();
 	var thumbnailsCollection = db.collection('thumbnail.files');
 
-	thumbnailsCollection.find({}, {
+	thumbnailsCollection.find({
+		'metadata.pictureGalleryTags' : {
+			$elemMatch : {
+				$eq : req.params.filterTag
+			}
+		}
+	}, {
 		_id : false,
 		filename : true,
-		'metadata.systemTag' : true
+		'metadata.occupiedWidthCells' : true
 	}).toArray(function (err, thumbnails) {
 		assert.equal(null, err);
 		console.log(thumbnails);
@@ -128,7 +120,7 @@ router.get('/pictures/thumbnail/:thumbnail', function (req, res, next) {
 	console.log(req.params.thumbnail + ' bla');
 	assert.notEqual(null, req.params.thumbnail);
 	req.fileName = req.params.thumbnail;
-	req.collection = resolutions[1].name;
+	req.collection = resolutions[0].name;
 
 	next();
 }, checkEtag, getFile);
@@ -138,7 +130,7 @@ router.get('/pictures/original/:original', function (req, res, next) {
 	console.log(req.params.original + ' bla');
 	assert.notEqual(null, req.params.original);
 	req.fileName = req.params.original;
-	req.collection = resolutions[0].name;
+	req.collection = resolutions[5].name;
 	next();
 
 }, checkEtag, getFile);
@@ -148,7 +140,7 @@ router.get('/pictures/xga/:xga', function (req, res, next) {
 	console.log(req.params.xga + ' bla');
 	assert.notEqual(null, req.params.xga);
 	req.fileName = req.params.xga;
-	req.collection = resolutions[2].name;
+	req.collection = resolutions[1].name;
 	next();
 
 }, checkEtag, getFile);
@@ -158,7 +150,7 @@ router.get('/pictures/wxga/:wxga', function (req, res, next) {
 	console.log(req.params.wxga + ' bla');
 	assert.notEqual(null, req.params.wxga);
 	req.fileName = req.params.wxga;
-	req.collection = resolutions[3].name;
+	req.collection = resolutions[2].name;
 	next();
 
 }, checkEtag, getFile);
@@ -168,7 +160,7 @@ router.get('/pictures/hd/:hd', function (req, res, next) {
 	console.log(req.params.hd + ' bla');
 	assert.notEqual(null, req.params.hd);
 	req.fileName = req.params.hd;
-	req.collection = resolutions[4].name;
+	req.collection = resolutions[3].name;
 	next();
 
 }, checkEtag, getFile);
@@ -178,7 +170,7 @@ router.get('/pictures/fhd/:fhd', function (req, res, next) {
 	console.log(req.params.fhd + ' bla');
 	assert.notEqual(null, req.params.fhd);
 	req.fileName = req.params.fhd;
-	req.collection = resolutions[5].name;
+	req.collection = resolutions[4].name;
 	next();
 
 }, checkEtag, getFile);

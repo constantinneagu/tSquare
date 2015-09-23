@@ -30,17 +30,7 @@ var resolutions = [{
 /* GET home page. */
 router.get('/', function (req, res, next) {
 	var db = require('../databases/tSquareMongoDB.js').db();
-	res.render('index' /* , {
-		background : 'url("/images/background.jpg")',
-		backgroundAll : 'url("/images/backgroundAll.jpg")',
-		backgroundExt : 'url("/images/backgroundExt.jpg")',
-		backgroundInt : 'url("/images/backgroundInt.jpg")',
-		backgroundArch : 'url("/images/backgroundArch.jpg")',
-		backgroundStd : 'url("/images/backgroundStd.jpg")',
-		backgroundAboutUs : 'url("/images/backgroundAboutUs.jpg")',
-		backgroundAboutYou : 'url("/images/backgroundAboutYou.jpg")'
-		} */
-	);
+	res.render('index');
 });
 
 /* Check the Etag for this request */
