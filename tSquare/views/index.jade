@@ -1,9 +1,8 @@
 extends layout
 
 block content
-	.border.resizableWindow
-		.borderHorizontal.borderTop
-		.borderHorizontal.borderBottom
+	.borderHorizontal.borderTop
+	.borderHorizontal.borderBottom
 	.hamburgerPlaceholder
 		.hamburgerSlice
 		.hamburgerSlice
@@ -29,11 +28,11 @@ block content
 						concept and beyond...
 			#portfolio.resizable
 				#portfolioExterior.image.portfolioItem.background
-					.itemShade(onclick='theModule.galleryFilter("portfolioExterior")')
+					.itemShade(onclick='tSquareModule.galleryFilter("portfolioExterior")')
 					h2.portofolioH2.
 						Exterior
 				#portfolioInterior.image.portfolioItem.background
-					.itemShade(onclick='theModule.galleryFilter("portfolioInterior")')
+					.itemShade(onclick='tSquareModule.galleryFilter("portfolioInterior")')
 					h2.portofolioH2.
 						Interior
 			#aboutUs.content.resizable.background
@@ -75,12 +74,11 @@ block content
 							Comming soon
 			#portfolio.resizable(style={ 'right': "0%"})
 				#portfolioConcepts.image.portfolioItem.background
-					.itemShade
-					.itemShade(onclick='theModule.galleryFilter("portfolioConcepts")')
+					.itemShade(onclick='tSquareModule.galleryFilter("portfolioConcepts")')
 					h2.portofolioH2.
 						Concepts
 				#portfolioPhotography.image.portfolioItem.background
-					.itemShade(onclick='theModule.galleryFilter("portfolioPhotography")')
+					.itemShade(onclick='tSquareModule.galleryFilter("portfolioPhotography")')
 					h2.portofolioH2.
 						Photography
 			#frontPage.image.resizable.background.right
