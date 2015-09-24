@@ -342,7 +342,7 @@ var tSquareModule = (function () {
 			
 			listItem.append(thumbnail);
 			thumbnail.src = "gallery/thumbnail/" + galleryItem.filename;
-			thumbnail.css({
+			listItem.css({
 				'width' : itemWidth * galleryItem.metadata.occupiedWidthCells
 			});
 			galleryContainer.append(listItem);
