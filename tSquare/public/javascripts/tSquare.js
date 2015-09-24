@@ -334,6 +334,7 @@ var tSquareModule = (function () {
 		var itemWidth = resizeWindowElementWidthBc / 4;
 		
 		for (item in galleryItems) {
+			console.log(item);
 			var listItem = $("<div class='galleryItem" + item.filename + "'>");
 			var thumbnail = new Image();
 			

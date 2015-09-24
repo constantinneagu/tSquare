@@ -83,7 +83,7 @@ a {
 	position: fixed;
 	top: 4vw;
 	right: 4vw;
-	Z-index: 2;
+	Z-index: 4;
 }
 
 .hamburgerSlice {
@@ -97,7 +97,7 @@ a {
 	position: fixed;
 	top: 4vw;
 	left: 4vw;
-	z-index: 2;
+	z-index: 4;
 }
 
 .smallLogoPlaceholder .firstT {
@@ -135,6 +135,7 @@ a {
   position: relative;
   top: 83%;
   color: white;
+  z-index: 4;
 }
 
 .background {
