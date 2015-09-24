@@ -330,7 +330,7 @@ var tSquareModule = (function () {
 	};
 	
 	function initGallery (galleryItems) {
-		var galleryContainer = $("<div class='galleryContaine resizable'>");
+		var galleryContainer = $("<div class='galleryContainer resizable'>");
 		var itemWidth = resizeWindowElementWidthBc / 4;
 		var index;
 		var galleryItemsLength = galleryItems.length;
