@@ -333,15 +333,15 @@ var tSquareModule = (function () {
 		var galleryContainer = $("<div class='galleryContainer'>");
 		var itemWidth = resizeWindowElementWidthBc / 4;
 		
-		for (item in galleryItems) {
-			console.log(item);
-			var listItem = $("<div class='galleryItem" + item.filename + "'>");
+		for (galleryItem in galleryItems) {
+			console.log(galleryItem);
+			var listItem = $("<div class='galleryItem" + galleryItem.filename + "'>");
 			var thumbnail = new Image();
 			
 			listItem.append(thumbnail);
-			thumbnail.src = "gallery/thumbnail/" + item.filename;
+			thumbnail.src = "gallery/thumbnail/" + galleryItem.filename;
 			thumbnail.css({
-				'width' : itemWidth * item.metadata.occupiedWidthCells
+				'width' : itemWidth * galleryItem.metadata.occupiedWidthCells
 			});
 			galleryContainer.append(listItem);
 		}
