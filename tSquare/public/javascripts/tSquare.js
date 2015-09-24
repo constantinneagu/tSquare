@@ -341,7 +341,7 @@ var tSquareModule = (function () {
 			var thumbnail = new Image();
 			
 			listItem.append(thumbnail);
-			thumbnail.src = "gallery/thumbnail/" + galleryItem.filename;
+			thumbnail.src = "gallery/pictures/thumbnail/" + galleryItem.filename;
 			listItem.css({
 				'width' : itemWidth * galleryItem.metadata.occupiedWidthCells
 			});

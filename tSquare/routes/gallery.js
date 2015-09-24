@@ -127,7 +127,7 @@ router.get('/pictures/thumbnail/:thumbnail', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Original retrieve method  */
-router.get('/original/:original', function (req, res, next) {
+router.get('/pictures/original/:original', function (req, res, next) {
 	console.log(req.params.original + ' bla');
 	assert.notEqual(null, req.params.original);
 	req.fileName = req.params.original;
@@ -137,7 +137,7 @@ router.get('/original/:original', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Xga retrieve method  */
-router.get('/xga/:xga', function (req, res, next) {
+router.get('/pictures/xga/:xga', function (req, res, next) {
 	console.log(req.params.xga + ' bla');
 	assert.notEqual(null, req.params.xga);
 	req.fileName = req.params.xga;
@@ -147,7 +147,7 @@ router.get('/xga/:xga', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Wxga retrieve method  */
-router.get('/wxga/:wxga', function (req, res, next) {
+router.get('/pictures/wxga/:wxga', function (req, res, next) {
 	console.log(req.params.wxga + ' bla');
 	assert.notEqual(null, req.params.wxga);
 	req.fileName = req.params.wxga;
@@ -157,7 +157,7 @@ router.get('/wxga/:wxga', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* Hd retrieve method  */
-router.get('/hd/:hd', function (req, res, next) {
+router.get('/pictures/hd/:hd', function (req, res, next) {
 	console.log(req.params.hd + ' bla');
 	assert.notEqual(null, req.params.hd);
 	req.fileName = req.params.hd;
@@ -167,7 +167,7 @@ router.get('/hd/:hd', function (req, res, next) {
 }, checkEtag, getFile);
 
 /* fhd retrieve method  */
-router.get('/fhd/:fhd', function (req, res, next) {
+router.get('/pictures/fhd/:fhd', function (req, res, next) {
 	console.log(req.params.fhd + ' bla');
 	assert.notEqual(null, req.params.fhd);
 	req.fileName = req.params.fhd;
