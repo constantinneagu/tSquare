@@ -368,17 +368,17 @@ a {
 }
 
 .social {
-  float: left;
+	float: left;
 }
 
 .galleryContainer {
-	position : absolute;
-	width: 100%;
-	height: 100%;
+	position: absolute;
 	z-index: 6;
 	background-color: rgb(10,12,35);
+	box-sizing: border-box;
 }
 
 .galleryItem {
+	position: relative;
 	float: left;
 }
