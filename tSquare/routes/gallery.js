@@ -51,8 +51,7 @@ router.get('/list/:filterTag', function (req, res, next) {
 	}, {
 		_id : false,
 		filename : true,
-		'metadata.occupiedWidthCells' : true,
-		'metadata.pictureGalleryTags' : true
+		'metadata.occupiedWidthCells' : true
 	}).toArray(function (err, thumbnails) {
 		assert.equal(null, err);
 		console.log(thumbnails);

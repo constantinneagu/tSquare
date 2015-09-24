@@ -29,6 +29,7 @@ var tSquareModule = (function () {
 	scrollEvents = 0,
 	numberOfElemnts = 3,
 	resizeWindowElementHeightBc = 0,
+	resizeWindowElementWidthBc = 0,
 	resizeWindowPageHeight = 0,
 	resizeWindowResolutionIndex = -1,
 	translationStartTime = null,
@@ -85,7 +86,6 @@ var tSquareModule = (function () {
 				}
 				scrollDirection = 1;
 				scrollEvents--;
-				//translationTo += resizeWindowElementHeightBc;
 			} else {
 				if (scrollEvents == numberOfElemnts) {
 					animationBusy = false;
@@ -93,7 +93,6 @@ var tSquareModule = (function () {
 				}
 				scrollDirection = -1;
 				scrollEvents++;
-				//translationTo -= resizeWindowElementHeightBc;
 			}
 			translationTo += (resizeWindowElementHeightBc * scrollDirection);
 			// Here I'm getting the magnitude and the direction of the speed vector.
@@ -112,15 +111,11 @@ var tSquareModule = (function () {
 		var resizeWindowElementHeight = $(window).height();
 		var resizeWindowElementWidth = $(window).width();
 
-		/* var widthFractionalPart = resizeWindowElementWidth - Math.floor(resizeWindowElementWidth);
-		var heightFractionalPart = resizeWindowElementHeight - Math.floor(resizeWindowElementHeight); */
-
 		var borderThickness = Math.floor((0.015 * resizeWindowElementWidth));
 		borderThickness -= borderThickness % 2;
 
 		resizeWindowElementHeightBc = resizeWindowElementHeight - (borderThickness * 2);
-		var resizeWindowElementWidthBc = resizeWindowElementWidth - (borderThickness * 2);
-		console.log(borderThickness);
+		resizeWindowElementWidthBc = resizeWindowElementWidth - (borderThickness * 2);
 
 		resizeWindowPageHeight = numberOfElemnts * resizeWindowElementHeightBc;
 
@@ -332,6 +327,24 @@ var tSquareModule = (function () {
 		$(".resizeable").bind("MSPointerMove", function (event) {
 			console.log("MSPointerMove");
 		});
+	};
+	
+	function initGallery (galleryItems) {
+		var galleryContainer = $("<div class='galleryContainer'>");
+		var itemWidth = resizeWindowElementWidthBc / 4;
+		
+		for (item in galleryItems) {
+			var listItem = $("<div class='galleryItem" + item.filename + "'>");
+			var thumbnail = new Image();
+			
+			listItem.append(thumbnail);
+			thumbnail.src = "gallery/thumbnail/" + item.filename;
+			thumbnail.css({
+				'width' : itemWidth * item.metadata.occupiedWidthCells
+			});
+			galleryContainer.append(listItem);
+		}
+		$(".resizableWindow").append(galleryContainer);
 	};
 
 	theModule.galleryFilter = function (filterTag) {
