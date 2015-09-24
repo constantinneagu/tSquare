@@ -369,6 +369,7 @@ var tSquareModule = (function () {
 			// the response is passed to the function
 			success : function (response) {
 				console.log(response);
+				initGallery(response);
 			},
 
 			// Code to run if the request fails; the raw request and
