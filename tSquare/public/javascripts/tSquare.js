@@ -328,7 +328,7 @@ var tSquareModule = (function () {
 			console.log("MSPointerMove");
 		});
 	};
-	
+	// Gallery management
 	function initGallery (galleryItems) {
 		var galleryContainer = $("<div class='galleryContainer resizable'>");
 		var itemWidth = resizeWindowElementWidthBc / 4;
@@ -347,6 +347,11 @@ var tSquareModule = (function () {
 			});
 			galleryContainer.append(listItem);
 		}
+		
+		galleryContainer.css({
+			'height' : resizeWindowElementHeightBc,
+			'width' : resizeWindowElementWidthBc
+		});
 		$(".resizableWindow").append(galleryContainer);
 	};
 

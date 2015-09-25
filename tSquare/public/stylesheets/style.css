@@ -381,4 +381,5 @@ a {
 .galleryItem {
 	position: relative;
 	float: left;
+	display: block;
 }
