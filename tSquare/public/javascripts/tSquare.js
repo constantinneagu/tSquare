@@ -337,7 +337,7 @@ var tSquareModule = (function () {
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			console.log(galleryItem);
-			var listItem = $("<div class='galleryItem" + galleryItem.filename + "'>");
+			var listItem = $("<div class='galleryItem " + galleryItem.filename + "'>");
 			var thumbnail = new Image();
 			
 			listItem.append(thumbnail);
