@@ -12,8 +12,8 @@ var assert = require('assert');
 
 var resolutions = [{
 		name : 'thumbnail',
-		width : 260,
-		height : 130
+		width : 512,
+		height : 256
 	}, {
 		name : 'xga',
 		width : 1024,
@@ -51,7 +51,7 @@ router.get('/list/:filterTag', function (req, res, next) {
 	}, {
 		_id : false,
 		filename : true,
-		'metadata.occupiedWidthCells' : true
+		'metadata.aspectRatio' : true
 	}).toArray(function (err, thumbnails) {
 		assert.equal(null, err);
 		console.log(thumbnails);

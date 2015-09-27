@@ -12,8 +12,8 @@ var Busboy = require('busboy');
  */
 var resolutions = [{
 		name : 'thumbnail',
-		width : 260,
-		height : 130
+		width : 512,
+		height : 256
 	}, {
 		name : 'xga',
 		width : 1024,

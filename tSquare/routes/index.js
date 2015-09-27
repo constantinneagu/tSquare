@@ -4,8 +4,8 @@ var router = express.Router();
 
 var resolutions = [{
 		name : 'thumbnailSystem',
-		width : 260,
-		height : 130
+		width : 512,
+		height : 256
 	}, {
 		name : 'xgaSystem',
 		width : 1024,

@@ -13,8 +13,8 @@ var Busboy = require('busboy');
 
 var resolutions = [{
 		name : 'thumbnail',
-		width : 260,
-		height : 130
+		width : 512,
+		height : 256
 	}, {
 		name : 'xga',
 		width : 1024,
@@ -61,7 +61,7 @@ router.get('/pictures', function (req, res, next) {
 		_id : false,
 		filename : true,
 		'metadata.systemTag' : true,
-		'metadata.occupiedWidthCells' : true
+		'metadata.aspectRatio' : true
 	}).toArray(function (err, thumbnails) {
 		assert.equal(null, err);
 		console.log(thumbnails);
@@ -190,7 +190,7 @@ router.post('/pictures/insert', function (req, res, next) {
 	var db = require('../databases/tSquareMongoDB.js').db();
 	var GridStore = require('mongodb').GridStore;
 	var collectionTarget,
-	occupiedWidthCells = null,
+	aspectRatio = null,
 	pictureGalleryTags = [];
 	console.log(req.headers);
 
@@ -201,8 +201,8 @@ router.post('/pictures/insert', function (req, res, next) {
 		});
 	busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
 		console.log('Fieldname [' + fieldname + ']: val: ' + val);
-		if (fieldname === 'occupiedWidthCells') {
-			occupiedWidthCells = val;
+		if (fieldname === 'aspectRatio') {
+			aspectRatio = val;
 		} else {
 			if (fieldname === 'collectionTarget') {
 				collectionTarget = val;
@@ -227,7 +227,7 @@ router.post('/pictures/insert', function (req, res, next) {
 			var pictures = new GridStore(db, filename, 'w', {
 					root : collectionTarget,
 					metadata : {
-						occupiedWidthCells : occupiedWidthCells,
+						aspectRatio : aspectRatio,
 						pictureGalleryTags : pictureGalleryTags
 					}
 				});

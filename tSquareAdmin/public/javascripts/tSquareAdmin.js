@@ -22,8 +22,8 @@ function initGallery(tags) {
 	resolutionsNo = 6,
 	resolutions = [{
 			name : 'thumbnail',
-			width : 260,
-			height : 130
+			width : 512,
+			height : 256
 		}, {
 			name : 'xga',
 			width : 1024,
@@ -51,16 +51,16 @@ function initGallery(tags) {
 		if (resolutions[resolutionIndex].name !== 'original') {
 			var height,
 			width,
-			occupiedWidthCells,
+			aspectRatio = img.height / img.width,
 			i;
 			if (img.height < img.width) {
 				width = resolutions[resolutionIndex].width;
 				height = resolutions[resolutionIndex].width * img.height / img.width;
-				occupiedWidthCells = 2;
+				/* aspectRatio = 2; */
 			} else {
 				width = resolutions[resolutionIndex].width * img.width / img.height;
 				height = resolutions[resolutionIndex].width;
-				occupiedWidthCells = 1;
+				/* aspectRatio = 1; */
 			}
 
 			var canvas = $("<canvas width='" + img.width + "' height='" + img.height + "'>")[0];
@@ -68,13 +68,13 @@ function initGallery(tags) {
 
 			canvasCtx.drawImage(img, 0, 0);
 
-			console.log(picturesFiles[pictureIndex].name + "width : " + width + ", height : " + height + ", occupiedCells : " + occupiedWidthCells);
+			console.log(picturesFiles[pictureIndex].name + "width : " + width + ", height : " + height + ", occupiedCells : " + aspectRatio);
 			resample_hermite(canvas, img.width, img.height, width, height);
 
 			canvas.toBlob(function (blob) {
 				console.log(blob);
 				canvas = null;
-				sendPictureData(blob, img, occupiedWidthCells);
+				sendPictureData(blob, img, aspectRatio);
 			}, "image/jpeg", 1.0);
 		} else {
 			sendPictureData(picturesFiles[pictureIndex], img, null);
@@ -101,15 +101,15 @@ function initGallery(tags) {
 		reader.readAsDataURL(picturesFiles[pictureIndex]);
 	};
 
-	function sendPictureData(blob, img, occupiedWidthCells) {
+	function sendPictureData(blob, img, aspectRatio) {
 		var formData = new FormData();
 
 		console.log(resolutions[resolutionIndex].name);
 		console.log(picturesFiles[pictureIndex].name);
 		formData.append("collectionTarget", resolutions[resolutionIndex].name);
 		
-		if (occupiedWidthCells != null) {
-			formData.append("occupiedWidthCells", occupiedWidthCells);
+		if (aspectRatio != null) {
+			formData.append("aspectRatio", aspectRatio);
 		}
 		if(pictureGalleryTags != null) {
 			formData.append("pictureGalleryTags", pictureGalleryTags);
