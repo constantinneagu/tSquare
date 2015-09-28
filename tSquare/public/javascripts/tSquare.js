@@ -41,19 +41,25 @@ var tSquareModule = (function () {
 	touchStartTime = null,
 	touchMinSpeed = 0.9, // Pixels / Millisecond
 	touchStartX = 0,
-	touchStartY = 0;
+	touchStartY = 0,
+	currentPositionIndicator = null,
+	nextPositionIndicator = null;
 
-	function translate(poz) {
+	function translate(progress) {
+		var poz = translationFrom + (animationSpeed * progress),
+		pozRadius = 0.5 * (progress / animationDuration);
 		$("#content_left").css({
 			'top' : poz + "px"
 		});
 		$("#content_right").css({
 			'bottom' : (resizeWindowPageHeight + poz) + "px"
 		});
+		
+		currentPositionIndicator.setAttribute("r", 1 - pozRadius) ;
+		nextPositionIndicator.setAttribute("r", 0.5 + pozRadius) ;
 	};
 
 	function renderTranslation(timestamp) {
-		var pozY = null;
 		var progress = 0;
 
 		if (!translationStartTime) {
@@ -63,14 +69,15 @@ var tSquareModule = (function () {
 			//Otherwise there is the chance that for the animation to not stop :(.
 			progress = Math.min(Date.now() - translationStartTime, animationDuration);
 
-			pozY = translationFrom + (animationSpeed * progress);
-			translate(pozY);
+			translate(progress);
 		}
-		if (pozY != translationTo) {
+		if (progress != animationDuration) {
 			window.requestAnimationFrame(renderTranslation);
 		} else {
 			translationStartTime = null;
 			animationBusy = false;
+			currentPositionIndicator = nextPositionIndicator;
+			nextPositionIndicator = null;
 		}
 	};
 
@@ -97,12 +104,10 @@ var tSquareModule = (function () {
 			translationTo += (resizeWindowElementHeightBc * scrollDirection);
 			// Here I'm getting the magnitude and the direction of the speed vector.
 			animationSpeed = (translationTo - translationFrom) / animationDuration;
+			// Set to he position indicators accordingly.
+			nextPositionIndicator = $(".positionIndicator")[scrollEvents];
 
 			window.requestAnimationFrame(renderTranslation);
-
-			// Set to he position indicators accordingly.
-			$($(".positionIndicator")[scrollEvents + scrollDirection]).removeClass("currentPosition");
-			$($(".positionIndicator")[scrollEvents]).addClass("currentPosition");
 		}
 	};
 
@@ -218,12 +223,14 @@ var tSquareModule = (function () {
 			tmpCircle.setAttribute("class", "positionIndicator");
 			tmpCircle.setAttribute("cx", 2.5);
 			tmpCircle.setAttribute("cy", i*4 + 3);
-			tmpCircle.setAttribute("r", 1);
+			tmpCircle.setAttribute("r", i == 0 ? 1 : 0.5);
+			
+			currentPositionIndicator = i == 0 ? tmpCircle : currentPositionIndicator;
 			
 			positionIndicatorsContainer[0].appendChild(tmpCircle);
 		}
 		/* $("body").append(positionIndicatorsContainer); */
-		/* $($(".positionIndicator")[0]).addClass("currentPosition"); */
+		$($(".positionIndicator")[0]).addClass("currentPosition");
 		
 		// We first want to resize the div to fit the screen.
 		resizeDiv();
