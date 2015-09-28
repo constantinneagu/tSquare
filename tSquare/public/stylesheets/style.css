@@ -41,14 +41,13 @@ a {
 }
 .positionIndicatorsContainer {
 	position: fixed;
-	height: 4vw;
 	z-index: 4;
 	right: 0%;
 	top: 42%;
 }
 
 .positionIndicator {
-	width: 0.3vw;
+	/* width: 0.3vw;
 	height: 0.3vw;
 	border: 0.1vw solid rgb(6, 14, 37);
 	border-radius: 1vw;
@@ -56,12 +55,12 @@ a {
 	margin-right: auto;
 	margin-bottom: 1vw;
 	background-color: rgb(6, 14, 37);
-	box-sizing: border-box;
+	box-sizing: border-box; */
+	fill: rgb(6, 14, 37);
 }
 
 .currentPosition {
-	width: 0.6vw;
-	height: 0.6vw;
+	
 }
 
 .borderHorizontal {

@@ -208,16 +208,25 @@ var tSquareModule = (function () {
 	};
 
 	theModule.init = function () {
-
-		// We first want to resize the div to fit the screen.
-		resizeDiv();
-
+		
 		// Setting up the position indicators.
 		var positionIndicatorsContainer = $(".positionIndicatorsContainer");
+		
 		for (var i = 0; i <= 3; i++) {
-			positionIndicatorsContainer.append($("<div class='positionIndicator'>"));
+			var tmpCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+			
+			tmpCircle.setAttribute("class", "positionIndicator");
+			tmpCircle.setAttribute("cx", 2.5);
+			tmpCircle.setAttribute("cy", i*4 + 3);
+			tmpCircle.setAttribute("r", 1);
+			
+			positionIndicatorsContainer[0].appendChild(tmpCircle);
 		}
-		$($(".positionIndicator")[0]).addClass("currentPosition");
+		/* $("body").append(positionIndicatorsContainer); */
+		/* $($(".positionIndicator")[0]).addClass("currentPosition"); */
+		
+		// We first want to resize the div to fit the screen.
+		resizeDiv();
 
 		// On window resize, we get the new height. Then we calculate and re-position everything that depends on it.
 		$(window).resize(function () {
@@ -331,23 +340,26 @@ var tSquareModule = (function () {
 	// Gallery management
 	function initGallery (galleryItems) {
 		var galleryContainer = $("<div class='galleryContainer resizable'>"),
-		columns = 4,
-		baseWidth = resizeWindowElementWidthBc / columns,
+		columns = 3,
+		borderWidth = Math.ceil(0.01 * resizeWindowElementWidthBc),
+		baseWidth = ((resizeWindowElementWidthBc - borderWidth)/ columns) - borderWidth,
 		index,
 		galleryItemsLength = galleryItems.length;
 		
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			galleryItem.height = baseWidth * galleryItem.metadata.aspectRatio;
-			galleryItem.left =  (index % columns) * baseWidth;
-			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height);
+			galleryItem.left =  (index % columns) * (baseWidth + borderWidth) + borderWidth;
+			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + borderWidth);
 			
 			var listItem = $("<img class='galleryItem " + galleryItem.filename + "' src='gallery/pictures/thumbnail/" + galleryItem.filename + "'>");
 			listItem.css({
 				'width' : baseWidth,
 				'height' : galleryItem.height,
 				'left' : galleryItem.left,
-				'top' : galleryItem.top
+				'top' : galleryItem.top,
+				/* 'marginBottom' : borderWidth,
+				'marginRight' : borderWidth */
 			});
 			galleryItems[index] = galleryItem;
 			galleryContainer.append(listItem);

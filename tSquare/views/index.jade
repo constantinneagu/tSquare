@@ -3,7 +3,7 @@ extends layout
 block content
 	.borderHorizontal.borderTop
 	.borderHorizontal.borderBottom
-	.hamburgerPlaceholder
+	svg.hamburgerPlaceholder
 		.hamburgerSlice
 		.hamburgerSlice
 		.hamburgerSlice
@@ -12,7 +12,7 @@ block content
 			h3 T
 		.secondSquared
 			h3 SQUARE
-	.positionIndicatorsContainer
+	svg.positionIndicatorsContainer('viewBox'='0 0 5 20')
 	.resizableWindow.globalMargin
 		#content_left.content
 			#frontPage.image.resizable.background
