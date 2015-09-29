@@ -47,20 +47,7 @@ a {
 }
 
 .positionIndicator {
-	/* width: 0.3vw;
-	height: 0.3vw;
-	border: 0.1vw solid rgb(6, 14, 37);
-	border-radius: 1vw;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 1vw;
-	background-color: rgb(6, 14, 37);
-	box-sizing: border-box; */
 	fill: rgb(6, 14, 37);
-}
-
-.currentPosition {
-	
 }
 
 .borderHorizontal {
@@ -82,14 +69,12 @@ a {
 	position: fixed;
 	top: 4vw;
 	right: 4vw;
+    height: 1.4vw;
 	Z-index: 4;
 }
 
 .hamburgerSlice {
-	margin-bottom: 0.5vw;
-	height: 0.2vw;
-	width: 2.5vw;
-	background-color: #FFF;
+	fill: #FFF;
 }
 
 .smallLogoPlaceholder {

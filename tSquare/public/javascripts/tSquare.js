@@ -44,7 +44,8 @@ var tSquareModule = (function () {
 	touchStartY = 0,
 	currentPositionIndicator = null,
 	nextPositionIndicator = null;
-
+	
+	// Time dependent transletation
 	function translate(progress) {
 		var poz = translationFrom + (animationSpeed * progress),
 		pozRadius = 0.5 * (progress / animationDuration);
@@ -57,6 +58,16 @@ var tSquareModule = (function () {
 		
 		currentPositionIndicator.setAttribute("r", 1 - pozRadius) ;
 		nextPositionIndicator.setAttribute("r", 0.5 + pozRadius) ;
+	};
+	
+	// Position dependent transletation
+	function translatePoz(poz) {
+		$("#content_left").css({
+			'top' : poz + "px"
+		});
+		$("#content_right").css({
+			'bottom' : (resizeWindowPageHeight + poz) + "px"
+		});
 	};
 
 	function renderTranslation(timestamp) {
@@ -77,7 +88,6 @@ var tSquareModule = (function () {
 			translationStartTime = null;
 			animationBusy = false;
 			currentPositionIndicator = nextPositionIndicator;
-			nextPositionIndicator = null;
 		}
 	};
 
@@ -226,11 +236,12 @@ var tSquareModule = (function () {
 			tmpCircle.setAttribute("r", i == 0 ? 1 : 0.5);
 			
 			currentPositionIndicator = i == 0 ? tmpCircle : currentPositionIndicator;
+			nextPositionIndicator = i == 1 ? tmpCircle : nextPositionIndicator;
 			
 			positionIndicatorsContainer[0].appendChild(tmpCircle);
 		}
 		/* $("body").append(positionIndicatorsContainer); */
-		$($(".positionIndicator")[0]).addClass("currentPosition");
+		/* $($(".positionIndicator")[0]).addClass("currentPosition"); */
 		
 		// We first want to resize the div to fit the screen.
 		resizeDiv();
@@ -239,7 +250,7 @@ var tSquareModule = (function () {
 		$(window).resize(function () {
 			resizeDiv();
 			translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
-			translate(translationTo);
+			translatePoz(translationTo);
 		})
 		// We listen for wheel events and update the scene acordingly.
 		$(window).bind("wheel", function (event) {

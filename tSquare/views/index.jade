@@ -3,10 +3,10 @@ extends layout
 block content
 	.borderHorizontal.borderTop
 	.borderHorizontal.borderBottom
-	svg.hamburgerPlaceholder
-		.hamburgerSlice
-		.hamburgerSlice
-		.hamburgerSlice
+	svg.hamburgerPlaceholder('viewBox'='0 0 7 5')
+		rect.hamburgerSlice('x'= 0, 'y'= 0, width= 7, height= 1)
+		rect.hamburgerSlice('x'=0, 'y'=2, width= 7, height= 1)
+		rect.hamburgerSlice('x'=0, 'y'=4, width= 7, height=1)
 	.smallLogoPlaceholder
 		.firstT
 			h3 T
