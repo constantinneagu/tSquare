@@ -70,7 +70,8 @@ a {
 	top: 4vw;
 	right: 4vw;
     height: 1.3vw;
-	Z-index: 4;
+	width: 1.82vw;
+	Z-index: 7;
 }
 
 .hamburgerSlice {
@@ -81,7 +82,7 @@ a {
 	position: fixed;
 	top: 4vw;
 	left: 4vw;
-	z-index: 4;
+	z-index: 7;
 }
 
 .smallLogoPlaceholder .firstT {

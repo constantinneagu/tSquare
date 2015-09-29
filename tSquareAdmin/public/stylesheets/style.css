@@ -17,6 +17,7 @@ p {
 .picture {
   float: left;
   border: 6px solid white;
+  width: 20vw;
 }
 
 .tagUnselected {

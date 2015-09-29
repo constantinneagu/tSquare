@@ -210,6 +210,10 @@ var tSquareModule = (function () {
 		$(".borderVertical, .positionIndicatorsContainer").css({
 			'width' : borderThickness
 		});
+		$(".positionIndicatorsContainer").css({
+			'width' : borderThickness,
+			'height' : borderThickness * 3.2
+		});
 		$(".borderHorizontal").css({
 			'height' : borderThickness
 		});
@@ -375,9 +379,7 @@ var tSquareModule = (function () {
 				'width' : baseWidth,
 				'height' : galleryItem.height,
 				'left' : galleryItem.left,
-				'top' : galleryItem.top,
-				/* 'marginBottom' : borderWidth,
-				'marginRight' : borderWidth */
+				'top' : galleryItem.top
 			});
 			galleryItems[index] = galleryItem;
 			galleryContainer.append(listItem);
