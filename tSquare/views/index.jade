@@ -3,17 +3,17 @@ extends layout
 block content
 	.borderHorizontal.borderTop
 	.borderHorizontal.borderBottom
-	svg.hamburgerPlaceholder('viewBox'='0 0 7 5', 'preserveAspectRatio'='xMaxYMax')
-		rect.hamburgerSlice('x'= 0, 'y'= 0, width= 7, height= 1)
-		rect.hamburgerSlice('x'=0, 'y'=2, width= 7, height= 1)
-		rect.hamburgerSlice('x'=0, 'y'=4, width= 7, height=1)
-	.smallLogoPlaceholder
-		.firstT
-			h3 T
-		.secondSquared
-			h3 SQUARE
 	svg.positionIndicatorsContainer('viewBox'='0 0 5 16', 'preserveAspectRatio'='xMaxYMax')
 	.resizableWindow.globalMargin
+		svg.hamburgerPlaceholder('viewBox'='0 0 7 5', 'preserveAspectRatio'='xMaxYMax')
+			rect.hamburgerSlice('x'= 0, 'y'= 0, width= 7, height= 1)
+			rect.hamburgerSlice('x'=0, 'y'=2, width= 7, height= 1)
+			rect.hamburgerSlice('x'=0, 'y'=4, width= 7, height=1)
+		.smallLogoPlaceholder
+			.firstT
+				h3 T
+			.secondSquared
+				h3 SQUARE
 		#content_left.content
 			#frontPage.image.resizable.background
 				.shade

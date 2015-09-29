@@ -44,7 +44,7 @@ var tSquareModule = (function () {
 	touchStartY = 0,
 	currentPositionIndicator = null,
 	nextPositionIndicator = null;
-	
+
 	// Time dependent transletation
 	function translate(progress) {
 		var poz = translationFrom + (animationSpeed * progress),
@@ -55,11 +55,11 @@ var tSquareModule = (function () {
 		$("#content_right").css({
 			'bottom' : (resizeWindowPageHeight + poz) + "px"
 		});
-		
-		currentPositionIndicator.setAttribute("r", 1 - pozRadius) ;
-		nextPositionIndicator.setAttribute("r", 0.5 + pozRadius) ;
+
+		currentPositionIndicator.setAttribute("r", 1.5 - pozRadius);
+		nextPositionIndicator.setAttribute("r", 1 + pozRadius);
 	};
-	
+
 	// Position dependent transletation
 	function translatePoz(poz) {
 		$("#content_left").css({
@@ -227,26 +227,26 @@ var tSquareModule = (function () {
 	};
 
 	theModule.init = function () {
-		
+
 		// Setting up the position indicators.
 		var positionIndicatorsContainer = $(".positionIndicatorsContainer");
-		
+
 		for (var i = 0; i <= 3; i++) {
 			var tmpCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-			
+
 			tmpCircle.setAttribute("class", "positionIndicator");
 			tmpCircle.setAttribute("cx", 2.5);
-			tmpCircle.setAttribute("cy", i*4 + 3);
-			tmpCircle.setAttribute("r", i == 0 ? 1 : 0.5);
-			
+			tmpCircle.setAttribute("cy", i * 4 + 3);
+			tmpCircle.setAttribute("r", i == 0 ? 1.5 : 1);
+
 			currentPositionIndicator = i == 0 ? tmpCircle : currentPositionIndicator;
 			nextPositionIndicator = i == 1 ? tmpCircle : nextPositionIndicator;
-			
+
 			positionIndicatorsContainer[0].appendChild(tmpCircle);
 		}
 		/* $("body").append(positionIndicatorsContainer); */
 		/* $($(".positionIndicator")[0]).addClass("currentPosition"); */
-		
+
 		// We first want to resize the div to fit the screen.
 		resizeDiv();
 
@@ -360,20 +360,20 @@ var tSquareModule = (function () {
 		});
 	};
 	// Gallery management
-	function initGallery (galleryItems) {
+	function initGallery(galleryItems) {
 		var galleryContainer = $(".galleryContainer"),
 		columns = 4,
-		borderWidth = Math.ceil(0.01 * resizeWindowElementWidthBc),
-		baseWidth = ((resizeWindowElementWidthBc - borderWidth)/ columns) - borderWidth,
+		borderWidth = Math.ceil(0.005 * resizeWindowElementWidthBc),
+		baseWidth = ((resizeWindowElementWidthBc + borderWidth) / columns) - borderWidth,
 		index,
 		galleryItemsLength = galleryItems.length;
-		
+
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			galleryItem.height = baseWidth * galleryItem.metadata.aspectRatio;
-			galleryItem.left =  (index % columns) * (baseWidth + borderWidth);
+			galleryItem.left = (index % columns) * (baseWidth + borderWidth);
 			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + borderWidth);
-			
+
 			var listItem = $("<img class='galleryItem " + galleryItem.filename + "' src='gallery/pictures/thumbnail/" + galleryItem.filename + "'>");
 			listItem.css({
 				'width' : baseWidth,
@@ -387,6 +387,9 @@ var tSquareModule = (function () {
 		galleryContainer.css({
 			'height' : resizeWindowElementHeightBc,
 			'width' : resizeWindowElementWidthBc,
+			'z-index' : 6
+		});
+		$(".galleryContainerShade").css({
 			'z-index' : 6
 		});
 		/* $(".resizableWindow").append(galleryContainer); */
