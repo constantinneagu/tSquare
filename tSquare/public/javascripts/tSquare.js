@@ -126,7 +126,7 @@ var tSquareModule = (function () {
 		var resizeWindowElementHeight = $(window).height();
 		var resizeWindowElementWidth = $(window).width();
 
-		var borderThickness = Math.floor((0.015 * resizeWindowElementWidth));
+		var borderThickness = Math.floor((0.01 * resizeWindowElementWidth));
 		borderThickness -= borderThickness % 2;
 
 		resizeWindowElementHeightBc = resizeWindowElementHeight - (borderThickness * 2);
@@ -361,8 +361,8 @@ var tSquareModule = (function () {
 	};
 	// Gallery management
 	function initGallery (galleryItems) {
-		var galleryContainer = $("<div class='galleryContainer resizable'>"),
-		columns = 3,
+		var galleryContainer = $(".galleryContainer"),
+		columns = 4,
 		borderWidth = Math.ceil(0.01 * resizeWindowElementWidthBc),
 		baseWidth = ((resizeWindowElementWidthBc - borderWidth)/ columns) - borderWidth,
 		index,
@@ -371,7 +371,7 @@ var tSquareModule = (function () {
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			galleryItem.height = baseWidth * galleryItem.metadata.aspectRatio;
-			galleryItem.left =  (index % columns) * (baseWidth + borderWidth) + borderWidth;
+			galleryItem.left =  (index % columns) * (baseWidth + borderWidth);
 			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + borderWidth);
 			
 			var listItem = $("<img class='galleryItem " + galleryItem.filename + "' src='gallery/pictures/thumbnail/" + galleryItem.filename + "'>");
@@ -386,9 +386,10 @@ var tSquareModule = (function () {
 		}
 		galleryContainer.css({
 			'height' : resizeWindowElementHeightBc,
-			'width' : resizeWindowElementWidthBc
+			'width' : resizeWindowElementWidthBc,
+			'z-index' : 6
 		});
-		$(".resizableWindow").append(galleryContainer);
+		/* $(".resizableWindow").append(galleryContainer); */
 	};
 
 	theModule.galleryFilter = function (filterTag) {
