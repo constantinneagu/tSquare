@@ -1,6 +1,7 @@
 extends layout
 
 block content
+	.loadingBlind
 	.borderHorizontal.borderTop
 	.borderHorizontal.borderBottom
 	svg.positionIndicatorsContainer('viewBox'='0 0 5 16', 'preserveAspectRatio'='xMaxYMax')
@@ -12,10 +13,10 @@ block content
 		.smallLogoPlaceholder
 			.firstT
 				h3 T
-			.secondSquared
+			.secondSquare
 				h3 SQUARE
 		#content_left.content
-			#frontPage.image.resizable.background
+			#frontPage.image.resizable.background.toLoad
 				.shade
 				.logoLeft.content
 					.tHorizontal
@@ -27,11 +28,11 @@ block content
 					p.
 						concept and beyond...
 			#portfolio.resizable
-				#portfolioExterior.image.portfolioItem.background
+				#portfolioExterior.image.portfolioItem.background.toLoad
 					.itemShade(onclick='tSquareModule.galleryFilter("exterior")')
 					h2.portofolioH2.
 						Exterior
-				#portfolioInterior.image.portfolioItem.background
+				#portfolioInterior.image.portfolioItem.background.toLoad
 					.itemShade(onclick='tSquareModule.galleryFilter("interior")')
 					h2.portofolioH2.
 						Interior
@@ -73,15 +74,15 @@ block content
 						h3.
 							Comming soon
 			#portfolio.resizable(style={ 'right': "0%"})
-				#portfolioConcepts.image.portfolioItem.background
+				#portfolioConcepts.image.portfolioItem.background.toLoad
 					.itemShade(onclick='tSquareModule.galleryFilter("concepts")')
 					h2.portofolioH2.
 						Concepts
-				#portfolioPhotography.image.portfolioItem.background
+				#portfolioPhotography.image.portfolioItem.background.toLoad
 					.itemShade(onclick='tSquareModule.galleryFilter("photography")')
 					h2.portofolioH2.
 						Photography
-			#frontPage.image.resizable.background.right
+			#frontPage.image.resizable.background.right.toLoad
 				.logoRight
 				.moto
 					p.

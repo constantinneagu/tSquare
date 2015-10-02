@@ -32,6 +32,7 @@ var tSquareModule = (function () {
 	resizeWindowElementWidthBc = 0,
 	resizeWindowPageHeight = 0,
 	resizeWindowResolutionIndex = -1,
+	borderThickness = 0,
 	translationStartTime = null,
 	translationFrom = 0,
 	translationTo = 0,
@@ -56,8 +57,8 @@ var tSquareModule = (function () {
 			'bottom' : (resizeWindowPageHeight + poz) + "px"
 		});
 
-		currentPositionIndicator.setAttribute("r", 1.5 - pozRadius);
-		nextPositionIndicator.setAttribute("r", 1 + pozRadius);
+		currentPositionIndicator.setAttribute("r", 1 - pozRadius);
+		nextPositionIndicator.setAttribute("r", 0.5 + pozRadius);
 	};
 
 	// Position dependent transletation
@@ -122,12 +123,15 @@ var tSquareModule = (function () {
 	};
 
 	function resizeDiv() {
-		var tmpResolutionIndex = resizeWindowResolutionIndex;
-		var resizeWindowElementHeight = $(window).height();
-		var resizeWindowElementWidth = $(window).width();
-
-		var borderThickness = Math.floor((0.01 * resizeWindowElementWidth));
-		borderThickness -= borderThickness % 2;
+		console.log($(".toload"));
+		var tmpResolutionIndex = resizeWindowResolutionIndex,
+		resizeWindowElementHeight = $(window).height(),
+		resizeWindowElementWidth = $(window).width(),
+		elementsToload = $(".toload").size;
+		
+		/* borderThickness = Math.floor((0.005 * resizeWindowElementWidth));
+		borderThickness -= borderThickness % 2; */
+		borderThickness = 10 + (resizeWindowElementHeight - (Math.floor(resizeWindowElementHeight)));
 
 		resizeWindowElementHeightBc = resizeWindowElementHeight - (borderThickness * 2);
 		resizeWindowElementWidthBc = resizeWindowElementWidth - (borderThickness * 2);
@@ -156,39 +160,6 @@ var tSquareModule = (function () {
 		};
 		searchInterval(3);
 		console.log(resizeWindowResolutionIndex);
-
-		if (tmpResolutionIndex !== resizeWindowResolutionIndex) {
-			var imageURL = "pictures/" + resolutions[resizeWindowResolutionIndex].name + "/";
-			$(".image").each(function () {
-				var imageElement = this;
-				// Using the core $.ajax() method
-				$.ajax({
-
-					// The URL for the request
-					url : imageURL + imageElement.id,
-
-					// Whether this is a POST or GET request
-					type : "GET",
-
-					cache : true,
-
-					// Set process data to false
-					processData : false,
-
-					// Code to run if the request succeeds;
-					// the response is passed to the function
-					success : function (response) {
-						imageElement.style.backgroundImage = 'url(' + imageURL + imageElement.id + ')';
-					},
-
-					// Code to run if the request fails; the raw request and
-					// status codes are passed to the function
-					error : function (xhr, status, errorThrown) {
-						console.log("Error : " + errorThrown);
-					}
-				});
-			});
-		};
 
 		$(".resizable").css({
 			'height' : resizeWindowElementHeightBc,
@@ -224,6 +195,22 @@ var tSquareModule = (function () {
 			'margin-left' : borderThickness,
 			'margin-right' : borderThickness
 		});
+		
+		if (tmpResolutionIndex !== resizeWindowResolutionIndex) {
+			var imageURL = "pictures/" + resolutions[resizeWindowResolutionIndex].name + "/";
+			$(".image").each(function () {
+				this.style.backgroundImage = 'url(' + imageURL + this.id + ')';
+				this.bind("onload", function (event){
+					elementsToload--;
+					if (elementsToload == 0) {
+						$(".loadingBlind").css({
+							"z-index" : 0
+						});
+					}
+				}); 
+				
+			});
+		};
 	};
 
 	theModule.init = function () {
@@ -237,7 +224,7 @@ var tSquareModule = (function () {
 			tmpCircle.setAttribute("class", "positionIndicator");
 			tmpCircle.setAttribute("cx", 2.5);
 			tmpCircle.setAttribute("cy", i * 4 + 3);
-			tmpCircle.setAttribute("r", i == 0 ? 1.5 : 1);
+			tmpCircle.setAttribute("r", i == 0 ? 1 : 0.5);
 
 			currentPositionIndicator = i == 0 ? tmpCircle : currentPositionIndicator;
 			nextPositionIndicator = i == 1 ? tmpCircle : nextPositionIndicator;
@@ -263,7 +250,7 @@ var tSquareModule = (function () {
 			return false;
 		})
 		// We listen for key events and update the scene accordingly.
-		$(window).keydown(function (event) {
+		$(window).bind("keydown", function (event) {
 			console.log("keydown");
 			switch (event.originalEvent.key) {
 			case "PageDown":
@@ -363,16 +350,15 @@ var tSquareModule = (function () {
 	function initGallery(galleryItems) {
 		var galleryContainer = $(".galleryContainer"),
 		columns = 4,
-		borderWidth = Math.ceil(0.005 * resizeWindowElementWidthBc),
-		baseWidth = ((resizeWindowElementWidthBc + borderWidth) / columns) - borderWidth,
+		baseWidth = ((resizeWindowElementWidthBc + borderThickness) / columns) - borderThickness,
 		index,
 		galleryItemsLength = galleryItems.length;
 
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			galleryItem.height = baseWidth * galleryItem.metadata.aspectRatio;
-			galleryItem.left = (index % columns) * (baseWidth + borderWidth);
-			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + borderWidth);
+			galleryItem.left = (index % columns) * (baseWidth + borderThickness);
+			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + borderThickness);
 
 			var listItem = $("<img class='galleryItem " + galleryItem.filename + "' src='gallery/pictures/thumbnail/" + galleryItem.filename + "'>");
 			listItem.css({
