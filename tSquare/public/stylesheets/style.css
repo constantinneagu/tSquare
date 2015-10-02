@@ -233,13 +233,11 @@ a {
 #content_left {
     float: left;
 	z-index: 3;
-	position: static;
 }
 
 #content_right {
     float: right;
 	z-index: 3;
-	position: static;
 }
 
 #portfolio {

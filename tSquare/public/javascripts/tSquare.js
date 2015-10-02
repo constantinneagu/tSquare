@@ -123,14 +123,14 @@ var tSquareModule = (function () {
 	};
 
 	function resizeDiv() {
-		console.log($(".toload"));
 		var tmpResolutionIndex = resizeWindowResolutionIndex,
 		resizeWindowElementHeight = $(window).height(),
 		resizeWindowElementWidth = $(window).width(),
-		elementsToload = $(".toload").size;
-		
+		elementsToload = $(".toLoad").length - 1;
+
 		/* borderThickness = Math.floor((0.005 * resizeWindowElementWidth));
 		borderThickness -= borderThickness % 2; */
+		console.log(resizeWindowElementHeight); 
 		borderThickness = 10 + (resizeWindowElementHeight - (Math.floor(resizeWindowElementHeight)));
 
 		resizeWindowElementHeightBc = resizeWindowElementHeight - (borderThickness * 2);
@@ -186,7 +186,7 @@ var tSquareModule = (function () {
 			'height' : borderThickness * 3.2
 		});
 		$(".borderHorizontal").css({
-			'height' : borderThickness
+			'height' : borderThickness + 1
 		});
 		$(".globalMargin").css({
 			'margin' : borderThickness
@@ -195,20 +195,48 @@ var tSquareModule = (function () {
 			'margin-left' : borderThickness,
 			'margin-right' : borderThickness
 		});
-		
+
 		if (tmpResolutionIndex !== resizeWindowResolutionIndex) {
+			$(".loadingBlind").css({
+				'z-index' : 8
+			});
 			var imageURL = "pictures/" + resolutions[resizeWindowResolutionIndex].name + "/";
 			$(".image").each(function () {
-				this.style.backgroundImage = 'url(' + imageURL + this.id + ')';
-				this.bind("onload", function (event){
-					elementsToload--;
-					if (elementsToload == 0) {
-						$(".loadingBlind").css({
-							"z-index" : 0
-						});
+				var imageElement = this;
+				// Using the core $.ajax() method
+				$.ajax({
+
+					// The URL for the request
+					url : imageURL + imageElement.id,
+
+					// Whether this is a POST or GET request
+					type : "GET",
+
+					cache : true,
+
+					// Set process data to false
+					processData : false,
+
+					// Code to run if the request succeeds;
+					// the response is passed to the function
+					success : function (response) {
+						imageElement.style.backgroundImage = 'url(' + imageURL + imageElement.id + ')';
+						console.log(elementsToload);
+						if (elementsToload == 0) {
+							$(".loadingBlind").css({
+								'z-index' : 0
+							});
+						} else {
+							elementsToload--;							
+						}
+					},
+
+					// Code to run if the request fails; the raw request and
+					// status codes are passed to the function
+					error : function (xhr, status, errorThrown) {
+						console.log("Error : " + errorThrown);
 					}
-				}); 
-				
+				});
 			});
 		};
 	};
