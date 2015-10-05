@@ -36,9 +36,10 @@ var tSquareModule = (function () {
 	translationStartTime = null,
 	translationFrom = 0,
 	translationTo = 0,
-	animationSpeed = 0,
-	animationDuration = 500,
-	animationBusy = false,
+	translationEndSelector = [1, 0];
+	translationSpeed = 0,
+	translationDuration = 500,
+	translationBusy = false,
 	touchStartTime = null,
 	touchMinSpeed = 0.9, // Pixels / Millisecond
 	touchStartX = 0,
@@ -46,67 +47,128 @@ var tSquareModule = (function () {
 	currentPositionIndicator = null,
 	nextPositionIndicator = null;
 
-	// Time dependent transletation
-	function translate(progress) {
-		var poz = translationFrom + (animationSpeed * progress),
-		pozRadius = 0.5 * (progress / animationDuration);
-		$("#content_left").css({
+	// Position dependent transletation
+	function translatePoz(poz) {
+		$("#contentLeft").css({
 			'top' : poz + "px"
 		});
-		$("#content_right").css({
+		$("#contentRight").css({
 			'bottom' : (resizeWindowPageHeight + poz) + "px"
 		});
+	};
 
+	// Time dependent transletation
+	function translate(progress) {
+		var pozRadius = 0.5 * (progress / translationDuration);
+		translatePoz(translationEndSelector[0] * (translationFrom + (translationSpeed * progress)) +
+			translationEndSelector[1] * translationTo);
 		currentPositionIndicator.setAttribute("r", 1 - pozRadius);
 		nextPositionIndicator.setAttribute("r", 0.5 + pozRadius);
 	};
 
-	// Position dependent transletation
-	function translatePoz(poz) {
-		$("#content_left").css({
-			'top' : poz + "px"
-		});
-		$("#content_right").css({
-			'bottom' : (resizeWindowPageHeight + poz) + "px"
-		});
-	};
-
+	/* Rendering objects */
 	function renderTranslation(timestamp) {
-		var progress = 0;
+		var progress = 0,
+		deltaT = 0;
 
 		if (!translationStartTime) {
 			translationStartTime = Date.now();
 		} else {
 			//We want to make sure that pozY is going to reach the translation.translateTo value.
 			//Otherwise there is the chance that for the animation to not stop :(.
-			progress = Math.min(Date.now() - translationStartTime, animationDuration);
-
+			deltaT = Date.now() - translationStartTime;
+			if (deltaT < translationDuration) {
+				progress = deltaT;
+			} else {
+				progress = translationDuration;
+				translationEndSelector = [0, 1];
+			}
 			translate(progress);
 		}
-		if (progress != animationDuration) {
+		if (progress != translationDuration) {
 			window.requestAnimationFrame(renderTranslation);
 		} else {
 			translationStartTime = null;
-			animationBusy = false;
+			translationBusy = false;
 			currentPositionIndicator = nextPositionIndicator;
+			translationEndSelector = [1, 0];
 		}
 	};
+	function renderZoomObject (elementId) {
+		this.zoomTime = null,
+		zoomLevel = 10,
+		zoomDuration = 1000,
+		zoomProgress = 0,
+		zoomStop = true,
+		zoomRunning = false,
+		this.elementId = elementId;
+
+		function zoom() {
+			var zoomTmp = resizeWindowElementHeightBc * (1 + zoomProgress * (zoomLevel / 100) / zoomDuration);
+				$(elementId).css({
+					'background-size' : "auto " + zoomTmp + "px"
+				});
+		};
+
+		function renderZoom(timestamp) {
+			var zoomIntermediateTime = Date.now();
+
+			zoomRunning = true;
+
+			if (zoomStop == false) {
+				zoomProgress += zoomIntermediateTime - zoomTime;
+				if (zoomProgress > zoomDuration) {
+					zoomProgress = zoomDuration;
+				}
+				zoom();
+				zoomTime = zoomIntermediateTime;
+				if (zoomProgress != zoomDuration) {
+					window.requestAnimationFrame(renderZoom);
+				} else {
+					zoomTime = null;
+					zoomRunning = false;
+				}
+			} else {
+				zoomProgress -= zoomIntermediateTime - zoomTime;
+				if (zoomProgress > 0) {
+					zoomProgress = 0;
+				}
+				zoom();
+				zoomTime = zoomIntermediateTime;
+
+				if (zoomProgress != 0) {
+					window.requestAnimationFrame(this.renderZoom);
+				} else {
+					zoomTime = null;
+					zoomRunning = false;
+				}
+			}
+		};
+
+		this.toggleZoom = function () {
+			zoomStop = !zoomStop;
+			if (!zoomRunning) {
+				window.requestAnimationFrame(this.renderZoom);
+			}
+		};
+	}
+	/* Rendering objects end */
 
 	function scroll(deltaY) {
-		if (!animationBusy) {
+		if (!translationBusy) {
 			var scrollDirection = 0;
-			animationBusy = true;
+			translationBusy = true;
 			translationFrom = translationTo;
 			if (deltaY < 0) {
 				if (scrollEvents == 0) {
-					animationBusy = false;
+					translationBusy = false;
 					return;
 				}
 				scrollDirection = 1;
 				scrollEvents--;
 			} else {
 				if (scrollEvents == numberOfElemnts) {
-					animationBusy = false;
+					translationBusy = false;
 					return;
 				}
 				scrollDirection = -1;
@@ -114,7 +176,7 @@ var tSquareModule = (function () {
 			}
 			translationTo += (resizeWindowElementHeightBc * scrollDirection);
 			// Here I'm getting the magnitude and the direction of the speed vector.
-			animationSpeed = (translationTo - translationFrom) / animationDuration;
+			translationSpeed = (translationTo - translationFrom) / translationDuration;
 			// Set to he position indicators accordingly.
 			nextPositionIndicator = $(".positionIndicator")[scrollEvents];
 
@@ -130,7 +192,7 @@ var tSquareModule = (function () {
 
 		/* borderThickness = Math.floor((0.005 * resizeWindowElementWidth));
 		borderThickness -= borderThickness % 2; */
-		console.log(resizeWindowElementHeight); 
+		console.log(resizeWindowElementHeight);
 		borderThickness = 10 + (resizeWindowElementHeight - (Math.floor(resizeWindowElementHeight)));
 
 		resizeWindowElementHeightBc = resizeWindowElementHeight - (borderThickness * 2);
@@ -161,40 +223,18 @@ var tSquareModule = (function () {
 		searchInterval(3);
 		console.log(resizeWindowResolutionIndex);
 
-		$(".resizable").css({
-			'height' : resizeWindowElementHeightBc,
-			'width' : resizeWindowElementWidthBc
-		});
-		$(".content").width(resizeWindowElementWidthBc / 2);
-
-		$(".social").css({
-			'height' : resizeWindowElementHeightBc / 2,
-			'width' : resizeWindowElementWidthBc / 2
-		});
-		$("#content_right").css({
-			'bottom' : resizeWindowPageHeight + "px"
-		});
-		$(".resizableWindow").css({
-			'height' : resizeWindowElementHeight,
-			'width' : resizeWindowElementWidthBc
-		});
-		$(".borderVertical, .positionIndicatorsContainer").css({
-			'width' : borderThickness
-		});
-		$(".positionIndicatorsContainer").css({
-			'width' : borderThickness,
-			'height' : borderThickness * 3.2
-		});
-		$(".borderHorizontal").css({
-			'height' : borderThickness + 1
-		});
-		$(".globalMargin").css({
-			'margin' : borderThickness
-		});
-		$(".border").css({
-			'margin-left' : borderThickness,
-			'margin-right' : borderThickness
-		});
+		$("#styleDynamic").text(".resizable {height : " + resizeWindowElementHeightBc + "px; " +
+			"width : " + resizeWindowElementWidthBc + "px;}\n" +
+			".contentDynamic {width : " + resizeWindowElementWidthBc / 2 + "px;}\n" +
+			".socialDynamic {height : " + resizeWindowElementHeightBc / 2 + "px; " +
+			"width : " + resizeWindowElementWidthBc / 2 + "px;}\n" +
+			".contentRightDymamic {bottom : " + resizeWindowPageHeight + "px;}\n" +
+			".resizableWindowDynamic {height : " + resizeWindowElementHeight + "px; " +
+			"width : " + resizeWindowElementWidthBc + "px; " +
+			"margin : " + borderThickness + "px;}\n" +
+			".positionIndicatorsContainerDynamic {width : " + borderThickness + "px; " +
+			"height : " + borderThickness * 3.2 + "px;}\n" +
+			".borderHorizontalDynamic {height : " + borderThickness + "px;}\n");
 
 		if (tmpResolutionIndex !== resizeWindowResolutionIndex) {
 			$(".loadingBlind").css({
@@ -226,8 +266,9 @@ var tSquareModule = (function () {
 							$(".loadingBlind").css({
 								'z-index' : 0
 							});
+							$("#mapBox").src = 'https://a.tiles.mapbox.com/v4/3picioare.263c8f3b/attribution,zoompan,geocoder,share.html?access_token=pk.eyJ1IjoiM3BpY2lvYXJlIiwiYSI6Ijc0MjMwMjBiOTMxMzk5Nzc4YmMzMmM4N2Q0OWJmZGE1In0.y9eZyD7X2xmYZUJzuyqJwg';
 						} else {
-							elementsToload--;							
+							elementsToload--;
 						}
 					},
 
@@ -270,13 +311,21 @@ var tSquareModule = (function () {
 			resizeDiv();
 			translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
 			translatePoz(translationTo);
-		})
+		});
+		
+		$(".portfolioItem").each(function () {
+			var zoomRenderingInstance = new renderZoomObject(this.id);
+			this.bind( "mouseenter mouseleave", function() {
+				zoomRenderingInstance.zoomTime = Date.now();
+				zoomRenderingInstance.toggleZoom();
+			});
+		});
 		// We listen for wheel events and update the scene acordingly.
 		$(window).bind("wheel", function (event) {
 			console.log("wheel");
 			scroll(event.originalEvent.deltaY);
 			return false;
-		})
+		});
 		// We listen for key events and update the scene accordingly.
 		$(window).bind("keydown", function (event) {
 			console.log("keydown");

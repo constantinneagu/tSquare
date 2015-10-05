@@ -2,10 +2,10 @@ extends layout
 
 block content
 	.loadingBlind
-	.borderHorizontal.borderTop
-	.borderHorizontal.borderBottom
-	svg.positionIndicatorsContainer('viewBox'='0 0 5 16', 'preserveAspectRatio'='xMaxYMax')
-	.resizableWindow.globalMargin
+	.borderHorizontal.borderTop.borderHorizontalDynamic.borderTopDynamic
+	.borderHorizontal.borderBottom.borderHorizontalDynamic.borderBottomDynamic
+	svg.positionIndicatorsContainer.positionIndicatorsContainerDynamic('viewBox'='0 0 5 16', 'preserveAspectRatio'='xMaxYMax')
+	.resizableWindow.resizableWindowDynamic
 		svg.hamburgerPlaceholder('viewBox'='0 0 7 5', 'preserveAspectRatio'='xMaxYMax')
 			rect.hamburgerSlice('x'= 0, 'y'= 0, width= 7, height= 1)
 			rect.hamburgerSlice('x'=0, 'y'=2, width= 7, height= 1)
@@ -15,10 +15,10 @@ block content
 				h3 T
 			.secondSquare
 				h3 SQUARE
-		#content_left.content
+		#contentLeft.content.contentDynamic
 			#frontPage.image.resizable.background.toLoad
 				.shade
-				.logoLeft.content
+				.logoLeft.content.contentDynamic
 					.tHorizontal
 					.tVertical
 					.bottomDash
@@ -36,7 +36,7 @@ block content
 					.itemShade(onclick='tSquareModule.galleryFilter("interior")')
 					h2.portofolioH2.
 						Interior
-			#aboutUs.content.resizable.background
+			#aboutUs.content.contentDynamic.resizable.background
 				h1.
 					We are who we are
 				h3.
@@ -48,11 +48,10 @@ block content
 					cillum dolore eu fuQiat nulle panatur, Excepteur sint occaecat
 					cupidatat non proident, sunt in culpa qui officia deserunt
 					mollit anim id est laborum.
-			#map.content.resizable
-				<iframe width='100%' height='100%' frameBorder='0' src='https://a.tiles.mapbox.com/v4/3picioare.263c8f3b/attribution,zoompan,geocoder,share.html?access_token=pk.eyJ1IjoiM3BpY2lvYXJlIiwiYSI6Ijc0MjMwMjBiOTMxMzk5Nzc4YmMzMmM4N2Q0OWJmZGE1In0.y9eZyD7X2xmYZUJzuyqJwg'></iframe>
-
-		#content_right.content
-			#contact.content.resizable
+			#map.content.contentDynamic.resizable
+				iframe#mapBox
+		#contentRight.contentRightDymamic.content.contentDynamic
+			#contact.content.contentDynamic.resizable
 				h1.
 					Contact Us
 				h3.
@@ -63,9 +62,9 @@ block content
 						contact@tsquared.com
 					h2.
 						+40 7 69 60 63 57
-			#social.content.resizable
-				#chat.social.background
-				#aboutYou.social.background
+			#social.content.contentDynamic.resizable
+				#chat.social.socialDynamic.background
+				#aboutYou.social.socialDynamic.background
 					h2.
 						Want to join our team?
 					.submitCV
