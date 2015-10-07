@@ -33,154 +33,184 @@ var tSquareModule = (function () {
 	resizeWindowPageHeight = 0,
 	resizeWindowResolutionIndex = -1,
 	borderThickness = 0,
-	translationStartTime = null,
-	translationFrom = 0,
-	translationTo = 0,
-	translationEndSelector = [1, 0];
-	translationSpeed = 0,
-	translationDuration = 500,
-	translationBusy = false,
 	touchStartTime = null,
 	touchMinSpeed = 0.9, // Pixels / Millisecond
 	touchStartX = 0,
 	touchStartY = 0,
 	currentPositionIndicator = null,
-	nextPositionIndicator = null;
+	nextPositionIndicator = null,
+	portfolioItemListeners = [],
+	renderTranslationInstance = null,
+	renderingQueue = [],
+	renderingRunning = false;
 
-	// Position dependent transletation
-	function translatePoz(poz) {
-		$("#contentLeft").css({
-			'top' : poz + "px"
-		});
-		$("#contentRight").css({
-			'bottom' : (resizeWindowPageHeight + poz) + "px"
-		});
-	};
+	// Queue rendering function
 
-	// Time dependent transletation
-	function translate(progress) {
-		var pozRadius = 0.5 * (progress / translationDuration);
-		translatePoz(translationEndSelector[0] * (translationFrom + (translationSpeed * progress)) +
-			translationEndSelector[1] * translationTo);
-		currentPositionIndicator.setAttribute("r", 1 - pozRadius);
-		nextPositionIndicator.setAttribute("r", 0.5 + pozRadius);
+	function renderQueue(timestamp) {
+		var renderingChangeSense = false;
+
+		renderingRunning = true;
+
+		for (var renderingIndex = 0; renderingIndex < renderingQueue.length; renderingIndex++) {
+
+			if (renderingQueue[renderingIndex].active) {
+				renderingChangeSense = true;
+				renderingQueue[renderingIndex].getChanges();
+			}
+		}
+
+		if (renderingChangeSense) {
+			window.requestAnimationFrame(renderQueue);
+		} else {
+			renderingRunning = false;
+		}
 	};
 
 	/* Rendering objects */
-	function renderTranslation(timestamp) {
-		var progress = 0,
-		deltaT = 0;
+	function renderTranslationObject() {
+		var translationStartTime = null,
+		translationEndSelector = [1, 0];
+		this.translationDuration = 500;
+		this.translationSpeed = 0;
+		this.translationFrom = 0;
+		this.translationTo = 0;
+		this.translationBusy = false;
+		this.active = false;
 
-		if (!translationStartTime) {
-			translationStartTime = Date.now();
-		} else {
-			//We want to make sure that pozY is going to reach the translation.translateTo value.
-			//Otherwise there is the chance that for the animation to not stop :(.
-			deltaT = Date.now() - translationStartTime;
-			if (deltaT < translationDuration) {
-				progress = deltaT;
-			} else {
-				progress = translationDuration;
-				translationEndSelector = [0, 1];
-			}
-			translate(progress);
-		}
-		if (progress != translationDuration) {
-			window.requestAnimationFrame(renderTranslation);
-		} else {
-			translationStartTime = null;
-			translationBusy = false;
-			currentPositionIndicator = nextPositionIndicator;
-			translationEndSelector = [1, 0];
-		}
-	};
-	function renderZoomObject (elementId) {
-		this.zoomTime = null,
-		zoomLevel = 10,
-		zoomDuration = 1000,
-		zoomProgress = 0,
-		zoomStop = true,
-		zoomRunning = false,
-		this.elementId = elementId;
-
-		function zoom() {
-			var zoomTmp = resizeWindowElementHeightBc * (1 + zoomProgress * (zoomLevel / 100) / zoomDuration);
-				$(elementId).css({
-					'background-size' : "auto " + zoomTmp + "px"
-				});
+		// Position dependent transletation
+		this.translatePoz = function (poz) {
+			$("#contentLeft").css({
+				'top' : poz + "px"
+			});
+			$("#contentRight").css({
+				'bottom' : (resizeWindowPageHeight + poz) + "px"
+			});
 		};
 
-		function renderZoom(timestamp) {
-			var zoomIntermediateTime = Date.now();
+		// Time dependent transletation
+		function translate(progress) {
+			var pozRadius = 0.5 * (progress / renderTranslationInstance.translationDuration);
+			currentPositionIndicator.setAttribute("r", 1 - pozRadius);
+			nextPositionIndicator.setAttribute("r", 0.5 + pozRadius);
+			renderTranslationInstance.translatePoz(translationEndSelector[0] * (renderTranslationInstance.translationFrom + (renderTranslationInstance.translationSpeed * progress)) +
+				translationEndSelector[1] * renderTranslationInstance.translationTo);
+		};
 
-			zoomRunning = true;
+		this.getChanges = function () {
+			var progress = 0,
+			deltaT = 0;
 
-			if (zoomStop == false) {
-				zoomProgress += zoomIntermediateTime - zoomTime;
-				if (zoomProgress > zoomDuration) {
-					zoomProgress = zoomDuration;
-				}
-				zoom();
-				zoomTime = zoomIntermediateTime;
-				if (zoomProgress != zoomDuration) {
-					window.requestAnimationFrame(renderZoom);
-				} else {
-					zoomTime = null;
-					zoomRunning = false;
-				}
+			if (!translationStartTime) {
+				translationStartTime = Date.now();
 			} else {
-				zoomProgress -= zoomIntermediateTime - zoomTime;
-				if (zoomProgress > 0) {
-					zoomProgress = 0;
-				}
-				zoom();
-				zoomTime = zoomIntermediateTime;
-
-				if (zoomProgress != 0) {
-					window.requestAnimationFrame(this.renderZoom);
+				//We want to make sure that pozY is going to reach the translation.translateTo value.
+				//Otherwise there is the chance that for the animation to not stop :(.
+				deltaT = Date.now() - translationStartTime;
+				if (deltaT < renderTranslationInstance.translationDuration) {
+					progress = deltaT;
 				} else {
-					zoomTime = null;
-					zoomRunning = false;
+					progress = renderTranslationInstance.translationDuration;
+					translationEndSelector = [0, 1];
 				}
+
+				if (progress == renderTranslationInstance.translationDuration) {
+					translationStartTime = null;
+					renderTranslationInstance.translationBusy = false;
+					currentPositionIndicator = nextPositionIndicator;
+					translationEndSelector = [1, 0];
+					renderTranslationInstance.active = false;
+				}
+				translate(progress);
+			}
+		}
+	};
+	function renderZoomObject(elementId) {
+		this.zoomTime = null;
+		this.elementId = elementId;
+		this.zoomProgress = 0;
+		this.zoomLevel = 10;
+		this.zoomDuration = 10000;
+		this.zoomStop = true;
+		this.active = false;
+
+		this.zoom = function () {
+			var zoomTmp = 1 + this.zoomProgress * (this.zoomLevel / 100) / this.zoomDuration;
+			$("#" + this.elementId).css({
+				'-webkit-transform' : "scale(" + zoomTmp + " )",
+				'-moz-transform' : "scale(" + zoomTmp + " )",
+				'-o-transform' : "scale(" + zoomTmp + " )",
+				'-ms-transform' : "scale(" + zoomTmp + " )",
+				'transform' : "scale(" + zoomTmp + " )"
+			});
+		};
+
+		this.getChanges = function () {
+			var zoomIntermediateTime = Date.now();
+			console.log(this.zoomStop);
+
+			if (this.zoomStop == false) {
+				this.zoomProgress += zoomIntermediateTime - this.zoomTime;
+				if (this.zoomProgress > this.zoomDuration) {
+					this.zoomProgress = this.zoomDuration;
+				}
+				this.zoomTime = zoomIntermediateTime;
+				if (this.zoomProgress == this.zoomDuration) {
+					this.zoomTime = null;
+					this.active = false;
+				}
+				this.zoom();
+			} else {
+				this.zoomProgress += (this.zoomTime - zoomIntermediateTime);
+				if (this.zoomProgress < 0) {
+					this.zoomProgress = 0;
+				}
+				this.zoomTime = zoomIntermediateTime;
+
+				if (this.zoomProgress == 0) {
+					this.zoomTime = null;
+					this.active = false;
+				}
+				this.zoom();
 			}
 		};
 
 		this.toggleZoom = function () {
-			zoomStop = !zoomStop;
-			if (!zoomRunning) {
-				window.requestAnimationFrame(this.renderZoom);
-			}
+			this.zoomStop = !this.zoomStop;
 		};
 	}
 	/* Rendering objects end */
 
 	function scroll(deltaY) {
-		if (!translationBusy) {
+		if (!renderTranslationInstance.translationBusy) {
 			var scrollDirection = 0;
-			translationBusy = true;
-			translationFrom = translationTo;
+			renderTranslationInstance.translationBusy = true;
+			renderTranslationInstance.translationFrom = renderTranslationInstance.translationTo;
 			if (deltaY < 0) {
 				if (scrollEvents == 0) {
-					translationBusy = false;
+					renderTranslationInstance.translationBusy = false;
 					return;
 				}
 				scrollDirection = 1;
 				scrollEvents--;
 			} else {
 				if (scrollEvents == numberOfElemnts) {
-					translationBusy = false;
+					renderTranslationInstance.translationBusy = false;
 					return;
 				}
 				scrollDirection = -1;
 				scrollEvents++;
 			}
-			translationTo += (resizeWindowElementHeightBc * scrollDirection);
+			renderTranslationInstance.translationTo += (resizeWindowElementHeightBc * scrollDirection);
 			// Here I'm getting the magnitude and the direction of the speed vector.
-			translationSpeed = (translationTo - translationFrom) / translationDuration;
+			renderTranslationInstance.translationSpeed = (renderTranslationInstance.translationTo - renderTranslationInstance.translationFrom) / renderTranslationInstance.translationDuration;
 			// Set to he position indicators accordingly.
 			nextPositionIndicator = $(".positionIndicator")[scrollEvents];
 
-			window.requestAnimationFrame(renderTranslation);
+			renderTranslationInstance.active = true;
+
+			if (!renderingRunning) {
+				window.requestAnimationFrame(renderQueue);
+			}
 		}
 	};
 
@@ -300,8 +330,24 @@ var tSquareModule = (function () {
 
 			positionIndicatorsContainer[0].appendChild(tmpCircle);
 		}
-		/* $("body").append(positionIndicatorsContainer); */
-		/* $($(".positionIndicator")[0]).addClass("currentPosition"); */
+
+		// Initializing the rendering list
+		renderTranslationInstance = new renderTranslationObject();
+		renderingQueue[0] = renderTranslationInstance;
+		$(".portfolioItem").each(function (index) {
+			var portfolioItem = this;
+			portfolioItemListeners[portfolioItem.id] = new renderZoomObject(portfolioItem.id);
+			renderingQueue[index + 1] = portfolioItemListeners[portfolioItem.id];
+			console.log(portfolioItemListeners[portfolioItem.id]);
+			$(portfolioItem).bind("mouseenter mouseleave", function () {
+				portfolioItemListeners[this.id].zoomTime = Date.now();
+				portfolioItemListeners[this.id].toggleZoom();
+				portfolioItemListeners[this.id].active = true;
+				if (!renderingRunning) {
+					window.requestAnimationFrame(renderQueue);
+				}
+			});
+		});
 
 		// We first want to resize the div to fit the screen.
 		resizeDiv();
@@ -309,17 +355,10 @@ var tSquareModule = (function () {
 		// On window resize, we get the new height. Then we calculate and re-position everything that depends on it.
 		$(window).resize(function () {
 			resizeDiv();
-			translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
-			translatePoz(translationTo);
+			renderTranslationInstance.translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
+			renderTranslationInstance.translatePoz(renderTranslationInstance.translationTo);
 		});
-		
-		$(".portfolioItem").each(function () {
-			var zoomRenderingInstance = new renderZoomObject(this.id);
-			this.bind( "mouseenter mouseleave", function() {
-				zoomRenderingInstance.zoomTime = Date.now();
-				zoomRenderingInstance.toggleZoom();
-			});
-		});
+
 		// We listen for wheel events and update the scene acordingly.
 		$(window).bind("wheel", function (event) {
 			console.log("wheel");
