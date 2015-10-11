@@ -124,17 +124,18 @@ var tSquareModule = (function () {
 			}
 		}
 	};
+	
 	function renderZoomObject(elementId) {
 		this.zoomTime = null;
 		this.elementId = elementId;
 		this.zoomProgress = 0;
-		this.zoomLevel = 10;
-		this.zoomDuration = 10000;
-		this.zoomStop = true;
+		this.zoomDuration = 2000;
+		this.zoomSpeed = 0.00001;
+		this.zoomNegative = true;
 		this.active = false;
 
 		this.zoom = function () {
-			var zoomTmp = 1 + this.zoomProgress * (this.zoomLevel / 100) / this.zoomDuration;
+			var zoomTmp = 1 + this.zoomSpeed * this.zoomProgress ;
 			$("#" + this.elementId).css({
 				'-webkit-transform' : "scale(" + zoomTmp + " )",
 				'-moz-transform' : "scale(" + zoomTmp + " )",
@@ -142,13 +143,13 @@ var tSquareModule = (function () {
 				'-ms-transform' : "scale(" + zoomTmp + " )",
 				'transform' : "scale(" + zoomTmp + " )"
 			});
+			document.getElementById(this.elementId + "GradientStop").setAttribute("offset", (8000 * this.zoomSpeed * this.zoomProgress) + "%");
 		};
 
 		this.getChanges = function () {
 			var zoomIntermediateTime = Date.now();
-			console.log(this.zoomStop);
 
-			if (this.zoomStop == false) {
+			if (this.zoomNegative == false) {
 				this.zoomProgress += zoomIntermediateTime - this.zoomTime;
 				if (this.zoomProgress > this.zoomDuration) {
 					this.zoomProgress = this.zoomDuration;
@@ -175,7 +176,7 @@ var tSquareModule = (function () {
 		};
 
 		this.toggleZoom = function () {
-			this.zoomStop = !this.zoomStop;
+			this.zoomNegative = !this.zoomNegative;
 		};
 	}
 	/* Rendering objects end */
@@ -335,14 +336,14 @@ var tSquareModule = (function () {
 		renderTranslationInstance = new renderTranslationObject();
 		renderingQueue[0] = renderTranslationInstance;
 		$(".portfolioItem").each(function (index) {
-			var portfolioItem = this;
-			portfolioItemListeners[portfolioItem.id] = new renderZoomObject(portfolioItem.id);
-			renderingQueue[index + 1] = portfolioItemListeners[portfolioItem.id];
-			console.log(portfolioItemListeners[portfolioItem.id]);
+			var portfolioItem = this,
+			imageld = this.firstChild.id;
+			portfolioItemListeners[imageld] = new renderZoomObject(imageld);
+			renderingQueue[index + 1] = portfolioItemListeners[imageld];
 			$(portfolioItem).bind("mouseenter mouseleave", function () {
-				portfolioItemListeners[this.id].zoomTime = Date.now();
-				portfolioItemListeners[this.id].toggleZoom();
-				portfolioItemListeners[this.id].active = true;
+				portfolioItemListeners[this.firstChild.id].zoomTime = Date.now();
+				portfolioItemListeners[this.firstChild.id].toggleZoom();
+				portfolioItemListeners[this.firstChild.id].active = true;
 				if (!renderingRunning) {
 					window.requestAnimationFrame(renderQueue);
 				}

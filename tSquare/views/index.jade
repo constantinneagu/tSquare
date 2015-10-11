@@ -7,16 +7,17 @@ block content
 	svg.positionIndicatorsContainer.positionIndicatorsContainerDynamic('viewBox'='0 0 5 16', 'preserveAspectRatio'='xMaxYMax')
 	.resizableWindow.resizableWindowDynamic
 		svg.hamburgerPlaceholder('viewBox'='0 0 7 5', 'preserveAspectRatio'='xMaxYMax')
-			rect.hamburgerSlice('x'= 0, 'y'= 0, width= 7, height= 1)
-			rect.hamburgerSlice('x'=0, 'y'=2, width= 7, height= 1)
-			rect.hamburgerSlice('x'=0, 'y'=4, width= 7, height=1)
+			rect.hamburgerSlice('x'=0, 'y'=0, width=7, height=1)
+			rect.hamburgerSlice('x'=0, 'y'=2, width=7, height=1)
+			rect.hamburgerSlice('x'=0, 'y'=4, width=7, height=1)
 		.smallLogoPlaceholder
 			.firstT
 				h3 T
 			.secondSquare
 				h3 SQUARE
 		#contentLeft.contentLeftDynamic.content.contentDynamic
-			#frontPage.image.resizable.background.toLoad
+			#firmament.resizable
+				#frontPage.image.background.resizable.toLoad
 				.shade
 				.logoLeft.content.contentDynamic
 					.tHorizontal
@@ -28,12 +29,24 @@ block content
 					p.
 						concept and beyond...
 			#portfolio.resizable
-				#portfolioExterior.image.portfolioItem.background.toLoad
-					.itemShade(onclick='tSquareModule.galleryFilter("exterior")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("exterior")')
+					#portfolioExterior.image.background.toLoad.quarterSlice
+					svg#portfolioExteriorShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
+						defs
+							radialGradient#portfolioExteriorGradient
+								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
+								stop#portfolioExteriorGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.5)
+						rect('fill'='url(#portfolioExteriorGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
 					h2.portofolioH2.
 						Exterior
-				#portfolioInterior.image.portfolioItem.background.toLoad
-					.itemShade(onclick='tSquareModule.galleryFilter("interior")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("interior")')
+					#portfolioInterior.image.background.toLoad.quarterSlice
+					svg#portfolioInteriorShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
+						defs
+							radialGradient#portfolioInteriorGradient
+								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
+								stop#portfolioInteriorGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.5)
+						rect('fill'='url(#portfolioInteriorGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
 					h2.portofolioH2.
 						Interior
 			#aboutUs.content.contentDynamic.resizable.background
@@ -50,7 +63,7 @@ block content
 					mollit anim id est laborum.
 			#map.content.contentDynamic.resizable
 				iframe#mapBox
-		#contentRight.contentRightDynamic.contentRightDymamic.content.contentDynamic
+		#contentRight.contentRightDymamic.content.contentDynamic
 			#contact.content.contentDynamic.resizable
 				h1.
 					Contact Us
@@ -73,15 +86,28 @@ block content
 						h3.
 							Comming soon
 			#portfolio.resizable(style={ 'right': "0%"})
-				#portfolioConcepts.image.portfolioItem.background.toLoad
-					.itemShade(onclick='tSquareModule.galleryFilter("concepts")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("concepts")')
+					#portfolioConcepts.image.background.toLoad.quarterSlice
+					svg#portfolioConceptsShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
+						defs
+							radialGradient#portfolioConceptsGradient
+								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
+								stop#portfolioConceptsGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.5)
+						rect('fill'='url(#portfolioConceptsGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
 					h2.portofolioH2.
 						Concepts
-				#portfolioPhotography.image.portfolioItem.background.toLoad
-					.itemShade(onclick='tSquareModule.galleryFilter("photography")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("photography")')
+					#portfolioPhotography.image.background.toLoad.quarterSlice
+					svg#portfolioPhotographyShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
+						defs
+							radialGradient#portfolioPhotographyGradient
+								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
+								stop#portfolioPhotographyGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.5)
+						rect('fill'='url(#portfolioPhotographyGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
 					h2.portofolioH2.
 						Photography
-			#frontPage.image.resizable.background.right.toLoad
+			#firmament.resizable.right
+				#frontPage.image.background.resizable.toLoad
 				.logoRight
 				.moto
 					p.
