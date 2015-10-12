@@ -32,7 +32,8 @@ var tSquareModule = (function () {
 	resizeWindowElementWidthBc = 0,
 	resizeWindowPageHeight = 0,
 	resizeWindowResolutionIndex = -1,
-	borderThickness = 0,
+	horizontalBorderThickness = 0,
+	verticalBorderThickness = 0,
 	touchStartTime = null,
 	touchMinSpeed = 0.9, // Pixels / Millisecond
 	touchStartX = 0,
@@ -83,7 +84,7 @@ var tSquareModule = (function () {
 				'top' : poz + "px"
 			});
 			$("#contentRight").css({
-				'bottom' : (resizeWindowPageHeight + poz) + "px"
+				'bottom' : ((horizontalBorderThickness * 2) + poz) + "px"
 			});
 		};
 
@@ -217,17 +218,17 @@ var tSquareModule = (function () {
 
 	function resizeDiv() {
 		var tmpResolutionIndex = resizeWindowResolutionIndex,
-		resizeWindowElementHeight = $(window).height(),
-		resizeWindowElementWidth = $(window).width(),
+		devicePixelRatio = window.devicePixelRatio,
+		resizeWindowElementHeight = Math.round($(window).height() * devicePixelRatio) / devicePixelRatio,
+		resizeWindowElementWidth = Math.round($(window).width() * devicePixelRatio) / devicePixelRatio,
 		elementsToload = $(".toLoad").length - 1;
 
-		/* borderThickness = Math.floor((0.005 * resizeWindowElementWidth));
-		borderThickness -= borderThickness % 2; */
 		console.log(resizeWindowElementHeight);
-		borderThickness = 10 + (resizeWindowElementHeight - (Math.floor(resizeWindowElementHeight)));
+		horizontalBorderThickness = 10 + (resizeWindowElementHeight - (Math.floor(resizeWindowElementHeight))) / 2;
+		verticalBorderThickness = 10 + (resizeWindowElementWidth - (Math.floor(resizeWindowElementWidth))) / 2;
 
-		resizeWindowElementHeightBc = resizeWindowElementHeight - (borderThickness * 2);
-		resizeWindowElementWidthBc = resizeWindowElementWidth - (borderThickness * 2);
+		resizeWindowElementHeightBc = resizeWindowElementHeight - (horizontalBorderThickness * 2);
+		resizeWindowElementWidthBc = resizeWindowElementWidth - (verticalBorderThickness * 2);
 
 		resizeWindowPageHeight = numberOfElemnts * resizeWindowElementHeightBc;
 
@@ -259,13 +260,14 @@ var tSquareModule = (function () {
 			".contentDynamic {width : " + resizeWindowElementWidthBc / 2 + "px;}\n" +
 			".socialDynamic {height : " + resizeWindowElementHeightBc / 2 + "px; " +
 			"width : " + resizeWindowElementWidthBc / 2 + "px;}\n" +
-			".contentRightDymamic {bottom : " + resizeWindowPageHeight + "px;}\n" +
+			".contentRightDymamic {bottom : " + (horizontalBorderThickness * 2) + "px; " +
+			"left : " + resizeWindowElementWidthBc / 2 + "px;" + "}\n" +
 			".resizableWindowDynamic {height : " + resizeWindowElementHeight + "px; " +
 			"width : " + resizeWindowElementWidthBc + "px; " +
-			"margin : " + borderThickness + "px;}\n" +
-			".positionIndicatorsContainerDynamic {width : " + borderThickness + "px; " +
-			"height : " + borderThickness * 3.2 + "px;}\n" +
-			".borderHorizontalDynamic {height : " + borderThickness + "px;}\n");
+			"margin : " + horizontalBorderThickness + "px " + verticalBorderThickness + "px;}\n" +
+			".positionIndicatorsContainerDynamic {width : " + verticalBorderThickness + "px; " +
+			"height : " + horizontalBorderThickness * 3.2 + "px;}\n" +
+			".borderHorizontalDynamic {height : " + horizontalBorderThickness + "px;}\n");
 
 		if (tmpResolutionIndex !== resizeWindowResolutionIndex) {
 			$(".loadingBlind").css({
@@ -467,15 +469,15 @@ var tSquareModule = (function () {
 	function initGallery(galleryItems) {
 		var galleryContainer = $(".galleryContainer"),
 		columns = 4,
-		baseWidth = ((resizeWindowElementWidthBc + borderThickness) / columns) - borderThickness,
+		baseWidth = ((resizeWindowElementWidthBc + horizontalBorderThickness) / columns) - horizontalBorderThickness,
 		index,
 		galleryItemsLength = galleryItems.length;
 
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			galleryItem.height = baseWidth * galleryItem.metadata.aspectRatio;
-			galleryItem.left = (index % columns) * (baseWidth + borderThickness);
-			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + borderThickness);
+			galleryItem.left = (index % columns) * (baseWidth + horizontalBorderThickness);
+			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + horizontalBorderThickness);
 
 			var listItem = $("<img class='galleryItem " + galleryItem.filename + "' src='gallery/pictures/thumbnail/" + galleryItem.filename + "'>");
 			listItem.css({
@@ -488,8 +490,8 @@ var tSquareModule = (function () {
 			galleryContainer.append(listItem);
 		}
 		galleryContainer.css({
-			'height' : resizeWindowElementHeightBc,
-			'width' : resizeWindowElementWidthBc,
+			/* 'height' : resizeWindowElementHeightBc,
+			'width' : resizeWindowElementWidthBc, */
 			'z-index' : 6
 		});
 		$(".galleryContainerShade").css({
