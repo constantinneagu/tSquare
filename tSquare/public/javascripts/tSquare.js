@@ -41,7 +41,8 @@ var tSquareModule = (function () {
 	currentPositionIndicator = null,
 	nextPositionIndicator = null,
 	portfolioItemListeners = [],
-	renderTranslationInstance = null,
+	renderVerticalTranslationInstance = null,
+	renderHorizontalTranslationInstance = null,
 	renderingQueue = [],
 	renderingRunning = false;
 
@@ -68,7 +69,7 @@ var tSquareModule = (function () {
 	};
 
 	/* Rendering objects */
-	function renderTranslationObject() {
+	function renderVerticalTranslationObject() {
 		var translationStartTime = null,
 		translationEndSelector = [1, 0];
 		this.translationDuration = 500;
@@ -90,11 +91,11 @@ var tSquareModule = (function () {
 
 		// Time dependent transletation
 		function translate(progress) {
-			var pozRadius = 0.5 * (progress / renderTranslationInstance.translationDuration);
+			var pozRadius = 0.5 * (progress / renderVerticalTranslationInstance.translationDuration);
 			currentPositionIndicator.setAttribute("r", 1 - pozRadius);
 			nextPositionIndicator.setAttribute("r", 0.5 + pozRadius);
-			renderTranslationInstance.translatePoz(translationEndSelector[0] * (renderTranslationInstance.translationFrom + (renderTranslationInstance.translationSpeed * progress)) +
-				translationEndSelector[1] * renderTranslationInstance.translationTo);
+			renderVerticalTranslationInstance.translatePoz(translationEndSelector[0] * (renderVerticalTranslationInstance.translationFrom + (renderVerticalTranslationInstance.translationSpeed * progress)) +
+				translationEndSelector[1] * renderVerticalTranslationInstance.translationTo);
 		};
 
 		this.getChanges = function () {
@@ -107,25 +108,25 @@ var tSquareModule = (function () {
 				//We want to make sure that pozY is going to reach the translation.translateTo value.
 				//Otherwise there is the chance that for the animation to not stop :(.
 				deltaT = Date.now() - translationStartTime;
-				if (deltaT < renderTranslationInstance.translationDuration) {
+				if (deltaT < renderVerticalTranslationInstance.translationDuration) {
 					progress = deltaT;
 				} else {
-					progress = renderTranslationInstance.translationDuration;
+					progress = renderVerticalTranslationInstance.translationDuration;
 					translationEndSelector = [0, 1];
 				}
 
-				if (progress == renderTranslationInstance.translationDuration) {
+				if (progress == renderVerticalTranslationInstance.translationDuration) {
 					translationStartTime = null;
-					renderTranslationInstance.translationBusy = false;
+					renderVerticalTranslationInstance.translationBusy = false;
 					currentPositionIndicator = nextPositionIndicator;
 					translationEndSelector = [1, 0];
-					renderTranslationInstance.active = false;
+					renderVerticalTranslationInstance.active = false;
 				}
 				translate(progress);
 			}
 		}
 	};
-	
+
 	function renderZoomObject(elementId) {
 		this.zoomTime = null;
 		this.elementId = elementId;
@@ -136,7 +137,7 @@ var tSquareModule = (function () {
 		this.active = false;
 
 		this.zoom = function () {
-			var zoomTmp = 1 + this.zoomSpeed * this.zoomProgress ;
+			var zoomTmp = 1 + this.zoomSpeed * this.zoomProgress;
 			$("#" + this.elementId).css({
 				'-webkit-transform' : "scale(" + zoomTmp + " )",
 				'-moz-transform' : "scale(" + zoomTmp + " )",
@@ -180,39 +181,104 @@ var tSquareModule = (function () {
 			this.zoomNegative = !this.zoomNegative;
 		};
 	}
+
+	function renderHorizontalTranslationObject() {
+		var translationStartTime = null,
+		translationEndSelector = [1, 0];
+		this.translationDuration = 500;
+		this.translationSpeed = 0;
+		this.translationFrom = 0;
+		this.translationTo = 0;
+		this.translationBusy = false;
+		this.active = false;
+
+		// Position dependent transletation
+		this.translatePoz = function (poz) {
+			$("#contentLeft").css({
+				'left' : "-" + poz + "px"
+			});
+			$("#contentRight").css({
+				'left' : (renderHorizontalTranslationInstance.translationTo + poz) + "px"
+			});
+		};
+
+		// Time dependent transletation
+		function translate(progress) {
+			renderHorizontalTranslationInstance.translatePoz(translationEndSelector[0] * (renderHorizontalTranslationInstance.translationSpeed * progress) +
+				translationEndSelector[1] * renderHorizontalTranslationInstance.translationTo);
+		};
+
+		this.getChanges = function () {
+			var progress = 0,
+			deltaT = 0;
+
+			if (!translationStartTime) {
+				translationStartTime = Date.now();
+			} else {
+				//We want to make sure that pozY is going to reach the translation.translateTo value.
+				//Otherwise there is the chance that for the animation to not stop :(.
+				deltaT = Date.now() - translationStartTime;
+				if (deltaT < renderHorizontalTranslationInstance.translationDuration) {
+					progress = deltaT;
+				} else {
+					progress = renderHorizontalTranslationInstance.translationDuration;
+					translationEndSelector = [0, 1];
+				}
+
+				if (progress == renderHorizontalTranslationInstance.translationDuration) {
+					translationStartTime = null;
+					renderHorizontalTranslationInstance.translationBusy = false;
+					translationEndSelector = [1, 0];
+					renderHorizontalTranslationInstance.active = false;
+				}
+				translate(progress);
+			}
+		}
+	};
 	/* Rendering objects end */
 
 	function scroll(deltaY) {
-		if (!renderTranslationInstance.translationBusy) {
+		if (!renderVerticalTranslationInstance.translationBusy) {
 			var scrollDirection = 0;
-			renderTranslationInstance.translationBusy = true;
-			renderTranslationInstance.translationFrom = renderTranslationInstance.translationTo;
+			renderVerticalTranslationInstance.translationBusy = true;
+			renderVerticalTranslationInstance.translationFrom = renderVerticalTranslationInstance.translationTo;
 			if (deltaY < 0) {
 				if (scrollEvents == 0) {
-					renderTranslationInstance.translationBusy = false;
+					renderVerticalTranslationInstance.translationBusy = false;
 					return;
 				}
 				scrollDirection = 1;
 				scrollEvents--;
 			} else {
 				if (scrollEvents == numberOfElemnts) {
-					renderTranslationInstance.translationBusy = false;
+					renderVerticalTranslationInstance.translationBusy = false;
 					return;
 				}
 				scrollDirection = -1;
 				scrollEvents++;
 			}
-			renderTranslationInstance.translationTo += (resizeWindowElementHeightBc * scrollDirection);
+			renderVerticalTranslationInstance.translationTo += (resizeWindowElementHeightBc * scrollDirection);
 			// Here I'm getting the magnitude and the direction of the speed vector.
-			renderTranslationInstance.translationSpeed = (renderTranslationInstance.translationTo - renderTranslationInstance.translationFrom) / renderTranslationInstance.translationDuration;
+			renderVerticalTranslationInstance.translationSpeed = (renderVerticalTranslationInstance.translationTo - renderVerticalTranslationInstance.translationFrom) / renderVerticalTranslationInstance.translationDuration;
 			// Set to he position indicators accordingly.
 			nextPositionIndicator = $(".positionIndicator")[scrollEvents];
 
-			renderTranslationInstance.active = true;
+			renderVerticalTranslationInstance.active = true;
 
 			if (!renderingRunning) {
 				window.requestAnimationFrame(renderQueue);
 			}
+		}
+	};
+
+	function horizontalPart() {
+		renderHorizontalTranslationInstance.translationTo = horizontalBorderThickness + resizeWindowElementWidthBc / 2;
+		// Here I'm getting the magnitude and the direction of the speed vector.
+		renderHorizontalTranslationInstance.translationSpeed = renderHorizontalTranslationInstance.translationTo / renderVerticalTranslationInstance.translationDuration;
+
+		renderHorizontalTranslationInstance.active = true;
+		if (!renderingRunning) {
+			window.requestAnimationFrame(renderQueue);
 		}
 	};
 
@@ -233,22 +299,25 @@ var tSquareModule = (function () {
 		resizeWindowPageHeight = numberOfElemnts * resizeWindowElementHeightBc;
 
 		function searchInterval(resolutionIndex) {
+			console.log(resolutionIndex);
 			if (resolutions[resolutionIndex].width === resizeWindowElementWidth ||
 				resolutionIndex === 0 || resolutionIndex === 5) {
 				resizeWindowResolutionIndex = resolutionIndex;
-			}
-			if (resolutions[resolutionIndex].width > resizeWindowElementWidth) {
-				if (resolutions[resolutionIndex - 1].width < resizeWindowElementWidth) {
-					resizeWindowResolutionIndex = resolutionIndex;
+			} else {
+				if (resolutions[resolutionIndex].width > resizeWindowElementWidth) {
+					if (resolutions[resolutionIndex - 1].width < resizeWindowElementWidth) {
+						resizeWindowResolutionIndex = resolutionIndex;
+					} else {
+						searchInterval(resolutionIndex - 1);
+					}
 				} else {
-					searchInterval(resolutionIndex - 1);
-				}
-			}
-			if (resolutions[resolutionIndex].width < resizeWindowElementWidth) {
-				if (resolutions[resolutionIndex + 1].width > resizeWindowElementWidth) {
-					resizeWindowResolutionIndex = resolutionIndex + 1;
-				} else {
-					searchInterval(resolutionIndex + 1);
+					if (resolutions[resolutionIndex].width < resizeWindowElementWidth) {
+						if (resolutions[resolutionIndex + 1].width > resizeWindowElementWidth) {
+							resizeWindowResolutionIndex = resolutionIndex + 1;
+						} else {
+							searchInterval(resolutionIndex + 1);
+						}
+					}
 				}
 			}
 		};
@@ -335,13 +404,15 @@ var tSquareModule = (function () {
 		}
 
 		// Initializing the rendering list
-		renderTranslationInstance = new renderTranslationObject();
-		renderingQueue[0] = renderTranslationInstance;
+		renderVerticalTranslationInstance = new renderVerticalTranslationObject();
+		renderingQueue[0] = renderVerticalTranslationInstance;
+		renderHorizontalTranslationInstance = new renderHorizontalTranslationObject();
+		renderingQueue[1] = renderHorizontalTranslationInstance;
 		$(".portfolioItem").each(function (index) {
 			var portfolioItem = this,
 			imageld = this.firstChild.id;
 			portfolioItemListeners[imageld] = new renderZoomObject(imageld);
-			renderingQueue[index + 1] = portfolioItemListeners[imageld];
+			renderingQueue[index + 2] = portfolioItemListeners[imageld];
 			$(portfolioItem).bind("mouseenter mouseleave", function () {
 				portfolioItemListeners[this.firstChild.id].zoomTime = Date.now();
 				portfolioItemListeners[this.firstChild.id].toggleZoom();
@@ -357,9 +428,10 @@ var tSquareModule = (function () {
 
 		// On window resize, we get the new height. Then we calculate and re-position everything that depends on it.
 		$(window).resize(function () {
+			console.log("resize");
 			resizeDiv();
-			renderTranslationInstance.translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
-			renderTranslationInstance.translatePoz(renderTranslationInstance.translationTo);
+			renderVerticalTranslationInstance.translationTo = -1 * scrollEvents * resizeWindowElementHeightBc;
+			renderVerticalTranslationInstance.translatePoz(renderVerticalTranslationInstance.translationTo);
 		});
 
 		// We listen for wheel events and update the scene acordingly.
@@ -387,9 +459,7 @@ var tSquareModule = (function () {
 			}
 		});
 		// We listen for touch events and update the scene accordingly.
-		$(".resizeable").bind("touchstart", function (event) {
-			console.log("touchstart");
-			console.log(event.originalEvent.changedTouches.length);
+		$(window).bind("touchstart", function (event) {
 			if (event.originalEvent.changedTouches.length == 1) {
 				touchObj = event.originalEvent.changedTouches[0];
 				touchStartTime = Date.now();
@@ -398,8 +468,8 @@ var tSquareModule = (function () {
 			}
 		});
 		// We listen for touch events and update the scene accordingly.
-		$(".resizeable").bind("touchend", function (event) {
-			console.log("touchend");
+		$(window).bind("touchend", function (event) {
+			event.preventDefault();
 			if (event.originalEvent.changedTouches.length == 1) {
 				touchObj = event.originalEvent.changedTouches[0];
 				var deltaTouchTime = Date.now() - touchStartTime;
@@ -436,47 +506,26 @@ var tSquareModule = (function () {
 					scroll(deltaTouchY);
 			}
 		});
-
-		// We listen for events for test purposes.
-		$(".resizeable").bind("mousemove", function (event) {
-			event.preventDefault();
-			console.log("mousemove");
-		});
-
-		// We listen for events for test purposes.
-		$(".resizeable").bind("drag", function (event) {
-			console.log("drag");
-		});
-
-		// We listen for events for test purposes.
-		$(".resizeable").bind("touchmove", function (event) {
-			event.preventDefault();
-			console.log("touchmove");
-		});
-
-		// We listen for events for test purposes.
-		$(".resizeable").bind("scroll", function (event) {
-			event.preventDefault();
-			console.log("scroll");
-		});
-
-		// We listen for events for test purposes.
-		$(".resizeable").bind("MSPointerMove", function (event) {
-			console.log("MSPointerMove");
-		});
 	};
 	// Gallery management
 	function initGallery(galleryItems) {
-		var galleryContainer = $(".galleryContainer"),
-		columns = 4,
-		baseWidth = ((resizeWindowElementWidthBc + horizontalBorderThickness) / columns) - horizontalBorderThickness,
+		var imagesContainer = $(".imagesContainer"),
+		columns = (resizeWindowElementHeightBc < resizeWindowElementWidthBc) ? 4 : 3,
+		baseWidth = ((resizeWindowElementWidthBc + verticalBorderThickness) / columns) - verticalBorderThickness,
 		index,
 		galleryItemsLength = galleryItems.length;
+
+		imagesContainer.empty();
+		horizontalPart();
+
+		imagesContainer.css({
+			'top' : (35 + horizontalBorderThickness) + "px"
+		});
 
 		for (index = 0; index < galleryItemsLength; index++) {
 			var galleryItem = galleryItems[index];
 			galleryItem.height = baseWidth * galleryItem.metadata.aspectRatio;
-			galleryItem.left = (index % columns) * (baseWidth + horizontalBorderThickness);
+			galleryItem.left = (index % columns) * (baseWidth + verticalBorderThickness);
 			galleryItem.top = (index < columns) ? 0 : (galleryItems[index - columns].top + galleryItems[index - columns].height + horizontalBorderThickness);
 
 			var listItem = $("<img class='galleryItem " + galleryItem.filename + "' src='gallery/pictures/thumbnail/" + galleryItem.filename + "'>");
@@ -484,20 +533,24 @@ var tSquareModule = (function () {
 				'width' : baseWidth,
 				'height' : galleryItem.height,
 				'left' : galleryItem.left,
-				'top' : galleryItem.top
+				'top' : galleryItem.top,
+				'display' : 'none'
+			});
+			listItem.bind("load", function (event) {
+				$(event.target).css({
+					'display' : 'block'
+				});
 			});
 			galleryItems[index] = galleryItem;
-			galleryContainer.append(listItem);
+
+			// We listen for wheel events and update the scene acordingly.
+			$(window).unbind();
+			$(window).bind("wheel", function (event) {
+				console.log(event.originalEvent.screenY/* .originalEvent.deltaY */);
+			});
+
+			imagesContainer.append(listItem);
 		}
-		galleryContainer.css({
-			/* 'height' : resizeWindowElementHeightBc,
-			'width' : resizeWindowElementWidthBc, */
-			'z-index' : 6
-		});
-		$(".galleryContainerShade").css({
-			'z-index' : 6
-		});
-		/* $(".resizableWindow").append(galleryContainer); */
 	};
 
 	theModule.galleryFilter = function (filterTag) {
@@ -521,7 +574,6 @@ var tSquareModule = (function () {
 			// Code to run if the request succeeds;
 			// the response is passed to the function
 			success : function (response) {
-				console.log(response);
 				initGallery(response);
 			},
 

@@ -1,6 +1,40 @@
-extends layout
+doctype html
+html
+	head
+		meta(name="viewport", content="width=device-width,initial-scale=1")
+		title= title
+		style#styleDynamic(type='text/css')
+		style#renderingStyles(type='text/css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src="/javascripts/jquery-1.11.3.min.js")
+		script(src="/javascripts/tSquare.js")
+	body
+		#test(style={'width': '1000px', 'height': '1000px', 'background-color': 'red'})
+		script.
+			$("#test").bind("mousemove", function (event) {
+				console.log("mousemove");
+				event.preventDefault();
+			});
+			// We listen for events for test purposes.
+			$("#test").bind("wheel", function (event) {
+				console.log("wheel");
+				event.preventDefault();
+			});
 
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+			// We listen for events for test purposes.
+			$("#test").bind("mousedown", function (event) {
+				event.preventDefault();
+				console.log("mousedown");
+			});
+
+			// We listen for events for test purposes.
+			$("#test").bind("mouseup", function (event) {
+				event.preventDefault();
+				console.log("mouseup");
+			});
+
+			// We listen for events for test purposes.
+			$("#test").bind("MSPointerMove", function (event) {
+				event.preventDefault();
+				console.log("MSPointerMove");
+			});

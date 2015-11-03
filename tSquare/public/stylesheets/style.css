@@ -69,8 +69,8 @@ a {
 	position: absolute;
 	top: 10px;
 	right: 10px;
-    height: 1em;
-	width: 1.3em;
+    height: 15px;
+	width: 20px;
 	Z-index: 7;
 }
 
@@ -87,13 +87,13 @@ a {
 
 .smallLogoPlaceholder .firstT {
 	background-color: white;
-	width: 1em;
-	height: 1em;
+    height: 15px;
+	width: 15px;
 	position: absolute;
 }
 
 .smallLogoPlaceholder .firstT h3 {
-	font: 0.8em gothamrnd, sans-serif;
+	font: 12px gothamrnd, sans-serif;
 	font-weight: bold;
 	text-align: center;
 	color: black;
@@ -102,17 +102,17 @@ a {
 
 .smallLogoPlaceholder .secondSquare {
 	position: absolute;
-	left: 1em;
-	height: 1em;
+    height: 15px;
+	width: 15px;
 }
 
 .smallLogoPlaceholder .secondSquare h3 {
-	font: 0.8em gothamrnd, sans-serif;
+	font: 12px gothamrnd, sans-serif;
 	font-weight: bold;
 	text-align: center;
 	color: white;
 	margin: 0;
-	margin-left: 0.5em;
+	margin-left: 18px;
 }
 
 .portofolioH2 {
@@ -148,8 +148,8 @@ a {
 	z-index: 1;
 	background-color: rgb(4, 7, 15);
 	opacity: 0.5;
-	width: 100%;
-	height: 100%;
+	top: 0px;
+	left: 0px;
 }
 
 /* Logo style definitions */
@@ -219,7 +219,7 @@ a {
 .moto p {
 	font-family: gothamrnd, sans-serif;
 	text-align: center;
-	font-size: 6vh;
+	font-size: 5vh;
 	margin: 0.6vh;
 	color: white;
 }
@@ -257,7 +257,7 @@ a {
 }
 
 #aboutUs h1 {
-	font: 3vw gothamrnd, sans-serif; 
+	font: 4vh gothamrnd, sans-serif; 
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -266,7 +266,7 @@ a {
 }
 
 #aboutUs h3 {
-	font: 0.8vw gothamrnd, sans-serif; 
+	font: 2.5vh gothamrnd, sans-serif; 
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -292,7 +292,7 @@ a {
 }
 
 #aboutYou h2 {
-	font: 2vw gothamrnd, sans-serif; 
+	font: 3vh gothamrnd, sans-serif; 
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -301,14 +301,14 @@ a {
 }
 
 #aboutYou h3 {
-	font: 1vw gothamrnd, sans-serif; 
+	font: 2vh gothamrnd, sans-serif; 
 	text-align: center;
 	color: white;
 }
 
 #aboutYou .submitCV {
 	position: absolute;
-	border: 0.2vw solid white;
+	border: 0.2vh solid white;
 	width: 33%;
 	margin-left: 33%;
 	margin-right: 33%;
@@ -321,7 +321,7 @@ a {
 }
 
 #contact h2 {
-	font: 2vw gothamrnd, sans-serif; 
+	font: 3vh gothamrnd, sans-serif; 
 	text-align: center;
 	color: white;
 }
@@ -333,7 +333,7 @@ a {
 }
 
 #contact h3 {
-	font: 1vw gothamrnd, sans-serif; 
+	font: 3vh gothamrnd, sans-serif; 
 	text-align: center;
 	color: white;
 	top: 40%;
@@ -344,7 +344,7 @@ a {
 }
 
 #contact h1 {
-	font: 3vw gothamrnd, sans-serif; 
+	font: 4vh gothamrnd, sans-serif; 
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -401,8 +401,14 @@ a {
 	left: 0px;
 	top: 0px;
 	width: 100%;
-	height: 36px;
-	z-index: 0;
+	height: 35px;
+	z-index: 1;
+}
+
+.imagesContainer {
+	position: absolute;
+	left: 0px;
+	top: 35px;
 }
 
 .loadingBlind {

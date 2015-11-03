@@ -28,6 +28,11 @@ var resolutions = [{
 ], resolutionsNo = 6;
 
 /* GET home page. */
+router.get('/error', function (req, res, next) {
+	res.render('error');
+});
+
+/* GET home page. */
 router.get('/', function (req, res, next) {
 	var db = require('../databases/tSquareMongoDB.js').db();
 	res.render('index');
