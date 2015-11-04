@@ -29,7 +29,7 @@ block content
 					p.
 						concept and beyond...
 			#portfolio.resizable
-				.portfolioItem(onclick='tSquareModule.galleryFilter("exterior")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("exterior"); tSquareModule.horizontalPart();')
 					#portfolioExterior.image.background.toLoad.quarterSlice
 					svg#portfolioExteriorShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
 						defs
@@ -39,7 +39,7 @@ block content
 						rect('fill'='url(#portfolioExteriorGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
 					h2.portofolioH2.
 						Exterior
-				.portfolioItem(onclick='tSquareModule.galleryFilter("interior")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("interior"); tSquareModule.horizontalPart();')
 					#portfolioInterior.image.background.toLoad.quarterSlice
 					svg#portfolioInteriorShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
 						defs
@@ -86,7 +86,7 @@ block content
 						h3.
 							Comming soon
 			#portfolio.resizable(style={ 'right': "0%"})
-				.portfolioItem(onclick='tSquareModule.galleryFilter("concepts")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("concepts"); tSquareModule.horizontalPart();')
 					#portfolioConcepts.image.background.toLoad.quarterSlice
 					svg#portfolioConceptsShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
 						defs
@@ -96,7 +96,7 @@ block content
 						rect('fill'='url(#portfolioConceptsGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
 					h2.portofolioH2.
 						Concepts
-				.portfolioItem(onclick='tSquareModule.galleryFilter("photography")')
+				.portfolioItem(onclick='tSquareModule.galleryFilter("photography"); tSquareModule.horizontalPart();')
 					#portfolioPhotography.image.background.toLoad.quarterSlice
 					svg#portfolioPhotographyShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
 						defs
@@ -117,4 +117,20 @@ block content
 				.shade.resizable
 		.galleryContainer.resizable
 			.galleryContainerShade
+				.galleryButtons
+					.backButton.galleryMenuButton(onclick='tSquareModule.horizontalJoin()')
+						h3.galleryH3.
+							Back
+					.exteriorButton.galleryMenuButton(onclick='tSquareModule.galleryFilter("exterior")')
+						h3.galleryH3.
+							Exterior
+					.interiorButton.galleryMenuButton(onclick='tSquareModule.galleryFilter("interior")')
+						h3.galleryH3.
+							Interior
+					.conceptsButton.galleryMenuButton(onclick='tSquareModule.galleryFilter("concepts")')
+						h3.galleryH3.
+							Concepts
+					.photographyButton.galleryMenuButton(onclick='tSquareModule.galleryFilter("photography")')
+						h3.galleryH3.
+							Photography
 			.imagesContainer.resizable

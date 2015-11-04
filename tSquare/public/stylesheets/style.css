@@ -14,7 +14,7 @@
     src: url(/fonts/gothamrnd-book.otf);
 }
 
-/* 
+/*
 gothamrnd-bold.otf
 gothamrnd-boldital.otf
 gothamrnd-book.otf
@@ -257,7 +257,7 @@ a {
 }
 
 #aboutUs h1 {
-	font: 4vh gothamrnd, sans-serif; 
+	font: 4vh gothamrnd, sans-serif;
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -266,7 +266,7 @@ a {
 }
 
 #aboutUs h3 {
-	font: 2.5vh gothamrnd, sans-serif; 
+	font: 2.5vh gothamrnd, sans-serif;
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -292,7 +292,7 @@ a {
 }
 
 #aboutYou h2 {
-	font: 3vh gothamrnd, sans-serif; 
+	font: 3vh gothamrnd, sans-serif;
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -301,7 +301,7 @@ a {
 }
 
 #aboutYou h3 {
-	font: 2vh gothamrnd, sans-serif; 
+	font: 2vh gothamrnd, sans-serif;
 	text-align: center;
 	color: white;
 }
@@ -321,7 +321,7 @@ a {
 }
 
 #contact h2 {
-	font: 3vh gothamrnd, sans-serif; 
+	font: 3vh gothamrnd, sans-serif;
 	text-align: center;
 	color: white;
 }
@@ -333,7 +333,7 @@ a {
 }
 
 #contact h3 {
-	font: 3vh gothamrnd, sans-serif; 
+	font: 3vh gothamrnd, sans-serif;
 	text-align: center;
 	color: white;
 	top: 40%;
@@ -344,7 +344,7 @@ a {
 }
 
 #contact h1 {
-	font: 4vh gothamrnd, sans-serif; 
+	font: 4vh gothamrnd, sans-serif;
 	text-align: center;
 	position: absolute;
 	color: white;
@@ -407,6 +407,7 @@ a {
 
 .imagesContainer {
 	position: absolute;
+  overflow: scroll;
 	left: 0px;
 	top: 35px;
 }
@@ -417,4 +418,53 @@ a {
 	width: 100%;
 	z-index: 8;
 	background-color: white;
+}
+
+.galleryMenuButton {
+  height: 100%;
+  float: left;
+  width: 20%;
+  position: relative;
+}
+
+.galleryButtons {
+  margin: auto;
+  height: 35px;
+  position: relative;
+  width: 800px;
+}
+
+.galleryH3 {
+  margin: auto;
+  text-align: center;
+  color: #9E9FA7;
+  position: absolute;
+  top: 7.5px;
+  font: 16px gothamrnd,sans-serif;
+}
+
+.galleryH3:hover {
+  color: white;
+}
+
+.galleryH3Selected {
+  color: white;
+}
+
+#bigDisplay {
+  background-color: rgb(10,12,35);
+  opacity: 0.8;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+#bigImage {
+  height: 100%;
+  position: relative;
+  top: 0px;
+  z-index: 10;
 }

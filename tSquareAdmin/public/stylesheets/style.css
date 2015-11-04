@@ -18,6 +18,7 @@ p {
   float: left;
   border: 6px solid white;
   width: 20vw;
+  overflow: hidden;
 }
 
 .tagUnselected {
