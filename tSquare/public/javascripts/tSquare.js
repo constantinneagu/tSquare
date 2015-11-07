@@ -248,7 +248,6 @@ var tSquareModule = (function () {
 
 		// Position dependent transletation
 		this.translatePoz = function (poz) {
-			console.log(poz);
 			$("#contentLeft").css({
 				'left' : (- this.translationFrom - poz) + "px"
 			});
@@ -444,7 +443,8 @@ var tSquareModule = (function () {
 							$(".loadingBlind").css({
 								'z-index' : 0
 							});
-							$("#mapBox").src = 'https://a.tiles.mapbox.com/v4/3picioare.263c8f3b/attribution,zoompan,geocoder,share.html?access_token=pk.eyJ1IjoiM3BpY2lvYXJlIiwiYSI6Ijc0MjMwMjBiOTMxMzk5Nzc4YmMzMmM4N2Q0OWJmZGE1In0.y9eZyD7X2xmYZUJzuyqJwg';
+							console.log($("#mapBox").src);
+							$("#mapBox")[0].src = 'https://a.tiles.mapbox.com/v4/3picioare.263c8f3b/attribution.html?access_token=pk.eyJ1IjoiM3BpY2lvYXJlIiwiYSI6Ijc0MjMwMjBiOTMxMzk5Nzc4YmMzMmM4N2Q0OWJmZGE1In0.y9eZyD7X2xmYZUJzuyqJwg';
 						} else {
 							elementsToload--;
 						}
@@ -625,6 +625,10 @@ var tSquareModule = (function () {
 			'left' : galleryItem.bigLeft,
 			'top' : galleryItem.bigTop
 		});
+		bigImage.bind("click", function (event) {
+			bigImage.remove();
+			bigDisplayDiv.remove();
+		});
 		$(".galleryContainer").append(bigDisplayDiv);
 		$(".galleryContainer").append(bigImage);
 	};
@@ -642,7 +646,6 @@ var tSquareModule = (function () {
 		renderingQueueGallery[0] = renderVerticalGalleryTranslationInstance;
 
 		imagesContainer.empty();
-		//horizontalPart();
 
 		imagesContainer.css({
 			'top' : (35 + horizontalBorderThickness) + "px"
@@ -682,16 +685,12 @@ var tSquareModule = (function () {
 				});
 			});
 			listItem.bind("click", function (event) {
-				//console.log(event.target);
 				putBigDisplay(event.target.id);
 			});
 			galleryItems[index] = galleryItem;
 
 			// We listen for wheel events and update the scene acordingly.
 			$(window).unbind();
-			/*$(window).bind("wheel", function (event) {
-				console.log(event.originalEvent);
-			}); */
 
 			imagesContainer.append(listItem);
 		}

@@ -353,9 +353,9 @@ a {
 }
 
 .portfolioItem {
-    float: left;
-    width: 25%;
-    height: 100%;
+  float: left;
+  width: 25%;
+  height: 100%;
 	background-color: rgb(10,12,35);
 	position: relative;
 	overflow: hidden;
@@ -373,6 +373,7 @@ a {
 	height: 100%;
 	top: 0;
 	left: 0;
+  cursor: pointer;
 }
 
 .right {
@@ -392,6 +393,7 @@ a {
 
 .galleryItem {
 	position: absolute;
+  cursor: zoom-in;
 }
 
 .galleryContainerShade {
@@ -418,6 +420,7 @@ a {
 	width: 100%;
 	z-index: 8;
 	background-color: white;
+  cursor: wait;
 }
 
 .galleryMenuButton {
@@ -425,6 +428,7 @@ a {
   float: left;
   width: 20%;
   position: relative;
+  cursor: pointer;
 }
 
 .galleryButtons {
@@ -467,4 +471,5 @@ a {
   position: relative;
   top: 0px;
   z-index: 10;
+  cursor: zoom-out;
 }
