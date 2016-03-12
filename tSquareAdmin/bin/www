@@ -14,13 +14,13 @@ var tSquareMongoDB = require('../databases/tSquareMongoDB.js');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '443');
+var port = normalizePort(process.env.PORT || '8443');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
- 
+
 var options = {
   key: fs.readFileSync('bin/tSquareAdmin.key'),
   cert: fs.readFileSync('bin/tSquareAdmin.crt')
@@ -32,13 +32,13 @@ var server = https.createServer(options, app);
  * Init the database connection
  *
  */
- 
+
 tSquareMongoDB.init(function (){
 
     /**
      * Listen on provided port, on all network interfaces.
      */
-	
+
 	server.listen(port);
 	console.log("listening on port : " + port);
 	server.on('error', onError);
