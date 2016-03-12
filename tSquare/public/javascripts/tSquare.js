@@ -181,6 +181,63 @@ var tSquareModule = (function () {
 		}
 	};
 
+function renderZoomOpacityObject(elementId) {
+	this.zoomTime = null;
+	this.elementId = elementId;
+	this.zoomProgress = 0;
+	this.zoomDuration = 2000;
+	this.zoomSpeed = 0.00001;
+	this.opacitySpeed = 0.0005;
+	this.zoomNegative = true;
+	this.active = false;
+
+	this.zoom = function () {
+		var zoomTmp = 1 + this.zoomSpeed * this.zoomProgress,
+		opacity = 1 - this.opacitySpeed * this.zoomProgress;
+		$("#" + this.elementId).css({
+			'-webkit-transform' : "scale(" + zoomTmp + " )",
+			'-moz-transform' : "scale(" + zoomTmp + " )",
+			'-o-transform' : "scale(" + zoomTmp + " )",
+			'-ms-transform' : "scale(" + zoomTmp + " )",
+			'transform' : "scale(" + zoomTmp + " )",
+			'opacity' : opacity
+		});
+	};
+
+	this.getChanges = function () {
+		var zoomIntermediateTime = Date.now();
+
+		if (this.zoomNegative == false) {
+			this.zoomProgress += zoomIntermediateTime - this.zoomTime;
+			if (this.zoomProgress > this.zoomDuration) {
+				this.zoomProgress = this.zoomDuration;
+			}
+			this.zoomTime = zoomIntermediateTime;
+			if (this.zoomProgress == this.zoomDuration) {
+				this.zoomTime = null;
+				this.active = false;
+			}
+			this.zoom();
+		} else {
+			this.zoomProgress += (this.zoomTime - zoomIntermediateTime);
+			if (this.zoomProgress < 0) {
+				this.zoomProgress = 0;
+			}
+			this.zoomTime = zoomIntermediateTime;
+
+			if (this.zoomProgress == 0) {
+				this.zoomTime = null;
+				this.active = false;
+			}
+			this.zoom();
+		}
+	};
+
+	this.toggleZoom = function () {
+		this.zoomNegative = !this.zoomNegative;
+	};
+}
+
 	function renderZoomObject(elementId) {
 		this.zoomTime = null;
 		this.elementId = elementId;
@@ -544,14 +601,21 @@ var tSquareModule = (function () {
 		renderHorizontalTranslationInstance = new renderHorizontalTranslationObject();
 		renderingQueue[1] = renderHorizontalTranslationInstance;
 		$(".portfolioItem").each(function (index) {
-			var portfolioItem = this,
-			imageld = this.firstChild.id;
-			portfolioItemListeners[imageld] = new renderZoomObject(imageld);
-			renderingQueue[index + 2] = portfolioItemListeners[imageld];
+			var portfolioItem = this;
+			portfolioItemListeners[portfolioItem.firstChild.id] = new renderZoomObject(portfolioItem.firstChild.id);
+			portfolioItemListeners[portfolioItem.lastChild.id] = new renderZoomOpacityObject(portfolioItem.lastChild.id);
+			renderingQueue[2*index + 2] = portfolioItemListeners[portfolioItem.firstChild.id];
+			renderingQueue[2*index + 3] = portfolioItemListeners[portfolioItem.firstChild.id];
 			$(portfolioItem).bind("mouseenter mouseleave", function () {
-				portfolioItemListeners[this.firstChild.id].zoomTime = Date.now();
-				portfolioItemListeners[this.firstChild.id].toggleZoom();
-				portfolioItemListeners[this.firstChild.id].active = true;
+				imageId = this.firstChild.id,
+				imageIdBlack = this.lastChild.id;
+				portfolioItemListeners[imageId].zoomTime = Date.now();
+				portfolioItemListeners[imageId].toggleZoom();
+				portfolioItemListeners[imageId].active = true;
+
+				portfolioItemListeners[imageIdBlack].zoomTime = portfolioItemListeners[imageId].zoomTime;
+				portfolioItemListeners[imageIdBlack].toggleZoom();
+				portfolioItemListeners[imageIdBlack].active = true;
 				if (!renderingRunning) {
 					window.requestAnimationFrame(renderQueue);
 				}
