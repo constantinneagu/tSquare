@@ -55,10 +55,10 @@ function initGallery(tags) {
 			i;
 			if (img.height < img.width) {
 				width = resolutions[resolutionIndex].width;
-				height = resolutions[resolutionIndex].width * img.height / img.width;
+				height = Math.round(resolutions[resolutionIndex].width * img.height / img.width);
 				/* aspectRatio = 2; */
 			} else {
-				width = resolutions[resolutionIndex].width * img.width / img.height;
+				width = Math.round(resolutions[resolutionIndex].width * img.width / img.height);
 				height = resolutions[resolutionIndex].width;
 				/* aspectRatio = 1; */
 			}
