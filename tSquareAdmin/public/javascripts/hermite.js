@@ -15,9 +15,6 @@ function resample_hermite(canvas, W, H, W2, H2){
 	var ratio_w_half = Math.ceil(ratio_w/2);
 	var ratio_h_half = Math.ceil(ratio_h/2);
 
-	console.log("Ratio W: " + ratio_w);
-	console.log("Ratio H: " + ratio_h);
-
 	for(var j = 0; j < H2; j++){
 		for(var i = 0; i < W2; i++){
 			var x2 = (i + j*W2) * 4;

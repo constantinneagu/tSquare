@@ -199,7 +199,6 @@ var tSquareModule = (function () {
 				'-ms-transform' : "scale(" + zoomTmp + " )",
 				'transform' : "scale(" + zoomTmp + " )"
 			});
-			document.getElementById(this.elementId + "GradientStop").setAttribute("offset", (8000 * this.zoomSpeed * this.zoomProgress) + "%");
 		};
 
 		this.getChanges = function () {
