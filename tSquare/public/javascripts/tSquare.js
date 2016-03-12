@@ -605,7 +605,7 @@ function renderZoomOpacityObject(elementId) {
 			portfolioItemListeners[portfolioItem.firstChild.id] = new renderZoomObject(portfolioItem.firstChild.id);
 			portfolioItemListeners[portfolioItem.lastChild.id] = new renderZoomOpacityObject(portfolioItem.lastChild.id);
 			renderingQueue[2*index + 2] = portfolioItemListeners[portfolioItem.firstChild.id];
-			renderingQueue[2*index + 3] = portfolioItemListeners[portfolioItem.firstChild.id];
+			renderingQueue[2*index + 3] = portfolioItemListeners[portfolioItem.lastChild.id];
 			$(portfolioItem).bind("mouseenter mouseleave", function () {
 				imageId = this.firstChild.id,
 				imageIdBlack = this.lastChild.id;
