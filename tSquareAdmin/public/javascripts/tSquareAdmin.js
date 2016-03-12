@@ -1,6 +1,6 @@
 /* Verify if the password and retype password fields are the same.
 The check should happen when clicking the submit button.
-There will be another check on the sever side.
+There will be another check on the server side.
 Placeholder should be removed on click.
 Escaping characters should be handled on the server side.
  */
@@ -86,7 +86,7 @@ function initGallery(tags) {
 		reader.onloadend = function () {
 			var img = new Image();
 			var interval;
-			
+
 			img.src = reader.result;
 			interval = window.setInterval(function () {
 				if(img.complete) {
@@ -107,14 +107,14 @@ function initGallery(tags) {
 		console.log(resolutions[resolutionIndex].name);
 		console.log(picturesFiles[pictureIndex].name);
 		formData.append("collectionTarget", resolutions[resolutionIndex].name);
-		
+
 		if (aspectRatio != null) {
 			formData.append("aspectRatio", aspectRatio);
 		}
 		if(pictureGalleryTags != null) {
 			formData.append("pictureGalleryTags", pictureGalleryTags);
 		}
-		
+
 		formData.append("blob", blob, picturesFiles[pictureIndex].name);
 
 		// Using the core $.ajax() method
@@ -154,7 +154,7 @@ function initGallery(tags) {
 					} else {
 						picturesFiles = [];
 						pictureGalleryTags = [];
-						
+
 						location.reload();
 					}
 				}
@@ -172,7 +172,7 @@ function initGallery(tags) {
 
 	$("#submit").bind("click", function (event) {
 		event.preventDefault();
-		
+
 		picturesFiles = [];
 		pictureGalleryTags = [];
 

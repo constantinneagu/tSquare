@@ -31,22 +31,12 @@ block content
 			#portfolio.resizable
 				.portfolioItem(onclick='tSquareModule.galleryFilter("exterior"); tSquareModule.horizontalPart();')
 					#portfolioExterior.image.background.toLoad.quarterSlice
-					svg#portfolioExteriorShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
-						defs
-							radialGradient#portfolioExteriorGradient
-								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
-								stop#portfolioExteriorGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.2)
-						rect('fill'='url(#portfolioExteriorGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
+					#portfolioExteriorBlack.image.background.toLoad.quarterSlice
 					h2.portofolioH2.
 						Exterior
 				.portfolioItem(onclick='tSquareModule.galleryFilter("interior"); tSquareModule.horizontalPart();')
 					#portfolioInterior.image.background.toLoad.quarterSlice
-					svg#portfolioInteriorShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
-						defs
-							radialGradient#portfolioInteriorGradient
-								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
-								stop#portfolioInteriorGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.2)
-						rect('fill'='url(#portfolioInteriorGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
+					#portfolioInteriorBlack.image.background.toLoad.quarterSlice
 					h2.portofolioH2.
 						Interior
 			#aboutUs.content.contentDynamic.resizable.background
@@ -88,22 +78,12 @@ block content
 			#portfolio.resizable(style={ 'right': "0%"})
 				.portfolioItem(onclick='tSquareModule.galleryFilter("concepts"); tSquareModule.horizontalPart();')
 					#portfolioConcepts.image.background.toLoad.quarterSlice
-					svg#portfolioConceptsShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
-						defs
-							radialGradient#portfolioConceptsGradient
-								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
-								stop#portfolioConceptsGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.2)
-						rect('fill'='url(#portfolioConceptsGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
+					#portfolioConceptsBlack.image.background.toLoad.quarterSlice
 					h2.portofolioH2.
 						Concepts
 				.portfolioItem(onclick='tSquareModule.galleryFilter("photography"); tSquareModule.horizontalPart();')
 					#portfolioPhotography.image.background.toLoad.quarterSlice
-					svg#portfolioPhotographyShade.itemShade('viewBox'='0 0 10 20', 'preserveAspectRatio'='none')
-						defs
-							radialGradient#portfolioPhotographyGradient
-								stop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0)
-								stop#portfolioPhotographyGradientStop('offset'='0%', 'stop-color'='#04070F', 'stop-opacity'=0.2)
-						rect('fill'='url(#portfolioPhotographyGradient)', 'x'=0, 'y'=0, 'width'=10, 'height'=20)
+					#portfolioPhotographyBlack.image.background.toLoad.quarterSlice
 					h2.portofolioH2.
 						Photography
 			#firmament.resizable.right
