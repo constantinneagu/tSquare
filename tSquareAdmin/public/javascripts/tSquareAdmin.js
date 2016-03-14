@@ -443,7 +443,7 @@ function getProjectsList() {
 		// Code to run if the request succeeds;
 		// the response is passed to the function
 		success : function (response) {
-			var projectsList = $("#projects #projectsList")[0];
+			var projectsList = $(".projects #projectsList")[0];
 			projectsList.empty();
 			for (i = 0; i < response.length; i++) {
 				var projectItem = $("<li>" + response[i].name + "</li>");
