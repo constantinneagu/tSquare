@@ -190,35 +190,35 @@ function initGallery(tags) {
 
 	$("#addProjectForm #submit").bind("click", function (event) {
 		event.preventDefault();
-		console.log($("#addProjectForm  newProjectName"));
+		console.log($("#addProjectForm  #newProjectName")[0].value);
 		// Using the core $.ajax() method
-		// $.ajax({
-		//
-		// 	// The URL for the request
-		// 	url : "projects/add",
-		//
-		// 	// Whether this is a POST or GET request
-		// 	type : "POST",
-		//
-		// 	// The data we send to the server
-		// 	data : {
-		// 		newProjectName : id
-		// 	},
-		//
-		// 	// Code to run if the request succeeds;
-		// 	// the response is passed to the function
-		// 	success : function (response) {
-		// 		location.reload();
-		// 	},
-		//
-		// 	// Code to run if the request fails; the raw request and
-		// 	// status codes are passed to the function
-		// 	error : function (xhr, status, errorThrown) {
-		// 		console.log("Error deleting: " + errorThrown);
-		// 		console.log("Status: " + status);
-		// 		console.dir(xhr);
-		// 	}
-		// });
+		$.ajax({
+
+			// The URL for the request
+			url : "projects/add",
+
+			// Whether this is a POST or GET request
+			type : "POST",
+
+			// The data we send to the server
+			data : {
+				newProjectName : $("#addProjectForm  #newProjectName")[0].value
+			},
+
+			// Code to run if the request succeeds;
+			// the response is passed to the function
+			success : function (response) {
+				location.reload();
+			},
+
+			// Code to run if the request fails; the raw request and
+			// status codes are passed to the function
+			error : function (xhr, status, errorThrown) {
+				console.log("Error deleting: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+			}
+		});
 	});
 
 	function deletePicture(id) {
