@@ -6,19 +6,22 @@ body {
 }
 
 .content {
-  float: left;
+  display: table;
 }
 
 .projects {
-  width: 33vw;
+  width: 10vw;
+  float: left;
 }
 
 .pictures {
-  width: 33vw;
+  width: 80vw;
+  float: left;
 }
 
 .preview {
-  width: 33vw;
+  width: 10vw;
+  float: left;
 }
 
 p {
