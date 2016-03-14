@@ -446,7 +446,11 @@ function getProjectsList() {
 			var projectsList = $(".projects #projectsList");
 			projectsList.empty();
 			for (i = 0; i < response.length; i++) {
-				var projectItem = $("<li>" + response[i].name + "</li>");
+				var projectItem = $("<li class='projectItem' id='" + response[i].name + "'>" + response[i].name + "</li>");
+				projectItem.bind("click", function (event) {
+					//putBigDisplay(event.target.id);
+					console.log(event);
+				});
 				projectsList.append(projectItem);
 			}
 		},

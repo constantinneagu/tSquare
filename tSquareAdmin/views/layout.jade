@@ -8,12 +8,18 @@ html
 		script(src="/javascripts/tSquareAdmin.js", type="application/javascript")
 		style#resizableElement
 	body
-		a#gallery(href='gallery').
-			Gallery
+		.tabs
+			.tab
+				a#gallery(href='gallery').
+					Gallery
+			br
+			.tab
+				a#tags(href='tags').
+					Tags
+			br
+			.tab
+				a#users(href='users').
+					Users
 		br
-		a#tags(href='tags').
-			Tags
 		br
-		a#users(href='users').
-			Users
 		block content
