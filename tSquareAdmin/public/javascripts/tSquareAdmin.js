@@ -209,6 +209,7 @@ function initGallery(tags) {
 			// the response is passed to the function
 			success : function (response) {
 				console.log(response);
+				getProjectsList();
 			},
 
 			// Code to run if the request fails; the raw request and
@@ -345,11 +346,6 @@ function initGallery(tags) {
 		console.log($(".resizable"));
 		$("#resizableElement").text(".resizable {width : " + resizeWindowElementWidth + "px;}");
 	};
-	/* $(".border").css({
-	'height' : resizeWindowElementHeight,
-	'width' : resizeWindowElementWidt
-	};h
-	}); */
 
 	// We first want to resize the div to fit the screen.
 	resizeDiv();
@@ -359,6 +355,9 @@ function initGallery(tags) {
 		/* translationTo = scrollEvents * resizeWindowElementHeight;
 		translate(translationTo); */
 	});
+
+
+	getProjectsList();
 }
 
 function deleteTag(tagName) {
@@ -422,6 +421,30 @@ function setSystemTag(tag, id) {
 		// the response is passed to the function
 		success : function (response) {
 			// location.reload();
+		},
+
+		// Code to run if the request fails; the raw request and
+		// status codes are passed to the function
+		error : function (xhr, status, errorThrown) {
+			console.log("Error deleting: " + errorThrown);
+			console.log("Status: " + status);
+			console.dir(xhr);
+		}
+	});
+}
+
+function getProjectsList() {
+	$.ajax({
+
+		// The URL for the request
+		url : "projects/list",
+
+		// Whether this is a POST or GET request
+		type : "POST",
+		// Code to run if the request succeeds;
+		// the response is passed to the function
+		success : function (response) {
+			console.log(response);
 		},
 
 		// Code to run if the request fails; the raw request and
