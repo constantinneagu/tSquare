@@ -648,6 +648,11 @@ function renderZoomOpacityObject(elementId) {
 					scroll(deltaTouchY);
 			}
 		});
+
+		// We read the current state of the history and see if we have to move to the gallery
+		if (window.history.state != null) {
+			this.galleryFilter(window.history.state);
+		}
 	};
 	////////////////////////
 ////////            ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -762,12 +767,11 @@ function renderZoomOpacityObject(elementId) {
 	theModule.galleryFilter = function (filterTag) {
 		// Using the core $.ajax() method
 		if (window.history.state == null) {
-			window.history.pushState(filterTag, "BackToMain", window.Location);
+			window.history.pushState(filterTag, "BackToMain", window.location);
 		} else {
-			window.history.replaceState(filterTag, "BackToMain", window.Location);
+			window.history.replaceState(filterTag, "BackToMain", window.location);
 		}
 		window.onpopstate = function(event) {
-		  alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
 			theModule.horizontalJoin();
 		};
 
