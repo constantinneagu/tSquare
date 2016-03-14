@@ -68,11 +68,11 @@ function initGallery(tags) {
 
 			canvasCtx.drawImage(img, 0, 0);
 
-			console.log(picturesFiles[pictureIndex].name + "width : " + width + ", height : " + height + ", occupiedCells : " + aspectRatio);
+			// console.log(picturesFiles[pictureIndex].name + "width : " + width + ", height : " + height + ", occupiedCells : " + aspectRatio);
 			resample_hermite(canvas, img.width, img.height, width, height);
 
 			canvas.toBlob(function (blob) {
-				console.log(blob);
+				// console.log(blob);
 				canvas = null;
 				sendPictureData(blob, img, aspectRatio);
 			}, "image/jpeg", 1.0);
@@ -95,8 +95,8 @@ function initGallery(tags) {
 					scaleImage(img);
 				}
 			}, 100);
-			console.log(reader.result);
-			console.log(picturesFiles[pictureIndex].name + " width : " + img.naturalWidth + ", height : " + img.naturalHeight);
+			// console.log(reader.result);
+			// console.log(picturesFiles[pictureIndex].name + " width : " + img.naturalWidth + ", height : " + img.naturalHeight);
 		}
 		reader.readAsDataURL(picturesFiles[pictureIndex]);
 	};
@@ -104,8 +104,8 @@ function initGallery(tags) {
 	function sendPictureData(blob, img, aspectRatio) {
 		var formData = new FormData();
 
-		console.log(resolutions[resolutionIndex].name);
-		console.log(picturesFiles[pictureIndex].name);
+		// console.log(resolutions[resolutionIndex].name);
+		// console.log(picturesFiles[pictureIndex].name);
 		formData.append("collectionTarget", resolutions[resolutionIndex].name);
 
 		if (aspectRatio != null) {
@@ -138,8 +138,8 @@ function initGallery(tags) {
 			// Code to run if the request succeeds;
 			// the response is passed to the function
 			success : function (response) {
-				console.log(pictureIndex);
-				console.log(picturesFiles.length);
+				// console.log(pictureIndex);
+				// console.log(picturesFiles.length);
 				blob = null;
 
 				if (resolutionIndex < resolutionsNo - 1) {
@@ -180,8 +180,8 @@ function initGallery(tags) {
 		$("#addFileForm > input:checked").each(function () {
 			pictureGalleryTags.push(this.id);
 		});
-		console.log(picturesFiles);
-		console.log(pictureGalleryTags);
+		// console.log(picturesFiles);
+		// console.log(pictureGalleryTags);
 		pictureIndex = 0;
 		resolutionIndex = 0;
 		if (picturesFiles.length !== 0)
@@ -190,7 +190,7 @@ function initGallery(tags) {
 
 	$("#addProjectForm #submit").bind("click", function (event) {
 		event.preventDefault();
-		console.log($("#addProjectForm  newProjectName").text);
+		console.log($("#addProjectForm  newProjectName"));
 		// Using the core $.ajax() method
 		// $.ajax({
 		//
