@@ -4,9 +4,9 @@ block content
 	.content
 		.projects
 			form#addProjectForm(action='projects/new', method='POST')
-				label(for='New Project Name:')
+				label(for='newProject')= 'New Project Name:'
 				input#newProject(type='text')
-				input#submitNewProject(typw='submit', value='Add Project')
+				input#submitNewProject(type='submit', value='Add Project')
 			ul
 				each project in projects
 					li project.name
