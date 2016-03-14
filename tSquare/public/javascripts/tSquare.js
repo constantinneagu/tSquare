@@ -761,6 +761,16 @@ function renderZoomOpacityObject(elementId) {
 
 	theModule.galleryFilter = function (filterTag) {
 		// Using the core $.ajax() method
+		if (window.history.state == null) {
+			window.history.pushState(filterTag, "BackToMain", window.Location);
+		} else {
+			window.history.replaceState(filterTag, "BackToMain", window.Location);
+		}
+		window.onpopstate = function(event) {
+		  alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+			horizontalJoin();
+		};
+
 		$.ajax({
 			// The URL for the request
 			url : "gallery/list/" + filterTag,
