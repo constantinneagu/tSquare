@@ -772,6 +772,7 @@ function renderZoomOpacityObject(elementId) {
 			window.history.replaceState(filterTag, "BackToMain", window.location);
 		}
 		window.onpopstate = function(event) {
+			console.log(event.state);
 			theModule.horizontalJoin();
 		};
 
