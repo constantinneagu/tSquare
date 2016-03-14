@@ -499,7 +499,6 @@ function renderZoomOpacityObject(elementId) {
 							$(".loadingBlind").css({
 								'z-index' : 0
 							});
-							console.log($("#mapBox").src);
 							$("#mapBox")[0].src = 'https://a.tiles.mapbox.com/v4/3picioare.263c8f3b/attribution.html?access_token=pk.eyJ1IjoiM3BpY2lvYXJlIiwiYSI6Ijc0MjMwMjBiOTMxMzk5Nzc4YmMzMmM4N2Q0OWJmZGE1In0.y9eZyD7X2xmYZUJzuyqJwg';
 						} else {
 							elementsToload--;
