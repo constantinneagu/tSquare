@@ -274,7 +274,7 @@ function initGallery(tags) {
 				listItem.append(thumbnailDisplay);
 				listItem.append($("<p>").text(picture.filename));
 				listItem.append(tagsList[0].outerHTML);
-				console.log(picture);
+				// console.log(picture);
 				if (picture.metadata != null) {
 					if (picture.metadata.systemTag != null) {
 						var tag = listItem.find("#" + picture.metadata.systemTag);
