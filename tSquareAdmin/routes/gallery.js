@@ -53,7 +53,7 @@ router.get('/', function (req, res, next) {
 			assert.equal(null, err);
 			res.render('gallery', {
 				systemTags : tags,
-				galleryTags : galleryTags
+				galleryTags : galleryTags,
 				projects : projects
 			});
 		});
