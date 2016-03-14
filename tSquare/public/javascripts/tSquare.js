@@ -772,7 +772,12 @@ function renderZoomOpacityObject(elementId) {
 		}
 		window.onpopstate = function(event) {
 			console.log(event.state);
-			theModule.horizontalJoin();
+			if (event.state == null) {
+				theModule.horizontalJoin();
+			}
+			else {
+				theModule.horizontalPart();
+			}
 		};
 
 		$.ajax({
