@@ -46,9 +46,16 @@ router.get('/', function (req, res, next) {
 	}).toArray(function (err, tags) {
 		assert.equal(null, err);
 		console.log(tags);
-		res.render('gallery', {
-			systemTags : tags,
-			galleryTags : galleryTags
+		var projectsCollection = db.collection('projects');
+
+		projectsCollection.find({}, {
+		}).toArray(function (err, projects) {
+			assert.equal(null, err);
+			res.render('gallery', {
+				systemTags : tags,
+				galleryTags : galleryTags
+				projects : projects
+			});
 		});
 	});
 });
