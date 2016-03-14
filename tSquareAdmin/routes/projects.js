@@ -29,8 +29,9 @@ router.post('/list', function(request, response, next) {
   var db = require('../databases/tSquareMongoDB.js').db();
   var projectsCollection = db.collection('projects');
 
-  projectsCollection.find({}, {id : false}).toArray(function (err, projects) {
+  projectsCollection.find({}, {_id : false}).toArray(function (err, projects) {
     assert.equal(null, err);
+    console.log(err);
     response.send(projects);
   });
 });
