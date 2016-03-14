@@ -356,7 +356,6 @@ function initGallery(tags) {
 		translate(translationTo); */
 	});
 
-
 	getProjectsList();
 }
 
@@ -444,7 +443,12 @@ function getProjectsList() {
 		// Code to run if the request succeeds;
 		// the response is passed to the function
 		success : function (response) {
-			console.log(response);
+			var projectsList = $("#projects #projectsList")[0];
+			projectsList.empty();
+			for (i = 0; i < response.length; i++) {
+				var projectItem = $("<li>" + response[i].name + "</li>");
+				projectsList.append(projectItem);
+			}
 		},
 
 		// Code to run if the request fails; the raw request and

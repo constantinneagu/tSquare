@@ -31,8 +31,6 @@ router.post('/list', function(request, response, next) {
 
   projectsCollection.find({}, {_id : false}).toArray(function (err, projects) {
     assert.equal(null, err);
-    console.log(err);
-    console.log(projects);
     response.send(projects);
   });
 });
