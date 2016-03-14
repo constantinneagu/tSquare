@@ -208,7 +208,7 @@ function initGallery(tags) {
 			// Code to run if the request succeeds;
 			// the response is passed to the function
 			success : function (response) {
-				location.reload();
+				console.log(response);
 			},
 
 			// Code to run if the request fails; the raw request and
