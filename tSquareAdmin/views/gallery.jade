@@ -5,11 +5,11 @@ block content
 		.projects
 			form#addProjectForm(action='projects/new', method='POST')
 				label(for='newProject')= 'New Project Name:'
-				input#newProject(type='text')
+				input#newProjectName(type='text')
+				br
 				input#submit(type='submit', value='Add Project')
-			ul
-				each project in projects
-					li project.name
+			br
+			ul#projectsList
 				li Coffee
 				li Tea
 				li Milk

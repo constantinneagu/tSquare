@@ -41,21 +41,11 @@ router.get('/', function (req, res, next) {
 	var db = require('../databases/tSquareMongoDB.js').db();
 	var systemTags = db.collection('systemTags');
 
-	systemTags.find({}, {
-		_id : false
-	}).toArray(function (err, tags) {
+	systemTags.find({}, {_id : false}).toArray(function (err, tags) {
 		assert.equal(null, err);
-		console.log(tags);
-		var projectsCollection = db.collection('projects');
-
-		projectsCollection.find({}, {
-		}).toArray(function (err, projects) {
-			assert.equal(null, err);
-			res.render('gallery', {
-				systemTags : tags,
-				galleryTags : galleryTags,
-				projects : projects
-			});
+		res.render('gallery', {
+			systemTags : tags,
+			galleryTags : galleryTags
 		});
 	});
 });

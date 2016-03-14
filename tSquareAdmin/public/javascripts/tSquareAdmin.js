@@ -170,7 +170,7 @@ function initGallery(tags) {
 		});
 	};
 
-	$("#submit").bind("click", function (event) {
+	$("#addFileForm #submit").bind("click", function (event) {
 		event.preventDefault();
 
 		picturesFiles = [];
@@ -186,6 +186,39 @@ function initGallery(tags) {
 		resolutionIndex = 0;
 		if (picturesFiles.length !== 0)
 			loadImage();
+	});
+
+	$("#addProjectForm #submit").bind("click", function (event) {
+		event.preventDefault();
+		console.log($("#addProjectForm  newProjectName").text);
+		// Using the core $.ajax() method
+		// $.ajax({
+		//
+		// 	// The URL for the request
+		// 	url : "projects/add",
+		//
+		// 	// Whether this is a POST or GET request
+		// 	type : "POST",
+		//
+		// 	// The data we send to the server
+		// 	data : {
+		// 		newProjectName : id
+		// 	},
+		//
+		// 	// Code to run if the request succeeds;
+		// 	// the response is passed to the function
+		// 	success : function (response) {
+		// 		location.reload();
+		// 	},
+		//
+		// 	// Code to run if the request fails; the raw request and
+		// 	// status codes are passed to the function
+		// 	error : function (xhr, status, errorThrown) {
+		// 		console.log("Error deleting: " + errorThrown);
+		// 		console.log("Status: " + status);
+		// 		console.dir(xhr);
+		// 	}
+		// });
 	});
 
 	function deletePicture(id) {
