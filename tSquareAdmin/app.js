@@ -11,6 +11,7 @@ var addUser = require('./routes/addUser');
 var login = require('./routes/login');
 var gallery = require('./routes/gallery');
 var tags = require('./routes/tags');
+var projects = require('./routes/projects');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/addUser', addUser);
 app.use('/login', login);
 app.use('/gallery', gallery);
 app.use('/tags', tags);
+app.use('/projects', projects);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
