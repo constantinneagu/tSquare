@@ -5,6 +5,22 @@ body {
   box-sizing: border-box;
 }
 
+.content {
+  float: left;
+}
+
+.projects {
+  width: 33vw;
+}
+
+.pictures {
+  width: 33vw;
+}
+
+.preview {
+  width: 33vw;
+}
+
 p {
   text-align: center;
   margin: 0px;
