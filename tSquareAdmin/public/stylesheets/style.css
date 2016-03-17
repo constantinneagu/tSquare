@@ -5,6 +5,47 @@ body {
   box-sizing: border-box;
 }
 
+.tabs {
+  display: table;
+}
+
+.tab {
+  float: left;
+  width: 10vw;
+}
+
+.content {
+  display: table;
+}
+
+.projects {
+  width: 15vw;
+  float: left;
+}
+
+.projectItem {
+	color: #FFF;
+	font-size: 15px;
+	text-align: center;
+	margin-left: 0px;
+	margin-top: 0px;
+	border: 1px solid rgb(129, 140, 158);
+	white-space: nowrap;
+	margin-bottom: 5px;
+	padding: 1px 5px;
+	background-color: rgb(129, 140, 158);
+	border-radius: 5px;
+}
+.projectItem:hover {
+	color: rgb(129, 140, 158);
+	background-color: #FFF;
+}
+
+.pictures {
+  width: 83vw;
+  float: left;
+}
+
 p {
   text-align: center;
   margin: 0px;

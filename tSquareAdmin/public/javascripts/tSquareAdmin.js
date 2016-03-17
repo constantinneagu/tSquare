@@ -1,6 +1,6 @@
 /* Verify if the password and retype password fields are the same.
 The check should happen when clicking the submit button.
-There will be another check on the sever side.
+There will be another check on the server side.
 Placeholder should be removed on click.
 Escaping characters should be handled on the server side.
  */
@@ -55,10 +55,10 @@ function initGallery(tags) {
 			i;
 			if (img.height < img.width) {
 				width = resolutions[resolutionIndex].width;
-				height = resolutions[resolutionIndex].width * img.height / img.width;
+				height = Math.round(resolutions[resolutionIndex].width * img.height / img.width);
 				/* aspectRatio = 2; */
 			} else {
-				width = resolutions[resolutionIndex].width * img.width / img.height;
+				width = Math.round(resolutions[resolutionIndex].width * img.width / img.height);
 				height = resolutions[resolutionIndex].width;
 				/* aspectRatio = 1; */
 			}
@@ -68,11 +68,11 @@ function initGallery(tags) {
 
 			canvasCtx.drawImage(img, 0, 0);
 
-			console.log(picturesFiles[pictureIndex].name + "width : " + width + ", height : " + height + ", occupiedCells : " + aspectRatio);
+			// console.log(picturesFiles[pictureIndex].name + "width : " + width + ", height : " + height + ", occupiedCells : " + aspectRatio);
 			resample_hermite(canvas, img.width, img.height, width, height);
 
 			canvas.toBlob(function (blob) {
-				console.log(blob);
+				// console.log(blob);
 				canvas = null;
 				sendPictureData(blob, img, aspectRatio);
 			}, "image/jpeg", 1.0);
@@ -86,7 +86,7 @@ function initGallery(tags) {
 		reader.onloadend = function () {
 			var img = new Image();
 			var interval;
-			
+
 			img.src = reader.result;
 			interval = window.setInterval(function () {
 				if(img.complete) {
@@ -95,8 +95,8 @@ function initGallery(tags) {
 					scaleImage(img);
 				}
 			}, 100);
-			console.log(reader.result);
-			console.log(picturesFiles[pictureIndex].name + " width : " + img.naturalWidth + ", height : " + img.naturalHeight);
+			// console.log(reader.result);
+			// console.log(picturesFiles[pictureIndex].name + " width : " + img.naturalWidth + ", height : " + img.naturalHeight);
 		}
 		reader.readAsDataURL(picturesFiles[pictureIndex]);
 	};
@@ -104,17 +104,17 @@ function initGallery(tags) {
 	function sendPictureData(blob, img, aspectRatio) {
 		var formData = new FormData();
 
-		console.log(resolutions[resolutionIndex].name);
-		console.log(picturesFiles[pictureIndex].name);
+		// console.log(resolutions[resolutionIndex].name);
+		// console.log(picturesFiles[pictureIndex].name);
 		formData.append("collectionTarget", resolutions[resolutionIndex].name);
-		
+
 		if (aspectRatio != null) {
 			formData.append("aspectRatio", aspectRatio);
 		}
 		if(pictureGalleryTags != null) {
 			formData.append("pictureGalleryTags", pictureGalleryTags);
 		}
-		
+
 		formData.append("blob", blob, picturesFiles[pictureIndex].name);
 
 		// Using the core $.ajax() method
@@ -138,8 +138,8 @@ function initGallery(tags) {
 			// Code to run if the request succeeds;
 			// the response is passed to the function
 			success : function (response) {
-				console.log(pictureIndex);
-				console.log(picturesFiles.length);
+				// console.log(pictureIndex);
+				// console.log(picturesFiles.length);
 				blob = null;
 
 				if (resolutionIndex < resolutionsNo - 1) {
@@ -154,7 +154,7 @@ function initGallery(tags) {
 					} else {
 						picturesFiles = [];
 						pictureGalleryTags = [];
-						
+
 						location.reload();
 					}
 				}
@@ -170,9 +170,9 @@ function initGallery(tags) {
 		});
 	};
 
-	$("#submit").bind("click", function (event) {
+	$("#addFileForm #submit").bind("click", function (event) {
 		event.preventDefault();
-		
+
 		picturesFiles = [];
 		pictureGalleryTags = [];
 
@@ -180,12 +180,46 @@ function initGallery(tags) {
 		$("#addFileForm > input:checked").each(function () {
 			pictureGalleryTags.push(this.id);
 		});
-		console.log(picturesFiles);
-		console.log(pictureGalleryTags);
+		// console.log(picturesFiles);
+		// console.log(pictureGalleryTags);
 		pictureIndex = 0;
 		resolutionIndex = 0;
 		if (picturesFiles.length !== 0)
 			loadImage();
+	});
+
+	$("#addProjectForm #submit").bind("click", function (event) {
+		event.preventDefault();
+		console.log($("#addProjectForm  #newProjectName")[0].value);
+		// Using the core $.ajax() method
+		$.ajax({
+
+			// The URL for the request
+			url : "projects/add",
+
+			// Whether this is a POST or GET request
+			type : "POST",
+
+			// The data we send to the server
+			data : {
+				newProjectName : $("#addProjectForm  #newProjectName")[0].value
+			},
+
+			// Code to run if the request succeeds;
+			// the response is passed to the function
+			success : function (response) {
+				console.log(response);
+				getProjectsList();
+			},
+
+			// Code to run if the request fails; the raw request and
+			// status codes are passed to the function
+			error : function (xhr, status, errorThrown) {
+				console.log("Error deleting: " + errorThrown);
+				console.log("Status: " + status);
+				console.dir(xhr);
+			}
+		});
 	});
 
 	function deletePicture(id) {
@@ -241,7 +275,7 @@ function initGallery(tags) {
 				listItem.append(thumbnailDisplay);
 				listItem.append($("<p>").text(picture.filename));
 				listItem.append(tagsList[0].outerHTML);
-				console.log(picture);
+				// console.log(picture);
 				if (picture.metadata != null) {
 					if (picture.metadata.systemTag != null) {
 						var tag = listItem.find("#" + picture.metadata.systemTag);
@@ -312,11 +346,6 @@ function initGallery(tags) {
 		console.log($(".resizable"));
 		$("#resizableElement").text(".resizable {width : " + resizeWindowElementWidth + "px;}");
 	};
-	/* $(".border").css({
-	'height' : resizeWindowElementHeight,
-	'width' : resizeWindowElementWidt
-	};h
-	}); */
 
 	// We first want to resize the div to fit the screen.
 	resizeDiv();
@@ -326,6 +355,8 @@ function initGallery(tags) {
 		/* translationTo = scrollEvents * resizeWindowElementHeight;
 		translate(translationTo); */
 	});
+
+	getProjectsList();
 }
 
 function deleteTag(tagName) {
@@ -389,6 +420,39 @@ function setSystemTag(tag, id) {
 		// the response is passed to the function
 		success : function (response) {
 			// location.reload();
+		},
+
+		// Code to run if the request fails; the raw request and
+		// status codes are passed to the function
+		error : function (xhr, status, errorThrown) {
+			console.log("Error deleting: " + errorThrown);
+			console.log("Status: " + status);
+			console.dir(xhr);
+		}
+	});
+}
+
+function getProjectsList() {
+	$.ajax({
+
+		// The URL for the request
+		url : "projects/list",
+
+		// Whether this is a POST or GET request
+		type : "POST",
+		// Code to run if the request succeeds;
+		// the response is passed to the function
+		success : function (response) {
+			var projectsList = $(".projects #projectsList");
+			projectsList.empty();
+			for (i = 0; i < response.length; i++) {
+				var projectItem = $("<li class='projectItem' id='" + response[i].name + "'>" + response[i].name + "</li>");
+				projectItem.bind("click", function (event) {
+					//putBigDisplay(event.target.id);
+					console.log(event);
+				});
+				projectsList.append(projectItem);
+			}
 		},
 
 		// Code to run if the request fails; the raw request and

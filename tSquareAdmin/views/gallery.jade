@@ -2,15 +2,26 @@ extends layout
 
 block content
 	.content
-		form#addFileForm(action='gallery/uploadPicture',  method='POST', enctype='multipart/form-data', accept='video/*,image/*')
-			input#addPictures(type='file', name='pictures', multiple)
-			br
-			each galleryTag in galleryTags
-				label(for=galleryTag)= galleryTag
-				input(id=galleryTag, type='checkbox')
+		.projects
+			form#addProjectForm(action='projects/new', method='POST')
+				label(for='newProject')= 'New Project Name:'
+				input#newProjectName(type='text')
 				br
+				br
+				input#submit(type='submit', value='Add Project')
 			br
-			input#submit(type='submit', value='Submit')
-		#picturesListContainer
+			br
+			ul#projectsList
+		.pictures
+			form#addFileForm(action='gallery/uploadPicture',  method='POST', enctype='multipart/form-data', accept='video/*,image/*')
+				input#addPictures(type='file', name='pictures', multiple)
+				br
+				each galleryTag in galleryTags
+					label(for=galleryTag)= galleryTag
+					input(id=galleryTag, type='checkbox')
+					br
+				br
+				input#submit(type='submit', value='Submit')
+			#picturesListContainer
 	script(type='application/javascript').
 		$(document).ready(initGallery(!{JSON.stringify(systemTags)}));
