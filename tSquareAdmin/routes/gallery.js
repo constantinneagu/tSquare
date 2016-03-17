@@ -69,7 +69,7 @@ router.post('/pictures', function (req, res, next) {
 	// });
 
 	var projects = db.collection('projects');
-  projects.find({name: request.body.project}).limit(1).next(function(err, project) {
+  projects.find({name: req.body.project}).limit(1).next(function(err, project) {
   	assert.equal(null, err);
   	console.log(project);
 		res.json(project.pictures);
