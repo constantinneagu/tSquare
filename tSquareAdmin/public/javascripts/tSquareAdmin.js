@@ -239,22 +239,23 @@ var tSquareGalleryModule = (function () {
 				success : function (response) {
 					var listItem = $("<div class='picture resizable' id='" + picture.filename + "'>");
 					var deleteButton = $("<div id='" + picture.filename + "' class='deleteButton'>");
-					var thumbnailDisplay = new Image();
+					// var thumbnailDisplay = new Image();
+					var thumbnailDisplay = $("<img class='thumbnailImage'>");
 					deleteButton.append($("<p>").text("Delete"));
 
 					listItem.append(thumbnailDisplay);
 					listItem.append($("<p>").text(picture.filename));
-					listItem.append(tagsList[0].outerHTML);
+					//listItem.append(tagsList[0].outerHTML);
 					// console.log(picture);
-					if (picture.metadata != null) {
-						if (picture.metadata.systemTag != null) {
-							var tag = listItem.find("#" + picture.metadata.systemTag);
-							tag.addClass("tagSelected");
-							tag.bind("click", function (event) {
-								setSystemTag(picture.metadata.systemTag, picture.filename);
-							});
-						}
-					}
+					// if (picture.metadata != null) {
+					// 	if (picture.metadata.systemTag != null) {
+					// 		var tag = listItem.find("#" + picture.metadata.systemTag);
+					// 		tag.addClass("tagSelected");
+					// 		tag.bind("click", function (event) {
+					// 			setSystemTag(picture.metadata.systemTag, picture.filename);
+					// 		});
+					// 	}
+					// }
 					listItem.append(deleteButton);
 
 					pictureList.append(listItem);

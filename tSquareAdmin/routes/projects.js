@@ -8,6 +8,7 @@ var assert = require('assert');
 router.post('/add', function(request, response, next) {
   assert.notEqual(null, request.body);
   assert.notEqual(null, request.body.newProjectName);
+  assert.notEqual(null, request.body.newProjectDescription);
 
   var db = require('../databases/tSquareMongoDB.js').db();
   var projects = db.collection('projects');
@@ -16,7 +17,8 @@ router.post('/add', function(request, response, next) {
   	if (count === 1) {
   		response.send('The project is already in the system. Please choose another one. ');
   	} else {
-  		projects.insertOne({name: request.body.newProjectName}, function(err, r) {
+  		projects.insertOne({name: request.body.newProjectName,
+                          description: request.body.newProjectDescription}, function(err, r) {
   			assert.equal(null, err);
   			assert.equal(1, r.insertedCount);
   			response.send('Project added!');
