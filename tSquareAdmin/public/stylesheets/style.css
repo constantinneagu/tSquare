@@ -12,6 +12,11 @@ body {
 .tab {
   float: left;
   width: 10vw;
+  text-align: center;
+}
+
+.buttonn {
+  text-align: center;
 }
 
 .content {
