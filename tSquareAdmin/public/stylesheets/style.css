@@ -46,6 +46,16 @@ body {
 }
 
 #newProjectFormDiv {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20vw;
+  height: 20vh;
+  top: 30vh;
+  background-color: white;
+}
+
+.formCover {
   background-color: rgb(10,12,35);
   opacity: 0.8;
   position: absolute;
