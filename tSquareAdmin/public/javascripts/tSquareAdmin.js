@@ -413,7 +413,7 @@ var tSquareGalleryModule = (function () {
 		    "  <input id='newProjectName' type='text'>" +
 		      "<br>" +
 		      "<label for='newProjectDescription'>Description:</label>" +
-					"<textarea id='newProjectDescription' rows='4' cols='50'>" +
+					"<textarea id='newProjectDescription' rows='4' cols='50'></textarea>" +
 		      "<br><br>" +
 		      "<input id='submit' value='Add Project' type='submit'>" +
 		  " </form></div></div>");
