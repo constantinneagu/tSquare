@@ -325,7 +325,7 @@ var tSquareGalleryModule = (function () {
 			/* translationTo = scrollEvents * resizeWindowElementHeight;
 			translate(translationTo); */
 		});
-		$("#newProjectButton").bind("click", function(even) {
+		$("#newProjectButton").bind("click", function(event) {
 			event.preventDefault();
 			putNewProjectForm();
 		});
