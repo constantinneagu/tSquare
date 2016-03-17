@@ -24,7 +24,7 @@ body {
   margin: 0 2vw 2vw 0;
 }
 
-.projectsList {
+#projectsList {
   padding: 0;
 }
 .projectItem {
