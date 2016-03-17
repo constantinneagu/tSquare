@@ -3,14 +3,6 @@ extends layout
 block content
 	.content
 		.projects
-			form#addProjectForm(action='projects/new', method='POST')
-				label(for='newProject')= 'New Project Name:'
-				input#newProjectName(type='text')
-				br
-				br
-				input#submit(type='submit', value='Add Project')
-			br
-			br
 			ul#projectsList
 		.pictures
 			form#addFileForm(action='gallery/uploadPicture',  method='POST', enctype='multipart/form-data', accept='video/*,image/*')
@@ -24,4 +16,4 @@ block content
 				input#submit(type='submit', value='Submit')
 			#picturesListContainer
 	script(type='application/javascript').
-		$(document).ready(initGallery(!{JSON.stringify(systemTags)}));
+		$(document).ready(tSquareGalleryModule.init(!{JSON.stringify(systemTags)}));

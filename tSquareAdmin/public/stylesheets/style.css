@@ -21,8 +21,12 @@ body {
 .projects {
   width: 15vw;
   float: left;
+  margin: 0 2vw 2vw 0;
 }
 
+.projectsList {
+  padding: 0;
+}
 .projectItem {
 	color: #FFF;
 	font-size: 15px;
@@ -39,6 +43,18 @@ body {
 .projectItem:hover {
 	color: rgb(129, 140, 158);
 	background-color: #FFF;
+}
+
+#newProjectFormDiv {
+  background-color: rgb(10,12,35);
+  opacity: 0.8;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: zoom-out;
 }
 
 .pictures {

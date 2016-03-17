@@ -1,6 +1,6 @@
 var tSquareModule = (function () {
 
-	var theModule = {};
+	var module = {};
 	var resolutions = [{
 			name : 'thumbnail',
 			width : 512,
@@ -181,62 +181,62 @@ var tSquareModule = (function () {
 		}
 	};
 
-function renderZoomOpacityObject(elementId) {
-	this.zoomTime = null;
-	this.elementId = elementId;
-	this.zoomProgress = 0;
-	this.zoomDuration = 2000;
-	this.zoomSpeed = 0.00001;
-	this.opacitySpeed = 0.0005;
-	this.zoomNegative = true;
-	this.active = false;
+	function renderZoomOpacityObject(elementId) {
+		this.zoomTime = null;
+		this.elementId = elementId;
+		this.zoomProgress = 0;
+		this.zoomDuration = 2000;
+		this.zoomSpeed = 0.00001;
+		this.opacitySpeed = 0.0005;
+		this.zoomNegative = true;
+		this.active = false;
 
-	this.zoom = function () {
-		var zoomTmp = 1 + this.zoomSpeed * this.zoomProgress,
-		opacity = 1 - this.opacitySpeed * this.zoomProgress;
-		$("#" + this.elementId).css({
-			'-webkit-transform' : "scale(" + zoomTmp + " )",
-			'-moz-transform' : "scale(" + zoomTmp + " )",
-			'-o-transform' : "scale(" + zoomTmp + " )",
-			'-ms-transform' : "scale(" + zoomTmp + " )",
-			'transform' : "scale(" + zoomTmp + " )",
-			'opacity' : opacity
-		});
-	};
+		this.zoom = function () {
+			var zoomTmp = 1 + this.zoomSpeed * this.zoomProgress,
+			opacity = 1 - this.opacitySpeed * this.zoomProgress;
+			$("#" + this.elementId).css({
+				'-webkit-transform' : "scale(" + zoomTmp + " )",
+				'-moz-transform' : "scale(" + zoomTmp + " )",
+				'-o-transform' : "scale(" + zoomTmp + " )",
+				'-ms-transform' : "scale(" + zoomTmp + " )",
+				'transform' : "scale(" + zoomTmp + " )",
+				'opacity' : opacity
+			});
+		};
 
-	this.getChanges = function () {
-		var zoomIntermediateTime = Date.now();
+		this.getChanges = function () {
+			var zoomIntermediateTime = Date.now();
 
-		if (this.zoomNegative == false) {
-			this.zoomProgress += zoomIntermediateTime - this.zoomTime;
-			if (this.zoomProgress > this.zoomDuration) {
-				this.zoomProgress = this.zoomDuration;
+			if (this.zoomNegative == false) {
+				this.zoomProgress += zoomIntermediateTime - this.zoomTime;
+				if (this.zoomProgress > this.zoomDuration) {
+					this.zoomProgress = this.zoomDuration;
+				}
+				this.zoomTime = zoomIntermediateTime;
+				if (this.zoomProgress == this.zoomDuration) {
+					this.zoomTime = null;
+					this.active = false;
+				}
+				this.zoom();
+			} else {
+				this.zoomProgress += (this.zoomTime - zoomIntermediateTime);
+				if (this.zoomProgress < 0) {
+					this.zoomProgress = 0;
+				}
+				this.zoomTime = zoomIntermediateTime;
+
+				if (this.zoomProgress == 0) {
+					this.zoomTime = null;
+					this.active = false;
+				}
+				this.zoom();
 			}
-			this.zoomTime = zoomIntermediateTime;
-			if (this.zoomProgress == this.zoomDuration) {
-				this.zoomTime = null;
-				this.active = false;
-			}
-			this.zoom();
-		} else {
-			this.zoomProgress += (this.zoomTime - zoomIntermediateTime);
-			if (this.zoomProgress < 0) {
-				this.zoomProgress = 0;
-			}
-			this.zoomTime = zoomIntermediateTime;
+		};
 
-			if (this.zoomProgress == 0) {
-				this.zoomTime = null;
-				this.active = false;
-			}
-			this.zoom();
-		}
-	};
-
-	this.toggleZoom = function () {
-		this.zoomNegative = !this.zoomNegative;
-	};
-}
+		this.toggleZoom = function () {
+			this.zoomNegative = !this.zoomNegative;
+		};
+	}
 
 	function renderZoomObject(elementId) {
 		this.zoomTime = null;
@@ -383,7 +383,7 @@ function renderZoomOpacityObject(elementId) {
 		}
 	};
 
-	theModule.horizontalPart = function () {
+	module.horizontalPart = function () {
 		renderHorizontalTranslationInstance.translationFrom = 0;
 		renderHorizontalTranslationInstance.translationTo = horizontalBorderThickness + resizeWindowElementWidthBc / 2;
 		// Here I'm getting the magnitude and the direction of the speed vector.
@@ -398,7 +398,7 @@ function renderZoomOpacityObject(elementId) {
 		});
 	};
 
-	theModule.horizontalJoin = function () {
+	module.horizontalJoin = function () {
 		renderHorizontalTranslationInstance.translationTo = 0;
 		renderHorizontalTranslationInstance.translationFrom = horizontalBorderThickness + resizeWindowElementWidthBc / 2;
 		// Here I'm getting the magnitude and the direction of the speed vector.
@@ -575,7 +575,7 @@ function renderZoomOpacityObject(elementId) {
 		});
 	};
 
-	theModule.init = function () {
+	module.init = function () {
 
 		// Setting up the position indicators.
 		var positionIndicatorsContainer = $(".positionIndicatorsContainer");
@@ -696,6 +696,10 @@ function renderZoomOpacityObject(elementId) {
 			bigImage.remove();
 			bigDisplayDiv.remove();
 		});
+		bigDisplayDiv.bind("click", function (event) {
+			bigImage.remove();
+			bigDisplayDiv.remove();
+		});
 		$(".galleryContainer").append(bigDisplayDiv);
 		$(".galleryContainer").append(bigImage);
 	};
@@ -763,7 +767,7 @@ function renderZoomOpacityObject(elementId) {
 		}
 	};
 
-	theModule.galleryFilter = function (filterTag) {
+	module.galleryFilter = function (filterTag) {
 		// Using the core $.ajax() method
 		if (window.history.state == null) {
 			window.history.pushState(filterTag, "BackToMain", window.location);
@@ -773,10 +777,10 @@ function renderZoomOpacityObject(elementId) {
 		window.onpopstate = function(event) {
 			console.log(event.state);
 			if (event.state == null) {
-				theModule.horizontalJoin();
+				module.horizontalJoin();
 			}
 			else {
-				theModule.horizontalPart();
+				module.horizontalPart();
 			}
 		};
 
@@ -813,6 +817,6 @@ function renderZoomOpacityObject(elementId) {
 		});
 	};
 
-	return theModule;
+	return module;
 }
 	());
