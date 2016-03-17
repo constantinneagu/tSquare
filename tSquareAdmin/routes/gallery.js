@@ -51,8 +51,8 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/pictures', function (req, res, next) {
-	assert.notEqual(null, request.body);
-  assert.notEqual(null, request.body.project);
+	assert.notEqual(null, req.body);
+  assert.notEqual(null, req.body.project);
 
 	var db = require('../databases/tSquareMongoDB.js').db();
 	// var thumbnailsCollection = db.collection('thumbnail.files');
