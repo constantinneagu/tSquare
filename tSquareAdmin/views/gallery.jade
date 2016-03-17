@@ -17,6 +17,7 @@ block content
 					br
 				br
 				input#submit(type='submit', value='Submit')
-			#picturesListContainer
+			div(style={'height': '100vh', 'overflow': 'auto'})
+				#picturesListContainer
 	script(type='application/javascript').
 		$(document).ready(tSquareGalleryModule.init(!{JSON.stringify(systemTags)}));
