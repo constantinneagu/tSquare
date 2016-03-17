@@ -263,7 +263,7 @@ var tSquareGalleryModule = (function () {
 					deleteButton.bind("click", function (event) {
 						deletePicture(event.currentTarget.id);
 					});
-					//thumbnailDisplay.src = "gallery/pictures/thumbnail/" + picture.filename;
+					//resizablethumbnailDisplay.src = "gallery/pictures/thumbnail/" + picture.filename;
 				},
 
 				// Code to run if the request fails; the raw request and
@@ -319,15 +319,15 @@ var tSquareGalleryModule = (function () {
 
 		function resizeDiv() {
 			var resizeWindowElementWidth = ($(window).width() - (0.1 * $(window).width())) / 4;
-			console.log($(".resizable"));
+			//console.log($(".resizable"));
 			$("#resizableElement").text(".resizable {width : " + resizeWindowElementWidth + "px;}");
 		};
 
 		// We first want to resize the div to fit the screen.
-		resizeDiv();
+		//resizeDiv();
 		// On window resize, we get the new height. Then we calculate and re-position everything that depends on it.
 		$(window).resize(function () {
-			resizeDiv();
+			//resizeDiv();
 			/* translationTo = scrollEvents * resizeWindowElementHeight;
 			translate(translationTo); */
 		});
