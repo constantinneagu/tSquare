@@ -244,7 +244,7 @@ var tSquareGalleryModule = (function () {
 					deleteButton.append($("<p>").text("Delete"));
 
 					listItem.append(thumbnailDisplay);
-					listItem.append($("<p>").text(picture.filename));
+					listItem.append($("<p class='filename'>").text(picture.filename));
 					//listItem.append(tagsList[0].outerHTML);
 					// console.log(picture);
 					// if (picture.metadata != null) {

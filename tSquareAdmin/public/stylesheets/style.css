@@ -80,6 +80,12 @@ body {
 
 p {
   text-align: center;
+  margin: 0;
+  float: left;
+}
+
+.filename {
+  text-align: center;
   margin: 2vw;
   float: left;
 }
@@ -141,15 +147,16 @@ p {
 	color: #FFF;
 	font-size: 15px;
 	text-align: center;
-	margin-left: 0px;
-	margin-top: 0px;
 	border: 1px solid #FF0000;
 	white-space: nowrap;
 	margin-bottom: 5px;
 	padding: 1px 5px;
 	background-color: #FF0000;
 	border-radius: 5px;
-	width: 60%;
+  float: left;
+  width: 10vw;
+  height: 5vh;
+  margin: 1vw;
 }
 
 .deleteButton:hover {
