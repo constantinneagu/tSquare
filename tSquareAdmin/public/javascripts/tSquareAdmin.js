@@ -410,7 +410,7 @@ var tSquareGalleryModule = (function () {
 		newProjectFormDiv.bind("click", function (event) {
 			newProjectFormDiv.remove();
 		});
-		$(".content").append(newProjectFormDiv);
+		$("body").append(newProjectFormDiv);
 
 		$("#addProjectForm #submit").bind("click", function (event) {
 			event.preventDefault();

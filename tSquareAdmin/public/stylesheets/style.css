@@ -46,13 +46,14 @@ body {
 }
 
 #newProjectFormDiv {
-  position: absolute;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   width: 20vw;
   height: 20vh;
   top: 30vh;
   background-color: white;
+  padding: 2vh;
 }
 
 .formCover {
