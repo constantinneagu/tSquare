@@ -413,15 +413,16 @@ var tSquareGalleryModule = (function () {
 		    "  <input id='newProjectName' type='text'>" +
 		      "<br>" +
 		      "<label for='newProjectDescription'>Description:</label>" +
-					"<textarea id='newProjectDescription' rows='4' cols='50'></textarea>" +
+					"<textarea id='newProjectDescription' rows='4vh' cols='50vw'></textarea>" +
 		      "<br><br>" +
 		      "<input id='submit' value='Add Project' type='submit'>" +
+					"<input id='finish' value='Finish' type='button'>" +
 		  " </form></div></div>");
-		newProjectFormDiv.bind("click", function (event) {
-			newProjectFormDiv.remove();
-		});
+			
 		$("body").append(newProjectFormDiv);
-
+		$("#addProjectForm #finish").bind("click", function (event) {
+			newProjectFormDiv.remove();
+		}
 		$("#addProjectForm #submit").bind("click", function (event) {
 			event.preventDefault();
 			console.log($("#addProjectForm  #newProjectName")[0].value);
