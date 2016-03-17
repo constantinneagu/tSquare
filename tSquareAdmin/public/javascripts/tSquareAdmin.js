@@ -422,7 +422,7 @@ var tSquareGalleryModule = (function () {
 		$("body").append(newProjectFormDiv);
 		$("#addProjectForm #finish").bind("click", function (event) {
 			newProjectFormDiv.remove();
-		)};
+		});
 		$("#addProjectForm #submit").bind("click", function (event) {
 			event.preventDefault();
 			console.log($("#addProjectForm  #newProjectName")[0].value);
