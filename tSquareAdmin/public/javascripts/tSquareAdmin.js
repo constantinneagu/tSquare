@@ -240,7 +240,7 @@ var tSquareGalleryModule = (function () {
 					var listItem = $("<div class='picture resizable' id='" + picture.filename + "'>");
 					var deleteButton = $("<div id='" + picture.filename + "' class='deleteButton'>");
 					// var thumbnailDisplay = new Image();
-					var thumbnailDisplay = $("<img class='thumbnailImage'>");
+					var thumbnailDisplay = $("<img class='thumbnailImage' src='" + "gallery/pictures/thumbnail/" + picture.filename + "'>");
 					deleteButton.append($("<p>").text("Delete"));
 
 					listItem.append(thumbnailDisplay);
@@ -263,7 +263,7 @@ var tSquareGalleryModule = (function () {
 					deleteButton.bind("click", function (event) {
 						deletePicture(event.currentTarget.id);
 					});
-					thumbnailDisplay.src = "gallery/pictures/thumbnail/" + picture.filename;
+					//thumbnailDisplay.src = "gallery/pictures/thumbnail/" + picture.filename;
 				},
 
 				// Code to run if the request fails; the raw request and
