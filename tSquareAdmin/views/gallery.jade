@@ -3,6 +3,9 @@ extends layout
 block content
 	.content
 		.projects
+			.tab
+				a#newProjectButton(href='#').
+					Add new project
 			ul#projectsList
 		.pictures
 			form#addFileForm(action='gallery/uploadPicture',  method='POST', enctype='multipart/form-data', accept='video/*,image/*')

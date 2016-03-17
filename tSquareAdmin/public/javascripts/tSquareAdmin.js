@@ -192,40 +192,6 @@ var tSquareGalleryModule = (function () {
 				loadImage();
 		});
 
-		$("#addProjectForm #submit").bind("click", function (event) {
-			event.preventDefault();
-			console.log($("#addProjectForm  #newProjectName")[0].value);
-			// Using the core $.ajax() method
-			$.ajax({
-
-				// The URL for the request
-				url : "projects/add",
-
-				// Whether this is a POST or GET request
-				type : "POST",
-
-				// The data we send to the server
-				data : {
-					newProjectName : $("#addProjectForm  #newProjectName")[0].value
-				},
-
-				// Code to run if the request succeeds;
-				// the response is passed to the function
-				success : function (response) {
-					console.log(response);
-					getProjectsList();
-				},
-
-				// Code to run if the request fails; the raw request and
-				// status codes are passed to the function
-				error : function (xhr, status, errorThrown) {
-					console.log("Error deleting: " + errorThrown);
-					console.log("Status: " + status);
-					console.dir(xhr);
-				}
-			});
-		});
-
 		function deletePicture(id) {
 			// Using the core $.ajax() method
 			$.ajax({
@@ -359,7 +325,10 @@ var tSquareGalleryModule = (function () {
 			/* translationTo = scrollEvents * resizeWindowElementHeight;
 			translate(translationTo); */
 		});
-
+		$("#newProjectButton").bind("click", function(even) {
+			event.preventDefault();
+			putNewProjectForm();
+		});
 		getProjectsList();
 	}
 
@@ -436,12 +405,46 @@ var tSquareGalleryModule = (function () {
 		});
 	}
 
-	function putNewProjectForm(pictureId) {
+	function putNewProjectForm() {
 		var newProjectFormDiv = $("<div id='newProjectFormDiv'> <form id='addProjectForm' action='projects/new' method='POST'><label for='newProject'>New Project Name:</label><input id='newProjectName' type='text'><br><br><input id='submit' value='Add Project' type='submit'></form> </div>");
 		newProjectFormDiv.bind("click", function (event) {
 			newProjectFormDiv.remove();
 		});
 		$(".content").append(newProjectFormDiv);
+
+		$("#addProjectForm #submit").bind("click", function (event) {
+			event.preventDefault();
+			console.log($("#addProjectForm  #newProjectName")[0].value);
+			// Using the core $.ajax() method
+			$.ajax({
+
+				// The URL for the request
+				url : "projects/add",
+
+				// Whether this is a POST or GET request
+				type : "POST",
+
+				// The data we send to the server
+				data : {
+					newProjectName : $("#addProjectForm  #newProjectName")[0].value
+				},
+
+				// Code to run if the request succeeds;
+				// the response is passed to the function
+				success : function (response) {
+					console.log(response);
+					getProjectsList();
+				},
+
+				// Code to run if the request fails; the raw request and
+				// status codes are passed to the function
+				error : function (xhr, status, errorThrown) {
+					console.log("Error deleting: " + errorThrown);
+					console.log("Status: " + status);
+					console.dir(xhr);
+				}
+			});
+		});
 	};
 
 	function getProjectsList() {
