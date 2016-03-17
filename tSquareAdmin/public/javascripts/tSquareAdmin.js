@@ -406,20 +406,17 @@ var tSquareGalleryModule = (function () {
 	}
 
 	function putNewProjectForm() {
-		var newProjectFormDiv = $("<div class='formCover'>
-		  <div id='newProjectFormDiv'>
-		    <form id='addProjectForm' action='projects/new' method='POST'>
-		      <label for='newProject'>New Project Name:</label>
-		      <input id='newProjectName' type='text'>
-		      <br>
-		      <label for='newProjectDescription'>Description:</label>
-		      <textarea id='newProjectDescription' rows='4' cols='50'>
-		      <br>
-		      <br>
-		      <input id='submit' value='Add Project' type='submit'>
-		    </form>
-		  </div>
-		</div>");
+		var newProjectFormDiv = $("<div class='formCover'>" +
+		  "<div id='newProjectFormDiv'>" +
+		  "  <form id='addProjectForm' action='projects/new' method='POST'>" +
+		    "  <label for='newProject'>New Project Name:</label>" +
+		    "  <input id='newProjectName' type='text'>" +
+		      "<br>" +
+		      "<label for='newProjectDescription'>Description:</label>" +
+					"<textarea id='newProjectDescription' rows='4' cols='50'>" +
+		      "<br><br>" +
+		      "<input id='submit' value='Add Project' type='submit'>" +
+		  " </form></div></div>");
 		newProjectFormDiv.bind("click", function (event) {
 			newProjectFormDiv.remove();
 		});
