@@ -281,16 +281,21 @@ var tSquareGalleryModule = (function () {
 			url : "gallery/pictures",
 
 			// Whether this is a POST or GET request
-			type : "GET",
+			type : "POST",
 
 			// The type of data we expect back
 			dataType : "json",
 
+			// The data we send to the server
+			data : {
+				project : "Default"
+			},
 			// Code to run if the request succeeds;
 			// the response is passed to the function
 			success : function (response) {
 				var index;
 				var responseLength = response.length;
+				console.log(response);
 				for (index = 0; index < responseLength; index++) {
 					getPictureThumbnail(response[index]);
 				}

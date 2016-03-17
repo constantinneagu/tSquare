@@ -50,20 +50,30 @@ router.get('/', function (req, res, next) {
 	});
 });
 
-router.get('/pictures', function (req, res, next) {
-	var db = require('../databases/tSquareMongoDB.js').db();
-	var thumbnailsCollection = db.collection('thumbnail.files');
+router.post('/pictures', function (req, res, next) {
+	assert.notEqual(null, request.body);
+  assert.notEqual(null, request.body.project);
 
-	thumbnailsCollection.find({}, {
-		_id : false,
-		filename : true,
-		'metadata.systemTag' : true,
-		'metadata.aspectRatio' : true
-	}).toArray(function (err, thumbnails) {
-		assert.equal(null, err);
-		// // console.log(thumbnails);
-		res.json(thumbnails);
-	});
+	var db = require('../databases/tSquareMongoDB.js').db();
+	// var thumbnailsCollection = db.collection('thumbnail.files');
+	//
+	// thumbnailsCollection.find({}, {
+	// 	_id : false,
+	// 	filename : true,
+	// 	'metadata.systemTag' : true,
+	// 	'metadata.aspectRatio' : true
+	// }).toArray(function (err, thumbnails) {
+	// 	assert.equal(null, err);
+	// 	// // console.log(thumbnails);
+	// 	res.json(thumbnails);
+	// });
+
+	var projects = db.collection('projects');
+  projects.find({name: request.body.project}).limit(1).next(function(err, project) {
+  	assert.equal(null, err);
+  	console.log(project);
+		res.json(project.pictures);
+  });
 });
 /* Check the Etag for this request */
 function checkEtag(req, res, next) {
