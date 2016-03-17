@@ -55,24 +55,22 @@ router.post('/pictures', function (req, res, next) {
   assert.notEqual(null, req.body.project);
 
 	var db = require('../databases/tSquareMongoDB.js').db();
-	// var thumbnailsCollection = db.collection('thumbnail.files');
-	//
-	// thumbnailsCollection.find({}, {
-	// 	_id : false,
-	// 	filename : true,
-	// 	'metadata.systemTag' : true,
-	// 	'metadata.aspectRatio' : true
-	// }).toArray(function (err, thumbnails) {
-	// 	assert.equal(null, err);
-	// 	// // console.log(thumbnails);
-	// 	res.json(thumbnails);
-	// });
-
 	var projects = db.collection('projects');
   projects.find({name: req.body.project}).limit(1).next(function(err, project) {
   	assert.equal(null, err);
   	console.log(project);
-		res.json(project.pictures);
+		//res.json(project.pictures);
+		var thumbnailsCollection = db.collection('thumbnail.files');
+		thumbnailsCollection.find({filename : { $in : project.pictures }}, {
+			_id : false,
+			filename : true,
+			'metadata.systemTag' : true,
+			'metadata.aspectRatio' : true
+		}).toArray(function (err, thumbnails) {
+			assert.equal(null, err);
+			// // console.log(thumbnails);
+			res.json(thumbnails);
+		});
   });
 });
 /* Check the Etag for this request */
@@ -89,6 +87,7 @@ function checkEtag(req, res, next) {
 		_id : true
 	}, function (err, file) {
 		assert.equal(null, err);
+		assert.notEqual(null, file);
 		var eTag = file._id.getTimestamp().valueOf();
 		if (eTag == req.get('If-None-Match')) {
 			res.writeHead(304, {
