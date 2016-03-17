@@ -11,6 +11,7 @@ body {
 
 .tab {
   float: left;
+  width: 10vw;
 }
 
 .content {
