@@ -78,16 +78,9 @@ body {
   float: left;
 }
 
-p {
-  text-align: center;
-  margin: 0;
-  float: left;
-}
-
 .filename {
   text-align: center;
-  margin: 2vw;
-  float: left;
+  display: table-cell;
 }
 
 #picturesListContainer {
@@ -98,6 +91,7 @@ p {
 .picture {
   border: 6px solid white;
   overflow: hidden;
+  display: table-row;
 }
 
 .resizable {
@@ -167,6 +161,7 @@ p {
 .thumbnailImage {
   width: 16vw;
   float: left;
+  display: table-cell;
 }
 
 .table {
