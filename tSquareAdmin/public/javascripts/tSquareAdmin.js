@@ -260,6 +260,10 @@ var tSquareGalleryModule = (function () {
 
 					pictureList.append(listItem);
 
+					listItem.bind("click", function (event) {
+						console.log("something was clicked");
+					});
+
 					deleteButton.bind("click", function (event) {
 						deletePicture(event.currentTarget.id);
 					});
