@@ -237,6 +237,7 @@ var tSquareGalleryModule = (function () {
 				// Code to run if the request succeeds;
 				// the response is passed to the function
 				success : function (response) {
+					var listRow = $("<div></div>");
 					var listItem = $("<div class='picture resizable' id='" + picture.filename + "'>");
 					var deleteButton = $("<div id='" + picture.filename + "' class='deleteButton'>");
 					// var thumbnailDisplay = new Image();
@@ -258,7 +259,8 @@ var tSquareGalleryModule = (function () {
 					// }
 					listItem.append(deleteButton);
 
-					pictureList.append(listItem);
+					listRow.append(listItem);
+					pictureList.append(listRow);
 
 					deleteButton.bind("click", function (event) {
 						deletePicture(event.currentTarget.id);
