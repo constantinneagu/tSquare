@@ -98,6 +98,9 @@ body {
   width: auto;
 }
 
+.tagsCell {
+  display: table-cell;
+}
 .tagUnselected {
 	display: inline-block;
 	color: #FFF;
