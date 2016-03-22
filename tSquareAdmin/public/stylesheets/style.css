@@ -98,9 +98,6 @@ body {
   width: auto;
 }
 
-.tagsCell {
-  display: table-cell;
-}
 .tagUnselected {
 	display: inline-block;
 	color: #FFF;
@@ -154,6 +151,10 @@ body {
   width: 10vw;
   height: 5vh;
   margin: 1vw;
+}
+
+#tagList {
+    display: table-cell;
 }
 
 .deleteButton:hover {

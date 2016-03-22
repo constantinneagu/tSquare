@@ -239,15 +239,13 @@ var tSquareGalleryModule = (function () {
 				success : function (response) {
 					var listItem = $("<div class='picture resizable' id='" + picture.filename + "'>");
 					var deleteButton = $("<div id='" + picture.filename + "' class='deleteButton'>");
-					var tagListDiv = $("<div class='tagsCell'></div>");
 					// var thumbnailDisplay = new Image();
 					var thumbnailDisplay = $("<img class='thumbnailImage' src='" + "gallery/pictures/thumbnail/" + picture.filename + "'>");
 					deleteButton.append($("<p>").text("Delete"));
 
 					listItem.append(thumbnailDisplay);
 					listItem.append($("<p class='filename'>").text(picture.filename));
-					tagListDiv.append(tagsList[0].outerHTML);
-					console.log(picture);
+					listItem.append(tagsList[0].outerHTML);
 					if (picture.metadata != null) {
 						if (picture.metadata.systemTag != null) {
 							var tag = tagListDiv.find("#" + picture.metadata.systemTag);
@@ -258,8 +256,6 @@ var tSquareGalleryModule = (function () {
 						}
 					}
 					listItem.append(deleteButton);
-					listItem.append(tagListDiv);
-
 					pictureList.append(listItem);
 
 					listItem.bind("click", function (event) {
