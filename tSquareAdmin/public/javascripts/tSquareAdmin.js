@@ -258,6 +258,7 @@ var tSquareGalleryModule = (function () {
 						}
 					}
 					listItem.append(deleteButton);
+					listItem.append(tagListDiv);
 
 					pictureList.append(listItem);
 
