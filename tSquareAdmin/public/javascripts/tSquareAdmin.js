@@ -245,17 +245,17 @@ var tSquareGalleryModule = (function () {
 
 					listItem.append(thumbnailDisplay);
 					listItem.append($("<p class='filename'>").text(picture.filename));
+					listItem.append(deleteButton);
 					listItem.append(tagsList[0].outerHTML);
 					if (picture.metadata != null) {
 						if (picture.metadata.systemTag != null) {
-							var tag = tagListDiv.find("#" + picture.metadata.systemTag);
+							var tag = listItem.find("#" + picture.metadata.systemTag);
 							tag.addClass("tagSelected");
 							tag.bind("click", function (event) {
 								setSystemTag(picture.metadata.systemTag, picture.filename);
 							});
 						}
 					}
-					listItem.append(deleteButton);
 					pictureList.append(listItem);
 
 					listItem.bind("click", function (event) {
