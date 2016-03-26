@@ -92,14 +92,17 @@ body {
 }
 
 .picture {
-  border: 6px solid white;
   overflow: hidden;
   display: table-row;
 }
 
+.picture:nth-child(even) {
+  background-color: #f2f2f2\
+};
+
 .resizable {
   width: auto;
-  height: 35vh;
+  height: 38vh;
   position: relative;
 }
 
