@@ -238,7 +238,7 @@ var tSquareGalleryModule = (function () {
 				// the response is passed to the function
 				success : function (response) {
 					var listItem = $("<div class='picture resizable' id='" + picture.filename + "'>");
-					var deleteButton = $("<div id='" + picture.filename + "' class='deleteButton pictureTableCell thirdColumn'>");
+					var deleteButton = $("<div id='" + picture.filename + "' class='deleteButton pictureTableCell sixtColumn'>");
 					// var thumbnailDisplay = new Image();
 					var thumbnailDisplay = $("<img class='thumbnailImage pictureTableCell firstColumn' src='" + "gallery/pictures/thumbnail/" + picture.filename + "'>");
 					deleteButton.append($("<p>").text("Delete"));

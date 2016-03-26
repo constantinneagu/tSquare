@@ -88,6 +88,11 @@ body {
   width: 85vw;
 }
 
+.listHead {
+  display: table-header-group;
+  position: absolute;
+}
+
 .pictureTableCell {
   display: table-cell;
   position: absolute;
@@ -98,19 +103,23 @@ body {
 }
 
 .secondColumn {
-  left: 17vw;
+  left: 16vw;
 }
 
 .thirdColumn {
-  left: 34vw;
+  left: 32vw;
 }
 
 .fourthColumn {
-  left: 51vw;
+  left: 48vw;
 }
 
-.fiftColumn {
-  left: 68vw;
+.fifthColumn {
+  left: 64vw;
+}
+
+.sixtColumn {
+  left: 80vw;
 }
 
 .picture {
@@ -124,7 +133,7 @@ body {
 
 .resizable {
   width: auto;
-  height: 40vh;
+  height: 44vh;
   position: relative;
 }
 
@@ -175,8 +184,6 @@ body {
 	border-radius: 5px;
   width: 10vw;
   height: 6vh;
-  margin: 1vw;
-  top: 38px;
 }
 
 #tagsList {
