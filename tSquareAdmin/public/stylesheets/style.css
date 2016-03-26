@@ -99,7 +99,6 @@ body {
 }
 
 .tagUnselected {
-	display: inline-block;
 	color: #FFF;
 	font-size: 15px;
 	text-align: center;
@@ -118,7 +117,6 @@ body {
 }
 
 .tagSelected {
-	display: inline-block;
 	color: #FFF;
 	font-size: 15px;
 	text-align: center;
@@ -137,19 +135,17 @@ body {
 }
 
 .deleteButton {
-	display: inline-block;
 	color: #FFF;
 	font-size: 15px;
 	text-align: center;
 	border: 1px solid #FF0000;
 	white-space: nowrap;
-	margin-bottom: 5px;
 	padding: 1px 5px;
 	background-color: #FF0000;
 	border-radius: 5px;
   float: left;
   width: 10vw;
-  height: 5vh;
+  height: 6vh;
   margin: 1vw;
 }
 
