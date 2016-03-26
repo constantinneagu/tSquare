@@ -20,9 +20,9 @@ block content
 			div(style={'height': '70vh', 'overflow': 'auto'})
 				#picturesListContainer
 					.listHead
-						p(class=['pictureTableCell', 'secondColumn']) Name
-						p(class=['pictureTableCell', 'thirdColumn']) Project
-						p(class=['pictureTableCell', 'fourthColumn']) Category
-						p(class=['pictureTableCell', 'fifthColumn']) System tag
+						p(class=['pictureTableCell', 'secondColumn', 'filename']) Name
+						p(class=['pictureTableCell', 'thirdColumn', 'filename']) Project
+						p(class=['pictureTableCell', 'fourthColumn', 'filename']) Category
+						p(class=['pictureTableCell', 'fifthColumn', 'filename']) System tag
 	script(type='application/javascript').
 		$(document).ready(tSquareGalleryModule.init(!{JSON.stringify(systemTags)}));

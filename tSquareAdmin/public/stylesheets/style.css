@@ -90,7 +90,8 @@ body {
 
 .listHead {
   display: table-header-group;
-  position: absolute;
+  position: relative;
+  height: 8vh;
 }
 
 .pictureTableCell {
@@ -182,7 +183,7 @@ body {
 	padding: 1px 5px;
 	background-color: #FF0000;
 	border-radius: 5px;
-  width: 10vw;
+  width: 3vw;
   height: 6vh;
 }
 
