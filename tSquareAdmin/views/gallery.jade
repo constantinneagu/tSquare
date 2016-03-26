@@ -17,13 +17,12 @@ block content
 					br
 				br
 				input#submit(type='submit', value='Submit')
-			div(style={'height': '70vh', 'overflow': 'auto'})
-				.pictureListTable
-					.pictureListHead
-						p(class=['pictureTableCell', 'secondColumn', 'filename']) Name
-						p(class=['pictureTableCell', 'thirdColumn', 'filename']) Project
-						p(class=['pictureTableCell', 'fourthColumn', 'filename']) Category
-						p(class=['pictureTableCell', 'fifthColumn', 'filename']) System tag
-					.picturesListContainer
+			.pictureListTable
+				.pictureListHead
+					p(class=['pictureTableCell', 'secondColumn', 'filename']) Name
+					p(class=['pictureTableCell', 'thirdColumn', 'filename']) Project
+					p(class=['pictureTableCell', 'fourthColumn', 'filename']) Category
+					p(class=['pictureTableCell', 'fifthColumn', 'filename']) System tag
+				.picturesListContainer
 	script(type='application/javascript').
 		$(document).ready(tSquareGalleryModule.init(!{JSON.stringify(systemTags)}));
