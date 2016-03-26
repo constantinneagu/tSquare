@@ -83,15 +83,23 @@ body {
   margin: 0px;
 }
 
-#picturesListContainer {
+.pictureListTable {
   display: table;
   width: 85vw;
+  position: relative;
+  height: 70vh;
 }
 
-.listHead {
+.pictureListHead {
   display: table-header-group;
   position: relative;
   height: 8vh;
+}
+
+.picturesListContainer {
+  overflow: auto;
+  position: relative;
+  height: 62vh;
 }
 
 .pictureTableCell {
