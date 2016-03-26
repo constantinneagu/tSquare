@@ -65,7 +65,9 @@ router.post('/pictures', function (req, res, next) {
 			_id : false,
 			filename : true,
 			'metadata.systemTag' : true,
-			'metadata.aspectRatio' : true
+			'metadata.aspectRatio' : true,
+			'metadata.pictureGalleryTags' : true,
+			'metadata.project' : true
 		}).toArray(function (err, thumbnails) {
 			assert.equal(null, err);
 			// // console.log(thumbnails);

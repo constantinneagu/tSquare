@@ -9,12 +9,18 @@ var tSquareGalleryModule = (function () {
 
 	var galleryModule = {}
 
-	galleryModule.init = function (tags) {
+	galleryModule.init = function (tags, galleryTags) {
 		/* *Testing area!!* Begin */
 		var tagsList = $("<div id='tagsList' class='pictureTableCell fifthColumn'>");
 
 		for (var i = 0; i < tags.length; i++) {
 			tagsList.append($("<div id='" + tags[i].tag + "' class='tagUnselected' onclick='setSystemTag(event.currentTarget.id, event.currentTarget.parentElement.parentElement.id)'>").text(tags[i].tag));
+		}
+
+		var galleryTagsList = $("<div id='galleryTagsList' class='pictureTableCell fourthColumn'>");
+
+		for (var i = 0; i < galleryTags.length; i++) {
+			galleryTagsList.append($("<div id='" + galleryTags[i] + "' class='tagUnselected' onclick='setGalleryTag(event.currentTarget.id, event.currentTarget.parentElement.parentElement.id)'>").text(galleryTags[i]));
 		}
 
 		/* *Testing area!!* End */
@@ -253,6 +259,19 @@ var tSquareGalleryModule = (function () {
 							tag.bind("click", function (event) {
 								setSystemTag(picture.metadata.systemTag, picture.filename);
 							});
+						}
+					}
+					galleryTagsList
+					listItem.append(galleryTagsList[0].outerHTML);
+					if (picture.metadata != null) {
+						if (picture.metadata.pictureGalleryTags != null) {
+							for (var i = 0; i < picture.metadata.pictureGalleryTags.length; i++) {
+								var galleryTag = listItem.find("#" + picture.metadata.pictureGalleryTags[i]);
+								galleryTag.addClass("tagSelected");
+								// galleryTag.bind("click", function (event) {
+								// 	setSystemTag(picture.metadata.systemTag, picture.filename);
+								// });
+							}
 						}
 					}
 					pictureList.append(listItem);
