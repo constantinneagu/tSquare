@@ -97,8 +97,8 @@ body {
 }
 
 .picture:nth-child(even) {
-  background-color: #f2f2f2\
-};
+  background-color: #f2f2f2;
+}
 
 .resizable {
   width: auto;
