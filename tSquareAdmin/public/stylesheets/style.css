@@ -80,15 +80,37 @@ body {
 
 .filename {
   text-align: center;
-  display: table-cell;
   margin: 0px;
-  position: absolute;
-  left: 21vw;
 }
 
 #picturesListContainer {
   display: table;
-  width: 40vw;
+  width: 85vw;
+}
+
+.pictureTableCell {
+  display: table-cell;
+  position: absolute;
+  top: 3vh;
+}
+.firstColumn {
+  left: 0vw;
+}
+
+.secondColumn {
+  left: 17vw;
+}
+
+.thirdColumn {
+  left: 34vw;
+}
+
+.fourthColumn {
+  left: 51vw;
+}
+
+.fiftColumn {
+  left: 68vw;
 }
 
 .picture {
@@ -97,12 +119,12 @@ body {
 }
 
 .picture:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #c5c2c2;
 }
 
 .resizable {
   width: auto;
-  height: 38vh;
+  height: 40vh;
   position: relative;
 }
 
@@ -154,17 +176,11 @@ body {
   width: 10vw;
   height: 6vh;
   margin: 1vw;
-  display: table-cell;
-  position: absolute;
   top: 38px;
-  left: 42vw;
 }
 
 #tagsList {
-  display: table-cell;
-  position: absolute;
   height: auto;
-  left: 63vw;
 }
 
 .deleteButton:hover {
@@ -174,9 +190,6 @@ body {
 
 .thumbnailImage {
   width: 16vw;
-  position: absolute;
-  display: table-cell;
-  left: 0vw;
 }
 
 .table {
